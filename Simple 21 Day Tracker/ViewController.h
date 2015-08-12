@@ -1,15 +1,19 @@
 //
 //  ViewController.h
-//  Simple 21 Day Tracker
+//  T1DF
 //
-//  Created by Shaun on 8/12/15.
+//  Created by Shaun on 8/10/15.
 //  Copyright (c) 2015 Shaun Bevan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (copy, nonatomic) NSArray *cupType;
+
+@property (assign, nonatomic) int counter;
+
+@property (copy, nonatomic) NSMutableArray *cupCount;
 
 @end
-
