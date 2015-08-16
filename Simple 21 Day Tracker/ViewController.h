@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Cups.h"
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
@@ -15,5 +16,7 @@
 @property (assign, nonatomic) int counter;
 
 @property (copy, nonatomic) NSMutableArray *cupCount;
+
+@property Cups *myCup;
 
 @end

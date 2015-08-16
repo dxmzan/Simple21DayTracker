@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "Cups.h"
 
 @interface ViewController ()
 
@@ -24,25 +25,42 @@ int blueCount = 0;
 int orangeCount = 0;
 int waterCount = 0;
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water"];
     self.cupCount = [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil];
     
-    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
+//    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
+//    
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    formatter.dateFormat = @"MMMM d, yyyy";
+//    NSString *dateString = [formatter stringFromDate:[NSDate date]];
+//    
+//    date.text = dateString;
+//    date.backgroundColor = [UIColor clearColor];
+//    date.textColor = [UIColor blackColor];
+//    date.textAlignment = NSTextAlignmentCenter;
+//    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:24];
+//    
+//    [self.view addSubview:date];
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"MMMM d, yyyy";
-    NSString *dateString = [formatter stringFromDate:[NSDate date]];
+    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 375, 72)];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:datePicker];
     
-    date.text = dateString;
-    date.backgroundColor = [UIColor clearColor];
-    date.textColor = [UIColor blackColor];
-    date.textAlignment = NSTextAlignmentCenter;
-    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:24];
+    RLMRealm *realm = [RLMRealm defaultRealm];
+
+    [realm beginWriteTransaction];
+    self.myCup = [[Cups alloc] init];
+    self.myCup.date = datePicker.date;
+    self.myCup.cupId = @"8";
+    [realm addObject:self.myCup];
+    [realm commitWriteTransaction];
     
-    [self.view addSubview:date];
+
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -132,40 +150,76 @@ int waterCount = 0;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
     switch (indexPath.row)
     {
         case 0:
             finalCount = ++greenCount;
+            [realm beginWriteTransaction];
+            self.myCup.green = greenCount;
+            [realm commitWriteTransaction];
             break;
         case 1:
             finalCount = ++purpleCount;
+            [realm beginWriteTransaction];
+            self.myCup.purple = purpleCount;
+            [realm commitWriteTransaction];
             break;
         case 2:
             finalCount = ++redCount;
+            [realm beginWriteTransaction];
+            self.myCup.red = redCount;
+            [realm commitWriteTransaction];
             break;
         case 3:
             finalCount = ++yellowCount;
+            [realm beginWriteTransaction];
+            self.myCup.yellow = yellowCount;
+            [realm commitWriteTransaction];
             break;
         case 4:
             finalCount = ++blueCount;
+            [realm beginWriteTransaction];
+            self.myCup.blue = blueCount;
+            [realm commitWriteTransaction];
             break;
         case 5:
             finalCount = ++orangeCount;
+            [realm beginWriteTransaction];
+            self.myCup.orange = orangeCount;
+            [realm commitWriteTransaction];
             break;
         case 6:
             finalCount = ++waterCount;
+            [realm beginWriteTransaction];
+            self.myCup.water = waterCount;
+            [realm commitWriteTransaction];
             break;
             
     }
+    
     
     [tableView reloadRowsAtIndexPaths: [NSArray arrayWithObject: indexPath]
                      withRowAnimation: UITableViewRowAnimationNone];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 76;
+}
+
+-(void)pickerChanged:(id)sender
+{
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    [realm beginWriteTransaction];
+    self.myCup.date = [sender date];
+    [realm commitWriteTransaction];
+    NSLog(@"Date value: %@", [sender date]);
 }
 
 @end
