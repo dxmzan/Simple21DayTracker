@@ -19,4 +19,6 @@
 
 @property Cups *myCup;
 
+@property NSDateFormatter *formatter;
+
 @end

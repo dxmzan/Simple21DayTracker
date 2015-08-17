@@ -32,10 +32,10 @@ int waterCount = 0;
     
 //    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
 //    
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    formatter.dateFormat = @"MMMM d, yyyy";
-//    NSString *dateString = [formatter stringFromDate:[NSDate date]];
-//    
+    self.formatter = [[NSDateFormatter alloc] init];
+    self.formatter.dateFormat = @"MMMM d, yyyy";
+    NSString *dateString = [self.formatter stringFromDate:[NSDate date]];
+//
 //    date.text = dateString;
 //    date.backgroundColor = [UIColor clearColor];
 //    date.textColor = [UIColor blackColor];
@@ -53,8 +53,8 @@ int waterCount = 0;
 
     [realm beginWriteTransaction];
     self.myCup = [[Cups alloc] init];
-    self.myCup.date = datePicker.date;
-    self.myCup.cupId = @"8";
+    self.myCup.date = dateString;
+    self.myCup.cupId = @"10";
     [realm addObject:self.myCup];
     [realm commitWriteTransaction];
     
@@ -152,49 +152,37 @@ int waterCount = 0;
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     
+    [realm beginWriteTransaction];
+    
     switch (indexPath.row)
     {
         case 0:
             finalCount = ++greenCount;
-            [realm beginWriteTransaction];
             self.myCup.green = greenCount;
-            [realm commitWriteTransaction];
             break;
         case 1:
             finalCount = ++purpleCount;
-            [realm beginWriteTransaction];
             self.myCup.purple = purpleCount;
-            [realm commitWriteTransaction];
             break;
         case 2:
             finalCount = ++redCount;
-            [realm beginWriteTransaction];
             self.myCup.red = redCount;
-            [realm commitWriteTransaction];
             break;
         case 3:
             finalCount = ++yellowCount;
-            [realm beginWriteTransaction];
             self.myCup.yellow = yellowCount;
-            [realm commitWriteTransaction];
             break;
         case 4:
             finalCount = ++blueCount;
-            [realm beginWriteTransaction];
             self.myCup.blue = blueCount;
-            [realm commitWriteTransaction];
             break;
         case 5:
             finalCount = ++orangeCount;
-            [realm beginWriteTransaction];
             self.myCup.orange = orangeCount;
-            [realm commitWriteTransaction];
             break;
         case 6:
             finalCount = ++waterCount;
-            [realm beginWriteTransaction];
             self.myCup.water = waterCount;
-            [realm commitWriteTransaction];
             break;
             
     }
@@ -205,6 +193,7 @@ int waterCount = 0;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    [realm commitWriteTransaction];
 
 
 }
@@ -215,9 +204,11 @@ int waterCount = 0;
 
 -(void)pickerChanged:(id)sender
 {
+    NSString *dateString = [self.formatter stringFromDate:[sender date]];
+
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
-    self.myCup.date = [sender date];
+    self.myCup.date = dateString;
     [realm commitWriteTransaction];
     NSLog(@"Date value: %@", [sender date]);
 }
