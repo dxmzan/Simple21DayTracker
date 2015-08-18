@@ -49,17 +49,34 @@ int waterCount = 0;
     [datePicker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:datePicker];
     
+    
+    NSPredicate *pred =  [NSPredicate predicateWithFormat:@"date == %@", dateString];
+    
+    RLMResults *query = [Cups objectsWithPredicate:pred];
+    
+    NSString *queryDate = [[query valueForKey:@"date"] componentsJoinedByString:@""];
+    
+    // Check if date is equal to today's date. If false, create new row.
+    
+    if ([queryDate isEqualToString:dateString])
+    {
+        NSLog(@"Same day: %@", query);
+        // Find same-day realm and its corresponding row
+        // Allow user to edit row
+        
+    } else {
+    
     RLMRealm *realm = [RLMRealm defaultRealm];
 
     [realm beginWriteTransaction];
     self.myCup = [[Cups alloc] init];
     self.myCup.date = dateString;
-    self.myCup.cupId = @"10";
+    self.myCup.cupId = @"1";
     [realm addObject:self.myCup];
     [realm commitWriteTransaction];
-    
+        
+    }
 
-    
     
 }
 
@@ -210,7 +227,6 @@ int waterCount = 0;
     [realm beginWriteTransaction];
     self.myCup.date = dateString;
     [realm commitWriteTransaction];
-    NSLog(@"Date value: %@", [sender date]);
 }
 
 @end
