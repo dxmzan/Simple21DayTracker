@@ -17,14 +17,6 @@
 
 int finalCount;
 
-int greenCount = 0;
-int purpleCount = 0;
-int redCount = 0;
-int yellowCount = 0;
-int blueCount = 0;
-int orangeCount = 0;
-int waterCount = 0;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water"];
@@ -49,35 +41,30 @@ int waterCount = 0;
     [datePicker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:datePicker];
     
+
+    RLMRealm *realm = [RLMRealm defaultRealm];
     
-    NSPredicate *pred =  [NSPredicate predicateWithFormat:@"date == %@", dateString];
+    self.myCup = [[Cups alloc] init];
+        
+    NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"date == %@", dateString];
     
-    RLMResults *query = [Cups objectsWithPredicate:pred];
+    RLMResults *query = [Cups objectsWithPredicate:datePred];
     
     NSString *queryDate = [[query valueForKey:@"date"] componentsJoinedByString:@""];
     
-    // Check if date is equal to today's date. If false, create new row.
-    
+    // Check if date is equal to today's date. If false, create new object.
+
     if ([queryDate isEqualToString:dateString])
     {
         NSLog(@"Same day: %@", query);
-        // Find same-day realm and its corresponding row
-        // Allow user to edit row
-        
+        // TOOD: Update object if it already exists.
     } else {
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-
-    [realm beginWriteTransaction];
-    self.myCup = [[Cups alloc] init];
-    self.myCup.date = dateString;
-    self.myCup.cupId = @"1";
-    [realm addObject:self.myCup];
-    [realm commitWriteTransaction];
-        
+        [realm transactionWithBlock:^{
+        [self.myCup setDate:dateString];
+        [self.myCup setCupId:@"4"];
+        [realm addObject:self.myCup];
+        }];
     }
-
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -145,22 +132,25 @@ int waterCount = 0;
     
     [counter setFont: [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
     
+    NSString *countString = [NSString stringWithFormat:@"%d", finalCount];
+    
+    counter.text = countString;
+    counter.textAlignment = NSTextAlignmentCenter;
+    
+    // TODO: Dynamically pull counter from database
+    // TODO: Queries should be separate file outside of ViewController
+    
     // Container
     UIView *container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
     
     [container addSubview:counter];
     
-    
-    NSString *countString = [NSString stringWithFormat:@"%d", finalCount];
-    
-    counter.text = countString;
-    counter.textAlignment = NSTextAlignmentCenter;
     cell.accessoryView = container;
     
     
     return cell;
 }
-//
+
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     return indexPath;
 }
@@ -174,45 +164,42 @@ int waterCount = 0;
     switch (indexPath.row)
     {
         case 0:
-            finalCount = ++greenCount;
-            self.myCup.green = greenCount;
+            [self.myCup setGreen: [self.myCup addGreen:[self.myCup green]]];
+            finalCount = [self.myCup green];
             break;
         case 1:
-            finalCount = ++purpleCount;
-            self.myCup.purple = purpleCount;
+            [self.myCup setPurple:[self.myCup addPurple:[self.myCup purple]]];
+            finalCount = [self.myCup purple];
             break;
         case 2:
-            finalCount = ++redCount;
-            self.myCup.red = redCount;
+            [self.myCup setRed:[self.myCup addRed:[self.myCup red]]];
+            finalCount = [self.myCup red];
             break;
         case 3:
-            finalCount = ++yellowCount;
-            self.myCup.yellow = yellowCount;
+            [self.myCup setYellow:[self.myCup addYellow:[self.myCup yellow]]];
+            finalCount = [self.myCup yellow];
             break;
         case 4:
-            finalCount = ++blueCount;
-            self.myCup.blue = blueCount;
+            [self.myCup setBlue:[self.myCup addBlue:[self.myCup blue]]];
+            finalCount = [self.myCup blue];
             break;
         case 5:
-            finalCount = ++orangeCount;
-            self.myCup.orange = orangeCount;
+            [self.myCup setOrange:[self.myCup addOrange:[self.myCup orange]]];
+            finalCount = [self.myCup orange];
             break;
         case 6:
-            finalCount = ++waterCount;
-            self.myCup.water = waterCount;
+            [self.myCup setWater:[self.myCup addWater:[self.myCup water]]];
+            finalCount = [self.myCup water];
             break;
-            
     }
-    
+        
+    [realm commitWriteTransaction];
     
     [tableView reloadRowsAtIndexPaths: [NSArray arrayWithObject: indexPath]
                      withRowAnimation: UITableViewRowAnimationNone];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [realm commitWriteTransaction];
-
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -221,12 +208,13 @@ int waterCount = 0;
 
 -(void)pickerChanged:(id)sender
 {
-    NSString *dateString = [self.formatter stringFromDate:[sender date]];
+    NSString *dateStringFromSender = [self.formatter stringFromDate:[sender date]];
 
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
-    self.myCup.date = dateString;
+    [self.myCup setDate:dateStringFromSender];
     [realm commitWriteTransaction];
 }
+
 
 @end
