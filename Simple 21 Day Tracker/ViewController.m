@@ -23,7 +23,7 @@ int finalCount;
     self.cupCount = [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil];
     
 //    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
-//    
+   
     self.formatter = [[NSDateFormatter alloc] init];
     self.formatter.dateFormat = @"MMMM d, yyyy";
     NSString *dateString = [self.formatter stringFromDate:[NSDate date]];
@@ -56,9 +56,11 @@ int finalCount;
 
     if ([queryDate isEqualToString:dateString])
     {
+        // Update same-day object
+        self.myCup = [query objectAtIndex:0];
         NSLog(@"Same day: %@", query);
-        // TOOD: Update object if it already exists.
     } else {
+        // Add new object with new date and cupId
         [realm transactionWithBlock:^{
         [self.myCup setDate:dateString];
         [self.myCup setCupId:@"4"];
@@ -137,7 +139,7 @@ int finalCount;
     counter.text = countString;
     counter.textAlignment = NSTextAlignmentCenter;
     
-    // TODO: Dynamically pull counter from database
+    // TODO: Dynamically pull updated counter from database
     // TODO: Queries should be separate file outside of ViewController
     
     // Container
