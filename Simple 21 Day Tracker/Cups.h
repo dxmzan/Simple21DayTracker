@@ -11,7 +11,7 @@
 @interface Cups : RLMObject
 @property int purple, red, blue, green, water, orange, spoon, yellow;
 @property NSString *date;
-@property NSString *cupId;
+//@property NSString *cupId;
 
 
 - (int) addGreen: (int) n;

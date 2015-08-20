@@ -15,8 +15,6 @@
 
 @implementation ViewController
 
-int finalCount = 1;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water"];
@@ -63,7 +61,7 @@ int finalCount = 1;
         // Create new object with new date and cupId
         [realm transactionWithBlock:^{
         [self.myCup setDate:dateString];
-        [self.myCup setCupId:@"5"];
+        //[self.myCup setCupId:@"5"];
         [realm addObject:self.myCup];
         }];
     }
@@ -158,6 +156,12 @@ int finalCount = 1;
     
     cell.accessoryView = container;
     
+    UISwipeGestureRecognizer *gesture;
+    gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gesture.direction = UISwipeGestureRecognizerDirectionRight;
+    [cell addGestureRecognizer:gesture];
+    
+    
     return cell;
 }
 
@@ -219,5 +223,12 @@ int finalCount = 1;
     [realm commitWriteTransaction];
 }
 
+-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)sender
+{
+    if (sender.direction == UISwipeGestureRecognizerDirectionRight)
+    {
+        NSLog(@"Swiped right");
+    }
+}
 
 @end

@@ -10,12 +10,12 @@
 
 @implementation Cups
 
-@synthesize purple, red, blue, green, water, orange, spoon, yellow, date, cupId;
+@synthesize purple, red, blue, green, water, orange, spoon, yellow, date;
 
 
-+ (NSString *) primaryKey {
-        return @"cupId";
-}
+//+ (NSString *) primaryKey {
+//        return @"cupId";
+//}
 // Specify default values for properties
 
 + (NSDictionary *)defaultPropertyValues
