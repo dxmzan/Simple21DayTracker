@@ -15,7 +15,7 @@
 
 @implementation ViewController
 
-int finalCount;
+int finalCount = 1;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,10 +60,10 @@ int finalCount;
         self.myCup = [query objectAtIndex:0];
         NSLog(@"Same day: %@", query);
     } else {
-        // Add new object with new date and cupId
+        // Create new object with new date and cupId
         [realm transactionWithBlock:^{
         [self.myCup setDate:dateString];
-        [self.myCup setCupId:@"4"];
+        [self.myCup setCupId:@"5"];
         [realm addObject:self.myCup];
         }];
     }
@@ -106,26 +106,6 @@ int finalCount;
     cell.detailTextLabel.textColor = [UIColor whiteColor];
     cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
     
-    switch(indexPath.row)
-    {
-        case 0: cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
-            break;
-        case 1: cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
-            break;
-        case 2: cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
-            break;
-        case 3: cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
-            break;
-        case 4: cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
-            break;
-        case 5: cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
-            break;
-        case 6: cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
-            break;
-        default: cell.backgroundColor = [UIColor clearColor];
-    }
-    
-    
     // Counter
     UILabel *counter = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
     
@@ -134,12 +114,41 @@ int finalCount;
     
     [counter setFont: [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
     
-    NSString *countString = [NSString stringWithFormat:@"%d", finalCount];
-    
-    counter.text = countString;
     counter.textAlignment = NSTextAlignmentCenter;
     
-    // TODO: Dynamically pull updated counter from database
+    switch(indexPath.row)
+    {
+        case 0:
+            cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
+            break;
+        case 1:
+            cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
+            break;
+        case 2:
+            cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
+            break;
+        case 3:
+            cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
+            break;
+        case 4:
+            cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
+            break;
+        case 5:
+            cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
+            break;
+        case 6:
+            cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
+            break;
+        default: cell.backgroundColor = [UIColor clearColor];
+    }
+    
     // TODO: Queries should be separate file outside of ViewController
     
     // Container
@@ -148,7 +157,6 @@ int finalCount;
     [container addSubview:counter];
     
     cell.accessoryView = container;
-    
     
     return cell;
 }
@@ -167,31 +175,24 @@ int finalCount;
     {
         case 0:
             [self.myCup setGreen: [self.myCup addGreen:[self.myCup green]]];
-            finalCount = [self.myCup green];
             break;
         case 1:
             [self.myCup setPurple:[self.myCup addPurple:[self.myCup purple]]];
-            finalCount = [self.myCup purple];
             break;
         case 2:
             [self.myCup setRed:[self.myCup addRed:[self.myCup red]]];
-            finalCount = [self.myCup red];
             break;
         case 3:
             [self.myCup setYellow:[self.myCup addYellow:[self.myCup yellow]]];
-            finalCount = [self.myCup yellow];
             break;
         case 4:
             [self.myCup setBlue:[self.myCup addBlue:[self.myCup blue]]];
-            finalCount = [self.myCup blue];
             break;
         case 5:
             [self.myCup setOrange:[self.myCup addOrange:[self.myCup orange]]];
-            finalCount = [self.myCup orange];
             break;
         case 6:
             [self.myCup setWater:[self.myCup addWater:[self.myCup water]]];
-            finalCount = [self.myCup water];
             break;
     }
         
