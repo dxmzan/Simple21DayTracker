@@ -10,9 +10,12 @@
 
 @implementation Cups
 
-+ (NSString *) primaryKey {
-        return @"cupId";
-}
+@synthesize purple, red, blue, green, water, orange, spoon, yellow, date;
+
+
+//+ (NSString *) primaryKey {
+//        return @"cupId";
+//}
 // Specify default values for properties
 
 + (NSDictionary *)defaultPropertyValues
@@ -35,5 +38,61 @@
 //{
 //    return @[];
 //}
+
+- (int)addGreen: (int) n
+{
+    green = n + 1;
+    
+    return green;
+}
+
+- (int)addBlue:(int) n
+{
+    blue = n + 1;
+    
+    return blue;
+}
+
+- (int)addOrange:(int) n
+{
+    orange = n + 1;
+    
+    return orange;
+}
+
+- (int)addPurple:(int) n
+{
+    purple = n + 1;
+    
+    return purple;
+}
+
+- (int)addRed: (int) n
+{
+    red = n + 1;
+    
+    return red;
+}
+
+- (int)addYellow: (int) n
+{
+    yellow = n + 1;
+    
+    return yellow;
+}
+
+- (int)addWater: (int) n
+{
+    water = n + 1;
+    
+    return water;
+}
+
+- (int)addSpoon: (int) n
+{
+    spoon = n + 1;
+    
+    return spoon;
+}
 
 @end

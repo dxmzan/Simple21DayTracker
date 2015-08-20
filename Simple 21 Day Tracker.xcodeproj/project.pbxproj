@@ -78,11 +78,32 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4786EA251B841D1D0079C991 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		4786EA261B841D270079C991 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		4786EA271B841D2D0079C991 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		47CBB83C1B7BFEA400BD9A2E = {
 			isa = PBXGroup;
 			children = (
-				4747AB711B7FDDD20036B2A9 /* Frameworks */,
 				47CBB8471B7BFEA400BD9A2E /* Simple 21 Day Tracker */,
+				4747AB711B7FDDD20036B2A9 /* Frameworks */,
 				47CBB8611B7BFEA400BD9A2E /* Simple 21 Day TrackerTests */,
 				47CBB8461B7BFEA400BD9A2E /* Products */,
 			);
@@ -100,6 +121,9 @@
 		47CBB8471B7BFEA400BD9A2E /* Simple 21 Day Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				4786EA271B841D2D0079C991 /* Models */,
+				4786EA261B841D270079C991 /* Controllers */,
+				4786EA251B841D1D0079C991 /* Views */,
 				4747AB721B7FDEDC0036B2A9 /* Cups.h */,
 				4747AB731B7FDEDC0036B2A9 /* Cups.m */,
 				47CBB84C1B7BFEA400BD9A2E /* AppDelegate.h */,

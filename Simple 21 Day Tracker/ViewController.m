@@ -15,23 +15,13 @@
 
 @implementation ViewController
 
-int finalCount;
-
-int greenCount = 0;
-int purpleCount = 0;
-int redCount = 0;
-int yellowCount = 0;
-int blueCount = 0;
-int orangeCount = 0;
-int waterCount = 0;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water"];
     self.cupCount = [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil];
     
 //    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
-//    
+   
     self.formatter = [[NSDateFormatter alloc] init];
     self.formatter.dateFormat = @"MMMM d, yyyy";
     NSString *dateString = [self.formatter stringFromDate:[NSDate date]];
@@ -49,35 +39,32 @@ int waterCount = 0;
     [datePicker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:datePicker];
     
+
+    RLMRealm *realm = [RLMRealm defaultRealm];
     
-    NSPredicate *pred =  [NSPredicate predicateWithFormat:@"date == %@", dateString];
+    self.myCup = [[Cups alloc] init];
+        
+    NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"date == %@", dateString];
     
-    RLMResults *query = [Cups objectsWithPredicate:pred];
+    RLMResults *query = [Cups objectsWithPredicate:datePred];
     
     NSString *queryDate = [[query valueForKey:@"date"] componentsJoinedByString:@""];
     
-    // Check if date is equal to today's date. If false, create new row.
-    
+    // Check if date is equal to today's date. If false, create new object.
+
     if ([queryDate isEqualToString:dateString])
     {
+        // Update same-day object
+        self.myCup = [query objectAtIndex:0];
         NSLog(@"Same day: %@", query);
-        // Find same-day realm and its corresponding row
-        // Allow user to edit row
-        
     } else {
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-
-    [realm beginWriteTransaction];
-    self.myCup = [[Cups alloc] init];
-    self.myCup.date = dateString;
-    self.myCup.cupId = @"1";
-    [realm addObject:self.myCup];
-    [realm commitWriteTransaction];
-        
+        // Create new object with new date and cupId
+        [realm transactionWithBlock:^{
+        [self.myCup setDate:dateString];
+        //[self.myCup setCupId:@"5"];
+        [realm addObject:self.myCup];
+        }];
     }
-
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,26 +104,6 @@ int waterCount = 0;
     cell.detailTextLabel.textColor = [UIColor whiteColor];
     cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
     
-    switch(indexPath.row)
-    {
-        case 0: cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
-            break;
-        case 1: cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
-            break;
-        case 2: cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
-            break;
-        case 3: cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
-            break;
-        case 4: cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
-            break;
-        case 5: cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
-            break;
-        case 6: cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
-            break;
-        default: cell.backgroundColor = [UIColor clearColor];
-    }
-    
-    
     // Counter
     UILabel *counter = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
     
@@ -145,22 +112,59 @@ int waterCount = 0;
     
     [counter setFont: [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
     
+    counter.textAlignment = NSTextAlignmentCenter;
+    
+    switch(indexPath.row)
+    {
+        case 0:
+            cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
+            break;
+        case 1:
+            cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
+            break;
+        case 2:
+            cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
+            break;
+        case 3:
+            cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
+            break;
+        case 4:
+            cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
+            break;
+        case 5:
+            cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
+            break;
+        case 6:
+            cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
+            counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
+            break;
+        default: cell.backgroundColor = [UIColor clearColor];
+    }
+    
+    // TODO: Queries should be separate file outside of ViewController
+    
     // Container
     UIView *container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
     
     [container addSubview:counter];
     
-    
-    NSString *countString = [NSString stringWithFormat:@"%d", finalCount];
-    
-    counter.text = countString;
-    counter.textAlignment = NSTextAlignmentCenter;
     cell.accessoryView = container;
+    
+    UISwipeGestureRecognizer *gesture;
+    gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gesture.direction = UISwipeGestureRecognizerDirectionRight;
+    [cell addGestureRecognizer:gesture];
     
     
     return cell;
 }
-//
+
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     return indexPath;
 }
@@ -174,45 +178,35 @@ int waterCount = 0;
     switch (indexPath.row)
     {
         case 0:
-            finalCount = ++greenCount;
-            self.myCup.green = greenCount;
+            [self.myCup setGreen: [self.myCup addGreen:[self.myCup green]]];
             break;
         case 1:
-            finalCount = ++purpleCount;
-            self.myCup.purple = purpleCount;
+            [self.myCup setPurple:[self.myCup addPurple:[self.myCup purple]]];
             break;
         case 2:
-            finalCount = ++redCount;
-            self.myCup.red = redCount;
+            [self.myCup setRed:[self.myCup addRed:[self.myCup red]]];
             break;
         case 3:
-            finalCount = ++yellowCount;
-            self.myCup.yellow = yellowCount;
+            [self.myCup setYellow:[self.myCup addYellow:[self.myCup yellow]]];
             break;
         case 4:
-            finalCount = ++blueCount;
-            self.myCup.blue = blueCount;
+            [self.myCup setBlue:[self.myCup addBlue:[self.myCup blue]]];
             break;
         case 5:
-            finalCount = ++orangeCount;
-            self.myCup.orange = orangeCount;
+            [self.myCup setOrange:[self.myCup addOrange:[self.myCup orange]]];
             break;
         case 6:
-            finalCount = ++waterCount;
-            self.myCup.water = waterCount;
+            [self.myCup setWater:[self.myCup addWater:[self.myCup water]]];
             break;
-            
     }
-    
+        
+    [realm commitWriteTransaction];
     
     [tableView reloadRowsAtIndexPaths: [NSArray arrayWithObject: indexPath]
                      withRowAnimation: UITableViewRowAnimationNone];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [realm commitWriteTransaction];
-
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -221,12 +215,20 @@ int waterCount = 0;
 
 -(void)pickerChanged:(id)sender
 {
-    NSString *dateString = [self.formatter stringFromDate:[sender date]];
+    NSString *dateStringFromSender = [self.formatter stringFromDate:[sender date]];
 
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
-    self.myCup.date = dateString;
+    [self.myCup setDate:dateStringFromSender];
     [realm commitWriteTransaction];
+}
+
+-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)sender
+{
+    if (sender.direction == UISwipeGestureRecognizerDirectionRight)
+    {
+        NSLog(@"Swiped right");
+    }
 }
 
 @end
