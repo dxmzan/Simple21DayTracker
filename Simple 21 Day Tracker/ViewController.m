@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "Cups.h"
+#import "MGSwipeTableCell.h"
+#import "MGSwipeButton.h"
 
 @interface ViewController ()
 
@@ -79,72 +81,73 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *SimpleIdentifier = @"SimpleIdentifer";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
+    self.cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
-    if (cell == nil)
+    if (self.cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
+        self.cell = [[MGSwipeTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SimpleIdentifier];
     }
     
     tableView.backgroundColor = [UIColor clearColor];
+    _cellRow = indexPath.row;
     
     // Cell image
     
-    UIImage *plusIcon = [UIImage imageNamed:@"add-new.png"];
-    cell.imageView.image = plusIcon;
+//    UIImage *plusIcon = [UIImage imageNamed:@"add-new.png"];
+//    cell.imageView.image = plusIcon;
     
     // Label text
     
-    cell.textLabel.text = self.cupType[indexPath.row];
-    cell.textLabel.textColor = [UIColor whiteColor];
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
+    self.cell.textLabel.text = self.cupType[indexPath.row];
+    self.cell.textLabel.textColor = [UIColor whiteColor];
+    self.cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];
     
     //Detail text
-    cell.detailTextLabel.text = @"Goal";
-    cell.detailTextLabel.textColor = [UIColor whiteColor];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+    self.cell.detailTextLabel.text = @"Goal";
+    self.cell.detailTextLabel.textColor = [UIColor whiteColor];
+    self.cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
     
     // Counter
-    UILabel *counter = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
+    self.counter = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
     
-    counter.backgroundColor = [UIColor clearColor];
-    counter.textColor = [UIColor whiteColor];
+    self.counter.backgroundColor = [UIColor clearColor];
+    self.counter.textColor = [UIColor whiteColor];
     
-    [counter setFont: [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
+    [self.counter setFont: [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
     
-    counter.textAlignment = NSTextAlignmentCenter;
-    
+    self.counter.textAlignment = NSTextAlignmentCenter;
+
     switch(indexPath.row)
     {
         case 0:
-            cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
-            counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
+            self.cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
             break;
         case 1:
-            cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
-            counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
+            self.cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
             break;
         case 2:
-            cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
-            counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
+            self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
             break;
         case 3:
-            cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
-            counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
+            self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
             break;
         case 4:
-            cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
-            counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
+            self.cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
             break;
         case 5:
-            cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
-            counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
+            self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
             break;
         case 6:
-            cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
-            counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
+            self.cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
             break;
-        default: cell.backgroundColor = [UIColor clearColor];
+        default: self.cell.backgroundColor = [UIColor clearColor];
     }
     
     // TODO: Queries should be separate file outside of ViewController
@@ -152,17 +155,23 @@
     // Container
     UIView *container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
     
-    [container addSubview:counter];
+    [container addSubview:self.counter];
     
-    cell.accessoryView = container;
-    
-    UISwipeGestureRecognizer *gesture;
-    gesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    gesture.direction = UISwipeGestureRecognizerDirectionRight;
-    [cell addGestureRecognizer:gesture];
+    self.cell.accessoryView = container;
     
     
-    return cell;
+    UISwipeGestureRecognizer *gestureR;
+    gestureR = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureR.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.cell addGestureRecognizer:gestureR];
+    
+    UISwipeGestureRecognizer *gestureL;
+    gestureL = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    gestureL.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.cell addGestureRecognizer:gestureL];
+    
+ 
+    return self.cell;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -225,10 +234,67 @@
 
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)sender
 {
-    if (sender.direction == UISwipeGestureRecognizerDirectionRight)
+    if (sender.direction == UISwipeGestureRecognizerDirectionRight || sender.direction == UISwipeGestureRecognizerDirectionLeft)
     {
-        NSLog(@"Swiped right");
+       
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        
+        [realm beginWriteTransaction];
+        // Minus 1 from counter
+        switch (_cellRow)
+        {
+            case 0:
+                if ([self.myCup green] > 0){
+                [self.myCup setGreen: [self.myCup green] - 1];
+                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
+                }
+                break;
+            case 1:
+                if ([self.myCup purple] > 0){
+                [self.myCup setPurple:[self.myCup purple] - 1];
+                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
+                }
+                break;
+            case 2:
+                if ([self.myCup red] > 0){
+                [self.myCup setRed:[self.myCup red] - 1];
+                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
+                }
+                break;
+            case 3:
+                if ([self.myCup yellow] > 0){
+                [self.myCup setYellow:[self.myCup yellow] - 1];
+                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
+                }
+                break;
+            case 4:
+                if ([self.myCup blue] > 0){
+                [self.myCup setBlue:[self.myCup blue] - 1];
+                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
+                }
+                break;
+            case 5:
+                if ([self.myCup orange] > 0){
+                [self.myCup setOrange:[self.myCup orange] - 1];
+                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
+                }
+                break;
+            case 6:
+                if ([self.myCup water] > 0){
+                [self.myCup setWater:[self.myCup water] - 1];
+                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
+                }
+                break;
+        }
+        
+        [realm commitWriteTransaction];
+        
     }
+}
+
+-(void)updateCellCounter{
+    
+    
 }
 
 @end

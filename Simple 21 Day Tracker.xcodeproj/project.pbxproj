@@ -10,6 +10,8 @@
 		4747AB741B7FDEDC0036B2A9 /* Cups.m in Sources */ = {isa = PBXBuildFile; fileRef = 4747AB731B7FDEDC0036B2A9 /* Cups.m */; };
 		47524DE71B7FD39D00AEA3F4 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE61B7FD39D00AEA3F4 /* Realm.framework */; };
 		47524DE91B7FD3D500AEA3F4 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE81B7FD3D500AEA3F4 /* libc++.dylib */; };
+		4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */; };
+		4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */; };
 		47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84A1B7BFEA400BD9A2E /* main.m */; };
 		47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */; };
 		47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8501B7BFEA400BD9A2E /* ViewController.m */; };
@@ -34,6 +36,10 @@
 		4747AB731B7FDEDC0036B2A9 /* Cups.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cups.m; sourceTree = "<group>"; };
 		47524DE61B7FD39D00AEA3F4 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../realm-objc-0.94.1/ios/static/Realm.framework"; sourceTree = "<group>"; };
 		47524DE81B7FD3D500AEA3F4 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		4755F7AB1B8829EC001624E4 /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSwipeButton.h; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeButton.h"; sourceTree = "<group>"; };
+		4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeButton.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeButton.m"; sourceTree = "<group>"; };
+		4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSwipeTableCell.h; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.h"; sourceTree = "<group>"; };
+		4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeTableCell.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.m"; sourceTree = "<group>"; };
 		47CBB8451B7BFEA400BD9A2E /* Simple 21 Day Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple 21 Day Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CBB8491B7BFEA400BD9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47CBB84A1B7BFEA400BD9A2E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -128,6 +134,10 @@
 				4747AB731B7FDEDC0036B2A9 /* Cups.m */,
 				47CBB84C1B7BFEA400BD9A2E /* AppDelegate.h */,
 				47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */,
+				4755F7AB1B8829EC001624E4 /* MGSwipeButton.h */,
+				4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */,
+				4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */,
+				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
 				47CBB84F1B7BFEA400BD9A2E /* ViewController.h */,
 				47CBB8501B7BFEA400BD9A2E /* ViewController.m */,
 				47CBB8521B7BFEA400BD9A2E /* Main.storyboard */,
@@ -265,7 +275,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4747AB741B7FDEDC0036B2A9 /* Cups.m in Sources */,
+				4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */,
 				47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */,
+				4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */,
 				47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */,
 				47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */,
 			);
