@@ -80,6 +80,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *SimpleIdentifier = @"SimpleIdentifer";
+    self.scopedTableView = tableView;
     
     self.cell = [tableView dequeueReusableCellWithIdentifier:SimpleIdentifier];
     
@@ -122,30 +123,38 @@
         case 0:
             self.cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup greenGoal]];
+
             break;
         case 1:
             self.cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup purpleGoal]];
             break;
         case 2:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup redGoal]];
             break;
         case 3:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup yellowGoal]];
             break;
         case 4:
             self.cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup blueGoal]];
             break;
         case 5:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup orangeGoal]];
             break;
         case 6:
             self.cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup waterGoal]];
             break;
         default: self.cell.backgroundColor = [UIColor clearColor];
     }
@@ -169,8 +178,15 @@
     gestureL = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     gestureL.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.cell addGestureRecognizer:gestureL];
+
+//    self.cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"Subtract" backgroundColor:[UIColor clearColor] callback:^BOOL(MGSwipeTableCell *sender){
+//        NSLog(@"Button clicked");
+//         return NO;
+//    }]];
+//
+//    self.cell.rightSwipeSettings.transition = MGSwipeTransition3D;
+
     
- 
     return self.cell;
 }
 
@@ -224,12 +240,39 @@
 
 -(void)pickerChanged:(id)sender
 {
+    // This is broken
+    
     NSString *dateStringFromSender = [self.formatter stringFromDate:[sender date]];
+    
+    RLMResults *query = [Cups objectsWhere:@"date == %@", dateStringFromSender];
+    
+    NSString *queryDate = [[query valueForKey:@"date"] componentsJoinedByString:@""];
+    
+    if ([queryDate length] > 0){
+        NSLog(@"%@", queryDate);
+        
+        self.myCup = [query objectAtIndex:0];
+        
+        if (_cellRow == 0)
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
+        if (_cellRow == 1)
+            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.purple];
+        if (_cellRow == 2)
+            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.red];
+        if (_cellRow == 3)
+            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.yellow];
+        if (_cellRow == 4)
+            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.blue];
+        if (_cellRow == 5)
+            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.orange];
+        if (_cellRow == 6)
+            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.water];
+    } else {
+        NSLog(@"No date on record");
+    }
+    [self.scopedTableView reloadData];
 
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm beginWriteTransaction];
-    [self.myCup setDate:dateStringFromSender];
-    [realm commitWriteTransaction];
+    
 }
 
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer *)sender
@@ -292,9 +335,5 @@
     }
 }
 
--(void)updateCellCounter{
-    
-    
-}
 
 @end

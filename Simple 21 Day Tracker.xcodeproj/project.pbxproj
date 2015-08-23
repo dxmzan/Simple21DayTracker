@@ -12,6 +12,7 @@
 		47524DE91B7FD3D500AEA3F4 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE81B7FD3D500AEA3F4 /* libc++.dylib */; };
 		4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */; };
 		4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */; };
+		47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B447E61B89757100AC4C1C /* SettingsViewController.m */; };
 		47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84A1B7BFEA400BD9A2E /* main.m */; };
 		47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */; };
 		47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8501B7BFEA400BD9A2E /* ViewController.m */; };
@@ -40,6 +41,8 @@
 		4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeButton.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeButton.m"; sourceTree = "<group>"; };
 		4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSwipeTableCell.h; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.h"; sourceTree = "<group>"; };
 		4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeTableCell.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.m"; sourceTree = "<group>"; };
+		47B447E51B89757100AC4C1C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		47B447E61B89757100AC4C1C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		47CBB8451B7BFEA400BD9A2E /* Simple 21 Day Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple 21 Day Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CBB8491B7BFEA400BD9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47CBB84A1B7BFEA400BD9A2E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -140,6 +143,8 @@
 				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
 				47CBB84F1B7BFEA400BD9A2E /* ViewController.h */,
 				47CBB8501B7BFEA400BD9A2E /* ViewController.m */,
+				47B447E51B89757100AC4C1C /* SettingsViewController.h */,
+				47B447E61B89757100AC4C1C /* SettingsViewController.m */,
 				47CBB8521B7BFEA400BD9A2E /* Main.storyboard */,
 				47CBB8551B7BFEA400BD9A2E /* Images.xcassets */,
 				47CBB8571B7BFEA400BD9A2E /* LaunchScreen.xib */,
@@ -223,6 +228,7 @@
 				TargetAttributes = {
 					47CBB8441B7BFEA400BD9A2E = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = E96AWVXS96;
 					};
 					47CBB85D1B7BFEA400BD9A2E = {
 						CreatedOnToolsVersion = 6.4;
@@ -280,6 +286,7 @@
 				4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */,
 				47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */,
 				47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */,
+				47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,6 +414,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/dxmzan/Developer/realm-objc-0.94.1/ios/static",
@@ -414,6 +423,7 @@
 				INFOPLIST_FILE = "Simple 21 Day Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -421,6 +431,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/dxmzan/Developer/realm-objc-0.94.1/ios/static",
@@ -428,6 +440,7 @@
 				INFOPLIST_FILE = "Simple 21 Day Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

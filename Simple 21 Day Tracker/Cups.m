@@ -29,6 +29,14 @@
              @"orange": @0,
              @"spoon": @0,
              @"yellow": @0,
+             @"purpleGoal": @"3",
+             @"redGoal": @"4",
+             @"blueGoal": @"1",
+             @"greenGoal": @"4",
+             @"waterGoal": @"10",
+             @"orangeGoal": @"1",
+             @"spoonGoal": @"4",
+             @"yellowGoal":  @"3"
              };
 }
 

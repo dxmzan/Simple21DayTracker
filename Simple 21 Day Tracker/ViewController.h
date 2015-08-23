@@ -26,4 +26,6 @@
 
 @property (strong) UILabel *counter;
 
+@property UITableView *scopedTableView;
+
 @end
