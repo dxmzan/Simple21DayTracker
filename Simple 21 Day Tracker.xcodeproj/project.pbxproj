@@ -13,6 +13,7 @@
 		4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */; };
 		4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */; };
 		47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B447E61B89757100AC4C1C /* SettingsViewController.m */; };
+		47B447E91B89979500AC4C1C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 47B447E81B89979500AC4C1C /* .gitignore */; };
 		47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84A1B7BFEA400BD9A2E /* main.m */; };
 		47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */; };
 		47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8501B7BFEA400BD9A2E /* ViewController.m */; };
@@ -43,6 +44,7 @@
 		4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeTableCell.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.m"; sourceTree = "<group>"; };
 		47B447E51B89757100AC4C1C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		47B447E61B89757100AC4C1C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		47B447E81B89979500AC4C1C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = "Simple 21 Day Tracker/.gitignore"; sourceTree = "<group>"; };
 		47CBB8451B7BFEA400BD9A2E /* Simple 21 Day Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple 21 Day Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CBB8491B7BFEA400BD9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47CBB84A1B7BFEA400BD9A2E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 		47CBB83C1B7BFEA400BD9A2E = {
 			isa = PBXGroup;
 			children = (
+				47B447E81B89979500AC4C1C /* .gitignore */,
 				47CBB8471B7BFEA400BD9A2E /* Simple 21 Day Tracker */,
 				4747AB711B7FDDD20036B2A9 /* Frameworks */,
 				47CBB8611B7BFEA400BD9A2E /* Simple 21 Day TrackerTests */,
@@ -260,6 +263,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47B447E91B89979500AC4C1C /* .gitignore in Resources */,
 				47CBB8541B7BFEA400BD9A2E /* Main.storyboard in Resources */,
 				47CBB8591B7BFEA400BD9A2E /* LaunchScreen.xib in Resources */,
 				47CBB8561B7BFEA400BD9A2E /* Images.xcassets in Resources */,
