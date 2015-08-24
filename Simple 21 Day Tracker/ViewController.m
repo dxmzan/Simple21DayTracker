@@ -168,23 +168,76 @@
     
     self.cell.accessoryView = container;
     
-    
-    UISwipeGestureRecognizer *gestureR;
-    gestureR = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    gestureR.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.cell addGestureRecognizer:gestureR];
-    
-    UISwipeGestureRecognizer *gestureL;
-    gestureL = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-    gestureL.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.cell addGestureRecognizer:gestureL];
+    RLMRealm *realm = [RLMRealm defaultRealm];
 
-//    self.cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"Subtract" backgroundColor:[UIColor clearColor] callback:^BOOL(MGSwipeTableCell *sender){
-//        NSLog(@"Button clicked");
-//         return NO;
-//    }]];
-//
-//    self.cell.rightSwipeSettings.transition = MGSwipeTransition3D;
+    
+    
+//    UISwipeGestureRecognizer *gestureR;
+//    gestureR = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    gestureR.direction = UISwipeGestureRecognizerDirectionRight;
+//    [self.cell addGestureRecognizer:gestureR];
+//    
+//    UISwipeGestureRecognizer *gestureL;
+//    gestureL = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    gestureL.direction = UISwipeGestureRecognizerDirectionLeft;
+//    [self.cell addGestureRecognizer:gestureL];
+
+    self.cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"Subtract" backgroundColor:[UIColor clearColor] callback:^BOOL(MGSwipeTableCell *sender){
+        NSLog(@"Button clicked");
+        [realm beginWriteTransaction];
+        // Minus 1 from counter
+        switch (_cellRow)
+        {
+            case 0:
+                if ([self.myCup green] > 0){
+                    [self.myCup setGreen: [self.myCup green] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
+                }
+                break;
+            case 1:
+                if ([self.myCup purple] > 0){
+                    [self.myCup setPurple:[self.myCup purple] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
+                }
+                break;
+            case 2:
+                if ([self.myCup red] > 0){
+                    [self.myCup setRed:[self.myCup red] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
+                }
+                break;
+            case 3:
+                if ([self.myCup yellow] > 0){
+                    [self.myCup setYellow:[self.myCup yellow] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
+                }
+                break;
+            case 4:
+                if ([self.myCup blue] > 0){
+                    [self.myCup setBlue:[self.myCup blue] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
+                }
+                break;
+            case 5:
+                if ([self.myCup orange] > 0){
+                    [self.myCup setOrange:[self.myCup orange] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
+                }
+                break;
+            case 6:
+                if ([self.myCup water] > 0){
+                    [self.myCup setWater:[self.myCup water] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
+                }
+                break;
+        }
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+        [realm commitWriteTransaction];
+         return NO;
+    }]];
+
+    self.cell.rightSwipeSettings.transition = MGSwipeTransitionStatic;
 
     
     return self.cell;
