@@ -21,9 +21,6 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchThree;
 @property (weak, nonatomic) IBOutlet UISwitch *switchFour;
 
-- (IBAction)switchOnePressed:(UISwitch *)sender;
-- (IBAction)switchTwoPressed:(UISwitch *)sender;
-- (IBAction)switchThreePressed:(UISwitch *)sender;
-- (IBAction)switchFourPressed:(UISwitch *)sender;
+- (IBAction)switchPressed:(UISwitch *)sender;
 
 @end

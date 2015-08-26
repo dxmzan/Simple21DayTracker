@@ -28,4 +28,6 @@
 
 @property UITableView *scopedTableView;
 
+@property (nonatomic) BOOL *isSwitchOneEnabled;
+
 @end

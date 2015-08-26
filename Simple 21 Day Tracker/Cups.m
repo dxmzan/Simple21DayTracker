@@ -29,14 +29,14 @@
              @"orange": @0,
              @"spoon": @0,
              @"yellow": @0,
-             @"purpleGoal": @"3",
-             @"redGoal": @"4",
-             @"blueGoal": @"1",
-             @"greenGoal": @"4",
-             @"waterGoal": @"10",
-             @"orangeGoal": @"1",
-             @"spoonGoal": @"4",
-             @"yellowGoal":  @"3"
+             @"purpleGoal": @"0",
+             @"redGoal": @"0",
+             @"blueGoal": @"0",
+             @"greenGoal": @"0",
+             @"waterGoal": @"0",
+             @"orangeGoal": @"0",
+             @"spoonGoal": @"0",
+             @"yellowGoal":  @"0"
              };
 }
 

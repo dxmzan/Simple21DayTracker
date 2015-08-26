@@ -19,8 +19,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water"];
-    self.cupCount = [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0, nil];
+    self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water", @"Spoon"];
+    self.cupCount = [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0,@0, nil];
+    
+    // Observer for settings switches
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(targetSwitchEnabled:)
+                                                 name:@"switchToggled"
+                                               object:nil];
     
 //    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
    
@@ -156,10 +162,14 @@
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
             self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup waterGoal]];
             break;
+        case 7:
+            self.cell.backgroundColor = [UIColor colorWithRed:0.74 green:0.67 blue:0.64 alpha:1.0];; // Spoon
+            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup spoon]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup spoonGoal]];
+            break;
+            
         default: self.cell.backgroundColor = [UIColor clearColor];
     }
-    
-    // TODO: Queries should be separate file outside of ViewController
     
     // Container
     UIView *container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 30, 20)];
@@ -170,20 +180,7 @@
     
     RLMRealm *realm = [RLMRealm defaultRealm];
 
-    
-    
-//    UISwipeGestureRecognizer *gestureR;
-//    gestureR = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-//    gestureR.direction = UISwipeGestureRecognizerDirectionRight;
-//    [self.cell addGestureRecognizer:gestureR];
-//    
-//    UISwipeGestureRecognizer *gestureL;
-//    gestureL = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
-//    gestureL.direction = UISwipeGestureRecognizerDirectionLeft;
-//    [self.cell addGestureRecognizer:gestureL];
-
-    self.cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"Subtract" backgroundColor:[UIColor clearColor] callback:^BOOL(MGSwipeTableCell *sender){
-        NSLog(@"Button clicked");
+    self.cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"Subtract" backgroundColor:[UIColor grayColor] callback:^BOOL(MGSwipeTableCell *sender){
         [realm beginWriteTransaction];
         // Minus 1 from counter
         switch (_cellRow)
@@ -228,6 +225,12 @@
                 if ([self.myCup water] > 0){
                     [self.myCup setWater:[self.myCup water] - 1];
                     self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
+                }
+                break;
+            case 7:
+                if ([self.myCup spoon] > 0){
+                    [self.myCup setSpoon:[self.myCup spoon] - 1];
+                    self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup spoon]];
                 }
                 break;
         }
@@ -276,6 +279,9 @@
         case 6:
             [self.myCup setWater:[self.myCup addWater:[self.myCup water]]];
             break;
+        case 7:
+            [self.myCup setSpoon:[self.myCup addSpoon:[self.myCup spoon]]];
+            break;
     }
         
     [realm commitWriteTransaction];
@@ -288,13 +294,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 76;
+    return 59;
 }
 
 -(void)pickerChanged:(id)sender
 {
-    // This is broken
-    
     NSString *dateStringFromSender = [self.formatter stringFromDate:[sender date]];
     
     RLMResults *query = [Cups objectsWhere:@"date == %@", dateStringFromSender];
@@ -320,72 +324,102 @@
             self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.orange];
         if (_cellRow == 6)
             self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.water];
+        if (_cellRow == 7)
+            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.spoon];
     } else {
         NSLog(@"No date on record");
     }
     [self.scopedTableView reloadData];
-
-    
 }
 
--(void)handleSwipeFrom:(UISwipeGestureRecognizer *)sender
-{
-    if (sender.direction == UISwipeGestureRecognizerDirectionRight || sender.direction == UISwipeGestureRecognizerDirectionLeft)
+-(void)targetSwitchEnabled: (NSNotification *) notification {
+    
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *idSwitch = (NSString *) userInfo[@"Switch"];
+    NSLog(@"Switch %@ pushed", idSwitch);
+
+    int switchNum = [idSwitch intValue];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    [realm beginWriteTransaction];
+    
+    switch(switchNum)
     {
-       
-        RLMRealm *realm = [RLMRealm defaultRealm];
-        
-        [realm beginWriteTransaction];
-        // Minus 1 from counter
-        switch (_cellRow)
-        {
-            case 0:
-                if ([self.myCup green] > 0){
-                [self.myCup setGreen: [self.myCup green] - 1];
-                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
-                }
-                break;
-            case 1:
-                if ([self.myCup purple] > 0){
-                [self.myCup setPurple:[self.myCup purple] - 1];
-                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
-                }
-                break;
-            case 2:
-                if ([self.myCup red] > 0){
-                [self.myCup setRed:[self.myCup red] - 1];
-                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
-                }
-                break;
-            case 3:
-                if ([self.myCup yellow] > 0){
-                [self.myCup setYellow:[self.myCup yellow] - 1];
-                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
-                }
-                break;
-            case 4:
-                if ([self.myCup blue] > 0){
-                [self.myCup setBlue:[self.myCup blue] - 1];
-                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
-                }
-                break;
-            case 5:
-                if ([self.myCup orange] > 0){
-                [self.myCup setOrange:[self.myCup orange] - 1];
-                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
-                }
-                break;
-            case 6:
-                if ([self.myCup water] > 0){
-                [self.myCup setWater:[self.myCup water] - 1];
-                self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
-                }
-                break;
-        }
-        
-        [realm commitWriteTransaction];
-        
+        case 0:
+            [self.myCup setGreenGoal:@"3"];
+            [self.myCup setPurpleGoal:@"2"];
+            [self.myCup setRedGoal:@"4"];
+            [self.myCup setYellowGoal:@"2"];
+            [self.myCup setBlueGoal:@"1"];
+            [self.myCup setOrangeGoal:@"1"];
+            [self.myCup setSpoonGoal:@"2"];
+            [self.myCup setWaterGoal:@"12"];
+            break;
+        case 1:
+            [self.myCup setGreenGoal:@"4"];
+            [self.myCup setPurpleGoal:@"3"];
+            [self.myCup setRedGoal:@"4"];
+            [self.myCup setYellowGoal:@"3"];
+            [self.myCup setBlueGoal:@"1"];
+            [self.myCup setOrangeGoal:@"1"];
+            [self.myCup setSpoonGoal:@"4"];
+            [self.myCup setWaterGoal:@"12"];
+            break;
+        case 2:
+            [self.myCup setGreenGoal:@"5"];
+            [self.myCup setPurpleGoal:@"3"];
+            [self.myCup setRedGoal:@"5"];
+            [self.myCup setYellowGoal:@"4"];
+            [self.myCup setBlueGoal:@"1"];
+            [self.myCup setOrangeGoal:@"1"];
+            [self.myCup setSpoonGoal:@"5"];
+            [self.myCup setWaterGoal:@"12"];
+            break;
+        case 3:
+            [self.myCup setGreenGoal:@"6"];
+            [self.myCup setPurpleGoal:@"4"];
+            [self.myCup setRedGoal:@"6"];
+            [self.myCup setYellowGoal:@"4"];
+            [self.myCup setBlueGoal:@"1"];
+            [self.myCup setOrangeGoal:@"1"];
+            [self.myCup setSpoonGoal:@"6"];
+            [self.myCup setWaterGoal:@"12"];
+            break;
     }
+    [realm commitWriteTransaction];
+    
+    switch (_cellRow){
+        case 0:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup greenGoal]];
+            break;
+        case 1:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup purpleGoal]];
+            break;
+        case 2:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup redGoal]];
+            break;
+        case 3:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup yellowGoal]];
+            break;
+        case 4:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup blueGoal]];
+            break;
+        case 5:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup orangeGoal]];
+            break;
+        case 6:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup waterGoal]];
+            break;
+        case 7:
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup spoonGoal]];
+            break;
+    }
+    [self.scopedTableView reloadData];
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"switchToggled" object:nil];
 }
 
 

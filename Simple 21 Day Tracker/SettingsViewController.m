@@ -32,10 +32,13 @@
     
     int caloricTarget = ((weight * 11) + 400) - 750;
     
+    int switchToggled;
+    
     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setFormatterBehavior: NSNumberFormatterBehavior10_4];
     [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
     NSString *numberString = [numberFormatter stringFromNumber: [NSNumber numberWithInteger: caloricTarget]];
+    
     
     self.calorieLabel.text = numberString;
         
@@ -44,56 +47,72 @@
         [self.switchTwo setOn:NO animated:YES];
         [self.switchThree setOn:NO animated:YES];
         [self.switchFour setOn:NO animated:YES];
-        
-
-        
+        switchToggled = 0;
     } else if (caloricTarget > 1499 && caloricTarget < 1800){
         [self.switchOne setOn:NO animated:YES];
         [self.switchTwo setOn:YES animated:YES];
         [self.switchThree setOn:NO animated:YES];
         [self.switchFour setOn:NO animated:YES];
+        switchToggled = 1;
     } else if (caloricTarget > 1799 && caloricTarget < 2100){
         [self.switchOne setOn:NO animated:YES];
         [self.switchTwo setOn:NO animated:YES];
         [self.switchThree setOn:YES animated:YES];
         [self.switchFour setOn:NO animated:YES];
+        switchToggled = 2;
     } else {
         [self.switchOne setOn:NO animated:YES];
         [self.switchTwo setOn:NO animated:YES];
         [self.switchThree setOn:NO animated:YES];
         [self.switchFour setOn:YES animated:YES];
+        switchToggled = 3;
     }
+    
+    NSString *switchUsed = [NSString stringWithFormat:@"%d", switchToggled];
+
+    NSDictionary *whichSwitch = [NSDictionary dictionaryWithObject:switchUsed forKey:@"Switch"];
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"switchToggled" object:nil userInfo:whichSwitch];
 }
 
-- (IBAction)switchOnePressed:(UISwitch *)sender {
-    if ([sender isOn]){
-    [self.switchTwo setOn:NO animated:YES];
-    [self.switchThree setOn:NO animated:YES];
-    [self.switchFour setOn:NO animated:YES];
+- (IBAction)switchPressed:(UISwitch *)sender {
+    
+    UISwitch *switchObj = (UISwitch *) sender;
+    
+    switch (switchObj.tag) {
+        case 0:
+            [sender setOn:YES animated:YES];
+            [self.switchTwo setOn:NO animated:YES];
+            [self.switchThree setOn:NO animated:YES];
+            [self.switchFour setOn:NO animated:YES];
+            break;
+        case 1:
+            [sender setOn:YES animated:YES];
+            [self.switchOne setOn:NO animated:YES];
+            [self.switchThree setOn:NO animated:YES];
+            [self.switchFour setOn:NO animated:YES];
+            break;
+        case 2:
+            [sender setOn:YES animated:YES];
+            [self.switchOne setOn:NO animated:YES];
+            [self.switchTwo setOn:NO animated:YES];
+            [self.switchFour setOn:NO animated:YES];
+            break;
+        case 3:
+            [sender setOn:YES animated:YES];
+            [self.switchOne setOn:NO animated:YES];
+            [self.switchTwo setOn:NO animated:YES];
+            [self.switchThree setOn:NO animated:YES];
+            break;   
     }
+    
+    NSString *switchUsed = [NSString stringWithFormat:@"%ld", (long)switchObj.tag];
+    
+    NSDictionary *whichSwitch = [NSDictionary dictionaryWithObject:switchUsed forKey:@"Switch"];
+    
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"switchToggled" object:nil userInfo:whichSwitch];
+     
 }
 
-- (IBAction)switchTwoPressed:(UISwitch *)sender {
-    if ([sender isOn]){
-        [self.switchOne setOn:NO animated:YES];
-        [self.switchThree setOn:NO animated:YES];
-        [self.switchFour setOn:NO animated:YES];
-    }
-}
 
-- (IBAction)switchThreePressed:(UISwitch *)sender {
-    if ([sender isOn]){
-        [self.switchOne setOn:NO animated:YES];
-        [self.switchTwo setOn:NO animated:YES];
-        [self.switchFour setOn:NO animated:YES];
-    }
-}
-
-- (IBAction)switchFourPressed:(UISwitch *)sender {
-    if ([sender isOn]){
-        [self.switchOne setOn:NO animated:YES];
-        [self.switchTwo setOn:NO animated:YES];
-        [self.switchThree setOn:NO animated:YES];
-    }
-}
 @end
