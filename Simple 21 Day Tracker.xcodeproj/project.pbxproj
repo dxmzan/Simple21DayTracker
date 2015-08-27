@@ -15,6 +15,8 @@
 		47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B447E61B89757100AC4C1C /* SettingsViewController.m */; };
 		47B447E91B89979500AC4C1C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 47B447E81B89979500AC4C1C /* .gitignore */; };
 		47B447EC1B8C1D2100AC4C1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47B447EA1B8C1D2100AC4C1C /* Main.storyboard */; };
+		47C715751B8EBA0000B5BD92 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C715741B8EBA0000B5BD92 /* CalendarViewController.m */; };
+		47C715781B8EBA4300B5BD92 /* CalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */; };
 		47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84A1B7BFEA400BD9A2E /* main.m */; };
 		47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */; };
 		47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8501B7BFEA400BD9A2E /* ViewController.m */; };
@@ -46,6 +48,10 @@
 		47B447E61B89757100AC4C1C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		47B447E81B89979500AC4C1C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = "Simple 21 Day Tracker/.gitignore"; sourceTree = "<group>"; };
 		47B447EB1B8C1D2100AC4C1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		47C715731B8EBA0000B5BD92 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
+		47C715741B8EBA0000B5BD92 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
+		47C715761B8EBA4300B5BD92 /* CalendarViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewCell.h; sourceTree = "<group>"; };
+		47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewCell.m; sourceTree = "<group>"; };
 		47CBB8451B7BFEA400BD9A2E /* Simple 21 Day Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple 21 Day Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CBB8491B7BFEA400BD9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47CBB84A1B7BFEA400BD9A2E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -99,6 +105,8 @@
 		4786EA261B841D270079C991 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				47C715731B8EBA0000B5BD92 /* CalendarViewController.h */,
+				47C715741B8EBA0000B5BD92 /* CalendarViewController.m */,
 				47CBB84F1B7BFEA400BD9A2E /* ViewController.h */,
 				47CBB8501B7BFEA400BD9A2E /* ViewController.m */,
 				47B447E51B89757100AC4C1C /* SettingsViewController.h */,
@@ -144,6 +152,8 @@
 				4786EA251B841D1D0079C991 /* Views */,
 				47CBB84C1B7BFEA400BD9A2E /* AppDelegate.h */,
 				47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */,
+				47C715761B8EBA4300B5BD92 /* CalendarViewCell.h */,
+				47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */,
 				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
 				4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */,
 				4755F7AB1B8829EC001624E4 /* MGSwipeButton.h */,
@@ -288,8 +298,10 @@
 				4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */,
 				47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */,
 				4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */,
+				47C715751B8EBA0000B5BD92 /* CalendarViewController.m in Sources */,
 				47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */,
 				47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */,
+				47C715781B8EBA4300B5BD92 /* CalendarViewCell.m in Sources */,
 				47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

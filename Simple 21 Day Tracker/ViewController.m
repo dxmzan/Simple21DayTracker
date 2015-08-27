@@ -22,30 +22,32 @@
     self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water", @"Spoon"];
     self.cupCount = [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0,@0, nil];
     
+    
+    
     // Observer for settings switches
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(targetSwitchEnabled:)
                                                  name:@"switchToggled"
                                                object:nil];
     
-//    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
+    UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
    
     self.formatter = [[NSDateFormatter alloc] init];
     self.formatter.dateFormat = @"MMMM d, yyyy";
     NSString *dateString = [self.formatter stringFromDate:[NSDate date]];
-//
-//    date.text = dateString;
-//    date.backgroundColor = [UIColor clearColor];
-//    date.textColor = [UIColor blackColor];
-//    date.textAlignment = NSTextAlignmentCenter;
-//    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:24];
-//    
-//    [self.view addSubview:date];
+
+    date.text = dateString;
+    date.backgroundColor = [UIColor clearColor];
+    date.textColor = [UIColor blackColor];
+    date.textAlignment = NSTextAlignmentCenter;
+    date.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:24];
     
-    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 375, 72)];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [datePicker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:datePicker];
+    [self.view addSubview:date];
+    
+//    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 375, 72)];
+//    datePicker.datePickerMode = UIDatePickerModeDate;
+//    [datePicker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
+//    [self.view addSubview:datePicker];
     
 
     RLMRealm *realm = [RLMRealm defaultRealm];
