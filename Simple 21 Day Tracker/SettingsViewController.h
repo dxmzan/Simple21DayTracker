@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchTwo;
 @property (weak, nonatomic) IBOutlet UISwitch *switchThree;
 @property (weak, nonatomic) IBOutlet UISwitch *switchFour;
+@property (copy, nonatomic) NSArray *cycleSwitches;
 
 - (IBAction)switchPressed:(UISwitch *)sender;
 

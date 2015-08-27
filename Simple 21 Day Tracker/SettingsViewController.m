@@ -18,6 +18,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.cycleSwitches = @[@"switchOne", @"switchTwo", @"switchThree", @"switchFour"];
+    
+    NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
+    
+    self.switchOne.on = ([[userSettings stringForKey:@"switchOne"] isEqualToString:@"On"]) ? (YES) : (NO);
+    self.switchTwo.on = ([[userSettings stringForKey:@"switchTwo"] isEqualToString:@"On"]) ? (YES) : (NO);
+    self.switchThree.on = ([[userSettings stringForKey:@"switchThree"] isEqualToString:@"On"]) ? (YES) : (NO);
+    self.switchFour.on = ([[userSettings stringForKey:@"switchFour"] isEqualToString:@"On"]) ? (YES) : (NO);
+
     // Do any additional setup after loading the view.
 }
 
@@ -68,6 +78,42 @@
         switchToggled = 3;
     }
     
+    NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
+    
+    // Clear settings in case multiple switches are active
+    for (int i = 0; i < 4; i++){
+        [userSettings removeObjectForKey:self.cycleSwitches[i]];
+    }
+    
+    // Check if sender switch is on or off, then set settings
+    if (switchToggled == 0){
+        if (self.switchOne.on == 0){
+            [userSettings setObject:@"Off" forKey:@"switchOne"];
+        } else if (self.switchOne.on == 1){
+            [userSettings setObject:@"On" forKey:@"switchOne"];
+        }
+    } else if (switchToggled == 1){
+        if (self.switchTwo.on == 0){
+            [userSettings setObject:@"Off" forKey:@"switchTwo"];
+        } else if (self.switchTwo.on == 1){
+            [userSettings setObject:@"On" forKey:@"switchTwo"];
+        }
+    } else if (switchToggled == 2){
+        if (self.switchThree.on == 0){
+            [userSettings setObject:@"Off" forKey:@"switchThree"];
+        } else if (self.switchThree.on == 1){
+            [userSettings setObject:@"On" forKey:@"switchThree"];
+        }
+    } else if (switchToggled == 3){
+        if (self.switchFour.on == 0){
+            [userSettings setObject:@"Off" forKey:@"switchFour"];
+        } else if (self.switchFour.on == 1){
+            [userSettings setObject:@"On" forKey:@"switchFour"];
+        }
+    }
+    
+    [userSettings synchronize];
+    
     NSString *switchUsed = [NSString stringWithFormat:@"%d", switchToggled];
 
     NSDictionary *whichSwitch = [NSDictionary dictionaryWithObject:switchUsed forKey:@"Switch"];
@@ -79,39 +125,65 @@
     
     UISwitch *switchObj = (UISwitch *) sender;
     
+    NSString *switchName;
+    
     switch (switchObj.tag) {
         case 0:
             [sender setOn:YES animated:YES];
             [self.switchTwo setOn:NO animated:YES];
             [self.switchThree setOn:NO animated:YES];
             [self.switchFour setOn:NO animated:YES];
+            switchName = self.cycleSwitches[switchObj.tag];
             break;
         case 1:
             [sender setOn:YES animated:YES];
             [self.switchOne setOn:NO animated:YES];
             [self.switchThree setOn:NO animated:YES];
             [self.switchFour setOn:NO animated:YES];
+            switchName = self.cycleSwitches[switchObj.tag];
             break;
         case 2:
             [sender setOn:YES animated:YES];
             [self.switchOne setOn:NO animated:YES];
             [self.switchTwo setOn:NO animated:YES];
             [self.switchFour setOn:NO animated:YES];
+            switchName = self.cycleSwitches[switchObj.tag];
             break;
         case 3:
             [sender setOn:YES animated:YES];
             [self.switchOne setOn:NO animated:YES];
             [self.switchTwo setOn:NO animated:YES];
             [self.switchThree setOn:NO animated:YES];
+            switchName = self.cycleSwitches[switchObj.tag];
             break;   
     }
     
+    // Save settings
+    
+    NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
+    
+    // Clear settings in case multiple switches are active
+    for (int i = 0; i < 4; i++){
+        [userSettings removeObjectForKey:self.cycleSwitches[i]];
+    }
+
+    // Check if sender switch is on or off, then set settings
+    if (sender.on == 0){
+        [userSettings setObject:@"Off" forKey:switchName];
+    } else if (sender.on == 1){
+        [userSettings setObject:@"On" forKey:switchName];
+    }
+    
+    [userSettings synchronize];
+    
+    
+    // Sending notifcation to log view to set goals
     NSString *switchUsed = [NSString stringWithFormat:@"%ld", (long)switchObj.tag];
     
     NSDictionary *whichSwitch = [NSDictionary dictionaryWithObject:switchUsed forKey:@"Switch"];
     
     [[NSNotificationCenter defaultCenter]postNotificationName:@"switchToggled" object:nil userInfo:whichSwitch];
-     
+    
 }
 
 

@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="a6c-6H-QLm">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="a6c-6H-QLm">
                                 <rect key="frame" x="0.0" y="138" width="320" height="430"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -289,7 +289,6 @@
                         <outlet property="switchThree" destination="XAR-G5-DaZ" id="1gn-Qb-aeB"/>
                         <outlet property="switchTwo" destination="bG8-xP-QoD" id="GuH-Z4-uws"/>
                         <outlet property="weightField" destination="uOo-Je-aal" id="PiQ-ZQ-sDa"/>
-                        <segue destination="BYZ-38-t0r" kind="push" identifier="switchSegue" id="ev3-bB-V1s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="csU-m3-afi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -321,7 +320,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="ev3-bB-V1s"/>
-    </inferredMetricsTieBreakers>
 </document>
