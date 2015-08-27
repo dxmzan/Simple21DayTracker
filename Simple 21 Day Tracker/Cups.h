@@ -10,6 +10,7 @@
 
 @interface Cups : RLMObject
 @property int purple, red, blue, green, water, orange, spoon, yellow;
+@property NSString *purpleGoal, *redGoal, *blueGoal, *greenGoal, *waterGoal, *orangeGoal, *spoonGoal, *yellowGoal;
 @property NSString *date;
 //@property NSString *cupId;
 

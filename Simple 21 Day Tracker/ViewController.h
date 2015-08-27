@@ -8,17 +8,26 @@
 
 #import <UIKit/UIKit.h>
 #import "Cups.h"
+#import "MGSwipeTableCell.h"
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (copy, nonatomic) NSArray *cupType;
-
-@property (assign, nonatomic) int counter;
 
 @property (copy, nonatomic) NSMutableArray *cupCount;
 
 @property Cups *myCup;
 
 @property NSDateFormatter *formatter;
+
+@property NSInteger cellRow;
+
+@property MGSwipeTableCell *cell;
+
+@property (strong) UILabel *counter;
+
+@property UITableView *scopedTableView;
+
+@property (nonatomic) BOOL *isSwitchOneEnabled;
 
 @end
