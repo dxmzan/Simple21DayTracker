@@ -3,7 +3,7 @@ The goal of this project is to create a simple progress tracker for the 21 Day F
 
 ## Features
 - Log
-  -Users can keep a daily log of their progress by clicking on the appropriate cup color as referenced in the 21 Day Fix program.
+	- Users can keep a daily log of their progress by clicking on the appropriate cup color as referenced in the 21 Day Fix program.
 	- The logging is backed by a Realm.io database, which allows users to reference past days.
 - Calendar
 	- The calendar will provide a simple and usable interface for users to track their monthly progress through the 21 Day Fix program.
