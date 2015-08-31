@@ -12,5 +12,8 @@
 @interface CalendarViewController : UICollectionViewController
 
 @property (strong, nonatomic) ViewController *logView;
+@property (nonatomic) NSInteger currentDay;
+@property (nonatomic) NSInteger currentMonth;
+@property (nonatomic) NSInteger currentYear;
 
 @end

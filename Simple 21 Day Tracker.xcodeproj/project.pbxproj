@@ -23,6 +23,7 @@
 		47CBB8561B7BFEA400BD9A2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47CBB8551B7BFEA400BD9A2E /* Images.xcassets */; };
 		47CBB8591B7BFEA400BD9A2E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CBB8571B7BFEA400BD9A2E /* LaunchScreen.xib */; };
 		47CBB8651B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8641B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m */; };
+		47CF61FC1B9501920036BD25 /* CalendarHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CF61FB1B9501920036BD25 /* CalendarHeader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		47CBB85E1B7BFEA400BD9A2E /* Simple 21 Day TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Simple 21 Day TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CBB8631B7BFEA400BD9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47CBB8641B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Simple_21_Day_TrackerTests.m; sourceTree = "<group>"; };
+		47CF61FA1B9501920036BD25 /* CalendarHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarHeader.h; sourceTree = "<group>"; };
+		47CF61FB1B9501920036BD25 /* CalendarHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarHeader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 				47C715741B8EBA0000B5BD92 /* CalendarViewController.m */,
 				47CBB84F1B7BFEA400BD9A2E /* ViewController.h */,
 				47CBB8501B7BFEA400BD9A2E /* ViewController.m */,
+				47CF61FA1B9501920036BD25 /* CalendarHeader.h */,
+				47CF61FB1B9501920036BD25 /* CalendarHeader.m */,
 				47B447E51B89757100AC4C1C /* SettingsViewController.h */,
 				47B447E61B89757100AC4C1C /* SettingsViewController.m */,
 			);
@@ -296,6 +301,7 @@
 			files = (
 				4747AB741B7FDEDC0036B2A9 /* Cups.m in Sources */,
 				4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */,
+				47CF61FC1B9501920036BD25 /* CalendarHeader.m in Sources */,
 				47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */,
 				4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */,
 				47C715751B8EBA0000B5BD92 /* CalendarViewController.m in Sources */,

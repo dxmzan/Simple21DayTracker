@@ -106,7 +106,7 @@
 //    cell.imageView.image = plusIcon;
     
     // Label text
-    
+        
     self.cell.textLabel.text = self.cupType[indexPath.row];
     self.cell.textLabel.textColor = [UIColor whiteColor];
     self.cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18];

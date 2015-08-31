@@ -9,6 +9,7 @@
 #import "CalendarViewController.h"
 #import "CalendarViewCell.h"
 #import "ViewController.h"
+#import "CalendarHeader.h"
 
 @interface CalendarViewController ()
 
@@ -20,6 +21,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self logCalendar];
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -53,18 +55,27 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    // Check what month - 0 = even months, 1 = odd months, 2 = february
-    // Odd months have 31 days
-    int month = 1;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:[NSDate date]];
+    NSUInteger numberOfDaysInMonth = range.length;
     
-    if (month == 0){
-        return 30;
-    }
-    else if(month == 1){
-        return 31;
-    } else {
-        return 29;
-    }
+    return numberOfDaysInMonth;
+}
+
+-(void)logCalendar {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSDateComponents *dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday fromDate:[NSDate date]];
+    
+    [dateComps setDay:1];
+    
+    NSDate *firstDayOfMonth = [calendar dateFromComponents:dateComps];
+    
+    
+    NSLog(@"First Day of MontH: %@", firstDayOfMonth);
+    
+    
+    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,6 +87,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (indexPath.row == 2){
         cell.backgroundColor = [UIColor redColor];
     }
+    
     return cell;
 }
 
@@ -96,6 +108,16 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath{
     
     
+}
+
+-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *reusableview = nil;
+    
+    if (kind == UICollectionElementKindSectionHeader){
+        CalendarHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CalendarHeaderView" forIndexPath:indexPath];
+        reusableview = headerView;
+    }
+    return reusableview;
 }
 
 
