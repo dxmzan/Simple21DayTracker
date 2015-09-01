@@ -59,33 +59,48 @@ static NSString * const reuseIdentifier = @"Cell";
     NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:[NSDate date]];
     NSUInteger numberOfDaysInMonth = range.length;
     
-    return numberOfDaysInMonth;
+    return numberOfDaysInMonth + 5;
 }
 
 -(void)logCalendar {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
-    NSDateComponents *dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday fromDate:[NSDate date]];
+    NSDateComponents *dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday fromDate:[NSDate date]];
     
     [dateComps setDay:1];
+    [dateComps setWeekday:1];
+    [dateComps setYear:2015];
+    [dateComps setMonth:8];
     
-    NSDate *firstDayOfMonth = [calendar dateFromComponents:dateComps];
+    NSDate *firstDateofMonth = [calendar dateFromComponents:dateComps];
     
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"EEEE"];
     
-    NSLog(@"First Day of MontH: %@", firstDayOfMonth);
+    self.firstDayOfMonth = [dateFormatter stringFromDate:firstDateofMonth];
     
+    NSLog(@"Starting day of the month: %@", self.firstDayOfMonth);
     
-    
+    NSLog(@"First date of Month: %@", firstDateofMonth);
+
 }
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CalendarViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
-    [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long)indexPath.row+1]];
+    //[cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long)indexPath.row+1]];
     
-    if (indexPath.row == 2){
-        cell.backgroundColor = [UIColor redColor];
+    
+    if ([self.firstDayOfMonth isEqualToString:@"Saturday"]){
+            if(indexPath.row < 5){
+                cell.backgroundColor = [UIColor whiteColor];
+                [cell.dayLabel setText:@""];
+            } else {
+                cell.backgroundColor = [UIColor whiteColor];
+                [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row-4]];
+            }
     }
     
     return cell;

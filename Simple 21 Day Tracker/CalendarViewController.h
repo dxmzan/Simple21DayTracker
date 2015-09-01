@@ -15,5 +15,6 @@
 @property (nonatomic) NSInteger currentDay;
 @property (nonatomic) NSInteger currentMonth;
 @property (nonatomic) NSInteger currentYear;
+@property (nonatomic) NSString *firstDayOfMonth;
 
 @end
