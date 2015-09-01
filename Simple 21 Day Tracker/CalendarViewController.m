@@ -59,18 +59,30 @@ static NSString * const reuseIdentifier = @"Cell";
     NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:[NSDate date]];
     NSUInteger numberOfDaysInMonth = range.length;
     
-    return numberOfDaysInMonth + 5;
+    if ([self.firstDayOfMonth isEqualToString:@"Sunday"]){
+        return numberOfDaysInMonth;
+    } else if ([self.firstDayOfMonth isEqualToString:@"Monday"]){
+        return numberOfDaysInMonth + 1;
+    } else if ([self.firstDayOfMonth isEqualToString:@"Tuesday"]){
+        return numberOfDaysInMonth + 2;
+    } else if ([self.firstDayOfMonth isEqualToString:@"Wednesday"]){
+        return numberOfDaysInMonth + 3;
+    } else if ([self.firstDayOfMonth isEqualToString:@"Thursday"]){
+        return numberOfDaysInMonth + 4;
+    } else if ([self.firstDayOfMonth isEqualToString:@"Friday"]){
+        return numberOfDaysInMonth + 5;
+    } else if ([self.firstDayOfMonth isEqualToString:@"Saturday"]){
+        return numberOfDaysInMonth + 6;
+    } else {
+        return numberOfDaysInMonth;
+    }
+    
 }
 
 -(void)logCalendar {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     NSDateComponents *dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday fromDate:[NSDate date]];
-    
-    [dateComps setDay:1];
-    [dateComps setWeekday:1];
-    [dateComps setYear:2015];
-    [dateComps setMonth:8];
     
     NSDate *firstDateofMonth = [calendar dateFromComponents:dateComps];
     
@@ -89,17 +101,77 @@ static NSString * const reuseIdentifier = @"Cell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CalendarViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    // Configure the cell
-    //[cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long)indexPath.row+1]];
+    // If the first day of the month begins on ...
     
+    // Sunday
+    if ([self.firstDayOfMonth isEqualToString:@"Sunday"]){
+            cell.backgroundColor = [UIColor whiteColor];
+            [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row + 1]];
+    }
     
+    // Monday
+    if ([self.firstDayOfMonth isEqualToString:@"Monday"]){
+        if (indexPath.row < 1){
+            cell.backgroundColor = [UIColor lightGrayColor];
+            [cell.dayLabel setText:@""];
+        } else {
+            cell.backgroundColor = [UIColor whiteColor];
+            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row]];
+        }
+    }
+    
+    // Tuesday
+    if ([self.firstDayOfMonth isEqualToString:@"Tuesday"]){
+        if (indexPath.row < 2){
+            cell.backgroundColor = [UIColor lightGrayColor];
+            [cell.dayLabel setText:@""];
+        } else {
+            cell.backgroundColor = [UIColor whiteColor];
+            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row-1]];
+        }
+    }
+    
+    // Wednesday
+    if ([self.firstDayOfMonth isEqualToString:@"Wednesday"]){
+        if (indexPath.row < 3){
+            cell.backgroundColor = [UIColor lightGrayColor];
+            [cell.dayLabel setText:@""];
+        } else {
+            cell.backgroundColor = [UIColor whiteColor];
+            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 2]];
+        }
+    }
+    
+    // Thursday
+    if ([self.firstDayOfMonth isEqualToString:@"Thursday"]){
+        if (indexPath.row < 4){
+            cell.backgroundColor = [UIColor lightGrayColor];
+            [cell.dayLabel setText:@""];
+        } else {
+            cell.backgroundColor = [UIColor whiteColor];
+            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 3]];
+        }
+    }
+    
+    // Friday
+    if ([self.firstDayOfMonth isEqualToString:@"Friday"]){
+        if (indexPath.row < 5){
+            cell.backgroundColor = [UIColor lightGrayColor];
+            [cell.dayLabel setText:@""];
+        } else {
+            cell.backgroundColor = [UIColor whiteColor];
+            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 4]];
+        }
+    }
+
+    // Saturday
     if ([self.firstDayOfMonth isEqualToString:@"Saturday"]){
-            if(indexPath.row < 5){
-                cell.backgroundColor = [UIColor whiteColor];
+            if(indexPath.row < 6){
+                cell.backgroundColor = [UIColor lightGrayColor];
                 [cell.dayLabel setText:@""];
             } else {
                 cell.backgroundColor = [UIColor whiteColor];
-                [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row-4]];
+                [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row-5]];
             }
     }
     
