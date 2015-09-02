@@ -12,12 +12,14 @@
 @interface CalendarViewController : UICollectionViewController
 
 @property (strong, nonatomic) ViewController *logView;
-@property (nonatomic) NSInteger currentDay;
 @property (nonatomic) NSString *currentMonth;
-@property (nonatomic) NSString *selectedMonth;
-@property (nonatomic) NSInteger currentYear;
-@property (nonatomic) NSString *firstDayOfMonth;
-@property (nonatomic) NSDate *firstDateofMonth;
+@property (nonatomic) NSInteger activeDay;
+@property (nonatomic) NSInteger activeMonth;
+@property (nonatomic) NSInteger activeYear;
+@property (nonatomic) NSString *firstDateName;
+@property (nonatomic) NSDate *firstDateOfMonth;
 @property (nonatomic) NSDateComponents *dateComps;
 @property (nonatomic) UICollectionView *publicCollectionView;
+@property (nonatomic) NSDateFormatter *dayFormatter;
+@property (nonatomic) NSDateFormatter *monthFormatter;
 @end

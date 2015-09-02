@@ -22,6 +22,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self logCalendar];
+    NSLog(@"viewDidLoad");
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(prevButton)
@@ -66,22 +67,22 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self.firstDateofMonth];
+    NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self.firstDateOfMonth];
     NSUInteger numberOfDaysInMonth = range.length;
     
-    if ([self.firstDayOfMonth isEqualToString:@"Sunday"]){
+    if ([self.firstDateName isEqualToString:@"Sunday"]){
         return numberOfDaysInMonth;
-    } else if ([self.firstDayOfMonth isEqualToString:@"Monday"]){
+    } else if ([self.firstDateName isEqualToString:@"Monday"]){
         return numberOfDaysInMonth + 1;
-    } else if ([self.firstDayOfMonth isEqualToString:@"Tuesday"]){
+    } else if ([self.firstDateName isEqualToString:@"Tuesday"]){
         return numberOfDaysInMonth + 2;
-    } else if ([self.firstDayOfMonth isEqualToString:@"Wednesday"]){
+    } else if ([self.firstDateName isEqualToString:@"Wednesday"]){
         return numberOfDaysInMonth + 3;
-    } else if ([self.firstDayOfMonth isEqualToString:@"Thursday"]){
+    } else if ([self.firstDateName isEqualToString:@"Thursday"]){
         return numberOfDaysInMonth + 4;
-    } else if ([self.firstDayOfMonth isEqualToString:@"Friday"]){
+    } else if ([self.firstDateName isEqualToString:@"Friday"]){
         return numberOfDaysInMonth + 5;
-    } else if ([self.firstDayOfMonth isEqualToString:@"Saturday"]){
+    } else if ([self.firstDateName isEqualToString:@"Saturday"]){
         return numberOfDaysInMonth + 6;
     } else {
         return numberOfDaysInMonth;
@@ -93,47 +94,42 @@ static NSString * const reuseIdentifier = @"Cell";
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     self.dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday fromDate:[NSDate date]];
-    //[dateComps setMonth: NSCalendarUnitMonth];
-    [self.dateComps setDay:1];
     
-    self.firstDateofMonth = [calendar dateFromComponents:self.dateComps];
+    [self.dateComps setDay:1]; // Set first day to 1
     
-    NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
-    [dayFormatter setDateFormat:@"EEEE"];
-    
-    NSDateFormatter *monthFormatter = [[NSDateFormatter alloc] init];
-    [monthFormatter setDateFormat:@"MMMM"];
+    self.activeMonth = [self.dateComps month];
 
+    [self formatDate]; // Formatting both date and month
     
-    self.currentMonth = [monthFormatter stringFromDate:self.firstDateofMonth];
+    self.firstDateOfMonth = [calendar dateFromComponents:self.dateComps]; // This is an NSDate
     
-    self.firstDayOfMonth = [dayFormatter stringFromDate:self.firstDateofMonth];
+    self.currentMonth = [self.monthFormatter stringFromDate:self.firstDateOfMonth]; // "September"
     
-    NSLog(@"Starting day of the month: %@", self.firstDayOfMonth);
+    self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth]; // "Tuesday"
+    
+    NSLog(@"Starting day of the month: %@", self.firstDateName);
     NSLog(@"Month: %@", self.currentMonth);
     
-    NSLog(@"First date of Month: %@", self.firstDateofMonth);
+    NSLog(@"First date of Month: %@", self.firstDateOfMonth);
 
 }
 
 -(void)updateCalendar {
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
-
-    [self.dateComps setMonth:NSCalendarUnitMonth + 2];
     
-    //NSLog(@"%lu", (unsigned long)NSCalendarUnitMonth);
+    self.firstDateOfMonth = [calendar dateFromComponents:self.dateComps];
     
-    self.firstDateofMonth = [calendar dateFromComponents:self.dateComps];
-    
-    NSDateFormatter *monthFormatter = [[NSDateFormatter alloc] init];
-    [monthFormatter setDateFormat:@"MMMM"];
-
-    self.currentMonth = [monthFormatter stringFromDate:self.firstDateofMonth];
+    self.currentMonth = [self.monthFormatter stringFromDate:self.firstDateOfMonth];
+    self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth];
+//    
+//    NSDate *someDate = [calendar dateByAddingUnit:NSCalendarUnitMonth value:2 toDate:self.firstDateOfMonth options:0];
+//    
+//    NSLog(@"%@", someDate);
 
     NSLog(@"Updated month: %@", self.currentMonth);
     
-    [self.publicCollectionView reloadData];
+    [self.publicCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
 
@@ -143,20 +139,20 @@ static NSString * const reuseIdentifier = @"Cell";
     self.publicCollectionView = collectionView;
     // If the first day of the month begins on ...
     
-    UIFontDescriptor *cellFont = [cell.dayLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+    //UIFontDescriptor *cellFont = [cell.dayLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
     
     // Sunday
-    if ([self.firstDayOfMonth isEqualToString:@"Sunday"]){
+    if ([self.firstDateName isEqualToString:@"Sunday"]){
         cell.backgroundColor = [UIColor whiteColor];
-        cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
+        //cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
         [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row + 1]];
     }
     
     // Monday
-    if ([self.firstDayOfMonth isEqualToString:@"Monday"]){
+    if ([self.firstDateName isEqualToString:@"Monday"]){
         if (indexPath.row < 1){
             cell.backgroundColor = [UIColor lightGrayColor];
-            cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
+            //cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
             [cell.dayLabel setText:@""];
         } else {
             cell.backgroundColor = [UIColor whiteColor];
@@ -165,10 +161,10 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Tuesday
-    if ([self.firstDayOfMonth isEqualToString:@"Tuesday"]){
+    if ([self.firstDateName isEqualToString:@"Tuesday"]){
         if (indexPath.row < 2){
             cell.backgroundColor = [UIColor lightGrayColor];
-            cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:10];
+            //cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:10];
             [cell.dayLabel setText:@""];
         } else {
             cell.backgroundColor = [UIColor whiteColor];
@@ -177,7 +173,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Wednesday
-    if ([self.firstDayOfMonth isEqualToString:@"Wednesday"]){
+    if ([self.firstDateName isEqualToString:@"Wednesday"]){
         if (indexPath.row < 3){
             cell.backgroundColor = [UIColor lightGrayColor];
             [cell.dayLabel setText:@""];
@@ -188,7 +184,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Thursday
-    if ([self.firstDayOfMonth isEqualToString:@"Thursday"]){
+    if ([self.firstDateName isEqualToString:@"Thursday"]){
         if (indexPath.row < 4){
             cell.backgroundColor = [UIColor lightGrayColor];
             [cell.dayLabel setText:@""];
@@ -199,7 +195,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Friday
-    if ([self.firstDayOfMonth isEqualToString:@"Friday"]){
+    if ([self.firstDateName isEqualToString:@"Friday"]){
         if (indexPath.row < 5){
             cell.backgroundColor = [UIColor lightGrayColor];
             [cell.dayLabel setText:@""];
@@ -210,7 +206,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 
     // Saturday
-    if ([self.firstDayOfMonth isEqualToString:@"Saturday"]){
+    if ([self.firstDateName isEqualToString:@"Saturday"]){
             if(indexPath.row < 6){
                 cell.backgroundColor = [UIColor lightGrayColor];
                 [cell.dayLabel setText:@""];
@@ -258,12 +254,26 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)prevButton {
     NSLog(@"Previous button pressed");
+    self.activeMonth--;
+    [self.dateComps setMonth:self.activeMonth];
     [self updateCalendar];
     
 }
 
 -(void)nextButton {
     NSLog(@"Next button pressed");
+    self.activeMonth++;
+    [self.dateComps setMonth:self.activeMonth];
+    [self updateCalendar];
+    
+}
+
+-(void)formatDate {
+    self.dayFormatter = [[NSDateFormatter alloc] init];
+    [self.dayFormatter setDateFormat:@"EEEE"];
+    
+    self.monthFormatter = [[NSDateFormatter alloc] init];
+    [self.monthFormatter setDateFormat:@"MMMM"];
     
 }
 -(void)dealloc {
