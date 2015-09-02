@@ -7,12 +7,17 @@
 //
 
 #import "CalendarHeader.h"
+#import "CalendarViewController.h"
 
 @implementation CalendarHeader
 
 - (IBAction)prevButton:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"previousButtonPressed" object:nil];
 }
 
 - (IBAction)nextButton:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"nextButtonPressed" object:nil];
+
 }
+
 @end

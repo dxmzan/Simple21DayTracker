@@ -13,8 +13,11 @@
 
 @property (strong, nonatomic) ViewController *logView;
 @property (nonatomic) NSInteger currentDay;
-@property (nonatomic) NSInteger currentMonth;
+@property (nonatomic) NSString *currentMonth;
+@property (nonatomic) NSString *selectedMonth;
 @property (nonatomic) NSInteger currentYear;
 @property (nonatomic) NSString *firstDayOfMonth;
-
+@property (nonatomic) NSDate *firstDateofMonth;
+@property (nonatomic) NSDateComponents *dateComps;
+@property (nonatomic) UICollectionView *publicCollectionView;
 @end

@@ -23,6 +23,16 @@ static NSString * const reuseIdentifier = @"Cell";
     [super viewDidLoad];
     [self logCalendar];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(prevButton)
+                                                 name:@"previousButtonPressed"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(nextButton)
+                                                 name:@"nextButtonPressed"
+                                               object:nil];
+    
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -56,7 +66,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:[NSDate date]];
+    NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self.firstDateofMonth];
     NSUInteger numberOfDaysInMonth = range.length;
     
     if ([self.firstDayOfMonth isEqualToString:@"Sunday"]){
@@ -82,37 +92,71 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)logCalendar {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
-    NSDateComponents *dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday fromDate:[NSDate date]];
+    self.dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday fromDate:[NSDate date]];
+    //[dateComps setMonth: NSCalendarUnitMonth];
+    [self.dateComps setDay:1];
     
-    NSDate *firstDateofMonth = [calendar dateFromComponents:dateComps];
+    self.firstDateofMonth = [calendar dateFromComponents:self.dateComps];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"EEEE"];
+    NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
+    [dayFormatter setDateFormat:@"EEEE"];
     
-    self.firstDayOfMonth = [dateFormatter stringFromDate:firstDateofMonth];
+    NSDateFormatter *monthFormatter = [[NSDateFormatter alloc] init];
+    [monthFormatter setDateFormat:@"MMMM"];
+
+    
+    self.currentMonth = [monthFormatter stringFromDate:self.firstDateofMonth];
+    
+    self.firstDayOfMonth = [dayFormatter stringFromDate:self.firstDateofMonth];
     
     NSLog(@"Starting day of the month: %@", self.firstDayOfMonth);
+    NSLog(@"Month: %@", self.currentMonth);
     
-    NSLog(@"First date of Month: %@", firstDateofMonth);
+    NSLog(@"First date of Month: %@", self.firstDateofMonth);
 
+}
+
+-(void)updateCalendar {
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+
+    [self.dateComps setMonth:NSCalendarUnitMonth + 2];
+    
+    //NSLog(@"%lu", (unsigned long)NSCalendarUnitMonth);
+    
+    self.firstDateofMonth = [calendar dateFromComponents:self.dateComps];
+    
+    NSDateFormatter *monthFormatter = [[NSDateFormatter alloc] init];
+    [monthFormatter setDateFormat:@"MMMM"];
+
+    self.currentMonth = [monthFormatter stringFromDate:self.firstDateofMonth];
+
+    NSLog(@"Updated month: %@", self.currentMonth);
+    
+    [self.publicCollectionView reloadData];
 }
 
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CalendarViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
+    self.publicCollectionView = collectionView;
     // If the first day of the month begins on ...
+    
+    UIFontDescriptor *cellFont = [cell.dayLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
     
     // Sunday
     if ([self.firstDayOfMonth isEqualToString:@"Sunday"]){
-            cell.backgroundColor = [UIColor whiteColor];
-            [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row + 1]];
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
+        [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row + 1]];
     }
     
     // Monday
     if ([self.firstDayOfMonth isEqualToString:@"Monday"]){
         if (indexPath.row < 1){
             cell.backgroundColor = [UIColor lightGrayColor];
+            cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
             [cell.dayLabel setText:@""];
         } else {
             cell.backgroundColor = [UIColor whiteColor];
@@ -124,6 +168,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if ([self.firstDayOfMonth isEqualToString:@"Tuesday"]){
         if (indexPath.row < 2){
             cell.backgroundColor = [UIColor lightGrayColor];
+            cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:10];
             [cell.dayLabel setText:@""];
         } else {
             cell.backgroundColor = [UIColor whiteColor];
@@ -202,11 +247,29 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (kind == UICollectionElementKindSectionHeader){
         CalendarHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CalendarHeaderView" forIndexPath:indexPath];
+        
+        headerView.monthName.text = self.currentMonth;
+        
         reusableview = headerView;
     }
+    
     return reusableview;
 }
 
+-(void)prevButton {
+    NSLog(@"Previous button pressed");
+    [self updateCalendar];
+    
+}
+
+-(void)nextButton {
+    NSLog(@"Next button pressed");
+    
+}
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"previousButtonPressed" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"nextButtonPressed" object:nil];
+}
 
 #pragma mark <UICollectionViewDelegate>
 
