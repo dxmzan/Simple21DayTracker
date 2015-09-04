@@ -9,17 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
 
+
 @interface CalendarViewController : UICollectionViewController
 
 @property (strong, nonatomic) ViewController *logView;
 @property (strong, nonatomic) NSString *currentMonth;
-@property (nonatomic, assign) NSInteger activeDay;
-@property (nonatomic, assign) NSInteger activeMonth;
-@property (nonatomic, assign) NSInteger activeYear;
+@property (strong, nonatomic) NSString *currentYear;
+@property (nonatomic, assign) NSInteger setDay;
+@property (nonatomic, assign) NSInteger setMonth;
+@property (nonatomic, assign) NSInteger setYear;
 @property (strong, nonatomic) NSString *firstDateName;
+@property (strong, nonatomic) NSString *selectedDayString;
 @property (strong, nonatomic) NSDate *firstDateOfMonth;
 @property (strong, nonatomic) NSDateComponents *dateComps;
 @property (strong, nonatomic) UICollectionView *publicCollectionView;
 @property (strong, nonatomic) NSDateFormatter *dayFormatter;
 @property (strong, nonatomic) NSDateFormatter *monthFormatter;
+@property (strong, nonatomic) NSDateFormatter *yearFormatter;
+@property (strong, nonatomic) NSIndexPath *publicIndexPath;
 @end

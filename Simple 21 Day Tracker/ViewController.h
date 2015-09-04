@@ -30,4 +30,6 @@
 
 @property (assign, nonatomic) BOOL *isSwitchOneEnabled;
 
+@property (strong, nonatomic) NSString *receivedDate;
+
 @end

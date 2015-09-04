@@ -53,8 +53,12 @@
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     self.myCup = [[Cups alloc] init];
-        
-    NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"date == %@", dateString];
+
+    if (self.receivedDate == nil){
+        self.receivedDate = dateString;
+    }
+    
+    NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"date == %@", self.receivedDate];
     
     RLMResults *query = [Cups objectsWithPredicate:datePred];
     
@@ -62,17 +66,19 @@
     
     // Check if date is equal to today's date. If false, create new object.
 
-    if ([queryDate isEqualToString:dateString])
+    if ([queryDate isEqualToString:self.receivedDate])
     {
         // Update same-day object
         self.myCup = [query objectAtIndex:0];
+        date.text = self.receivedDate;
         NSLog(@"Same day: %@", query);
     } else {
         // Create new object with new date and cupId
         [realm transactionWithBlock:^{
-        [self.myCup setDate:dateString];
+        [self.myCup setDate:self.receivedDate];
         //[self.myCup setCupId:@"5"];
         [realm addObject:self.myCup];
+            date.text = self.receivedDate;
         }];
     }
 }
@@ -82,6 +88,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+//- (void)viewDidAppear:(BOOL)animated{
+//    NSLog(@"Received date: %@", self.receivedDate);
+//
+//}
+
+- (void)viewWillAppear:(BOOL)animated{
+    NSLog(@"Received date: %@", self.receivedDate);
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.cupType count];
 }

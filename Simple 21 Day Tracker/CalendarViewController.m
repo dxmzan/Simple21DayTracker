@@ -22,7 +22,18 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self logCalendar]; // Load calendar
+
     
+    // Uncomment the following line to preserve selection between presentations
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Register cell classes
+    //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+    
+    // Do any additional setup after loading the view.
+}
+
+- (void) viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(prevButton)
                                                  name:@"previousButtonPressed"
@@ -32,14 +43,12 @@ static NSString * const reuseIdentifier = @"Cell";
                                              selector:@selector(nextButton)
                                                  name:@"nextButtonPressed"
                                                object:nil];
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
-    //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
+}
+
+- (void) viewWillDisappear:(BOOL)animated{
+    NSLog(@"Observers removed");
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"previousButtonPressed" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"nextButtonPressed" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,8 +105,10 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self.dateComps setDay:1]; // Set first day to 1
     
-    self.activeMonth = [self.dateComps month];
-
+    self.setMonth = [self.dateComps month];
+    
+    self.setYear = [self.dateComps year];
+    
     [self formatDate]; // Formatting both date and month
     
     self.firstDateOfMonth = [calendar dateFromComponents:self.dateComps]; // This is an NSDate
@@ -106,9 +117,10 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth]; // "Tuesday"
     
-    NSLog(@"Starting day of the month: %@", self.firstDateName);
-    NSLog(@"Month: %@", self.currentMonth);
+    self.currentYear = [self.yearFormatter stringFromDate:self.firstDateOfMonth]; // "2015"
     
+    NSLog(@"Starting day of the month: %@", self.firstDateName);
+    NSLog(@"Year: %@", self.currentYear);
     NSLog(@"First date of Month: %@", self.firstDateOfMonth);
 
 }
@@ -121,8 +133,10 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.currentMonth = [self.monthFormatter stringFromDate:self.firstDateOfMonth];
     self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth];
+    self.currentYear = [self.yearFormatter stringFromDate:self.firstDateOfMonth];
 
     NSLog(@"Updated month: %@", self.currentMonth);
+    NSLog(@"Updated year: %@", self.currentYear);
     
     [self.publicCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
@@ -133,11 +147,8 @@ static NSString * const reuseIdentifier = @"Cell";
     CalendarViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     self.publicCollectionView = collectionView;
+    
     // If the first day of the month begins on ...
-    
-    //UIFontDescriptor *cellFont = [cell.dayLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
-    
-    
     
     // Sunday
     if ([self.firstDateName isEqualToString:@"Sunday"]){
@@ -217,26 +228,6 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfMonth];
-    NSInteger calendarOffset = weekday - calendar.firstWeekday;
-    
-    
-    if (indexPath.row < calendarOffset){
-        NSLog(@"Last month selected");
-    } else {
-        NSLog(@"The date is: %ld", (indexPath.row-calendarOffset) + 1);
-
-    }
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
-}
-
 
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView *reusableview = nil;
@@ -253,17 +244,15 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)prevButton {
-    NSLog(@"Previous button pressed");
-    self.activeMonth--;
-    [self.dateComps setMonth:self.activeMonth];
+    self.setMonth--;
+    [self.dateComps setMonth:self.setMonth];
     [self updateCalendar];
     
 }
 
 -(void)nextButton {
-    NSLog(@"Next button pressed");
-    self.activeMonth++;
-    [self.dateComps setMonth:self.activeMonth];
+    self.setMonth++;
+    [self.dateComps setMonth:self.setMonth];
     [self updateCalendar];
     
 }
@@ -275,11 +264,41 @@ static NSString * const reuseIdentifier = @"Cell";
     self.monthFormatter = [[NSDateFormatter alloc] init];
     [self.monthFormatter setDateFormat:@"MMMM"];
     
+    self.yearFormatter = [[NSDateFormatter alloc] init];
+    [self.yearFormatter setDateFormat:@"YYYY"];
+    
 }
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"previousButtonPressed" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"nextButtonPressed" object:nil];
+
+
+-(BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+    NSIndexPath * indexPath = [self.collectionView indexPathForCell:sender];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfMonth];
+    NSInteger calendarOffset = weekday - calendar.firstWeekday;
+    NSInteger selectedDay = (indexPath.row - calendarOffset) + 1;
+    
+    self.selectedDayString = [NSString stringWithFormat:@"%@ %ld, %@", self.currentMonth, (long) selectedDay, self.currentYear];
+    
+    if (indexPath.row < calendarOffset){
+        NSLog(@"Last month selected");
+        return NO;
+    } else {
+        return YES;
+    }
+
 }
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([[segue identifier] isEqualToString:@"dateSegue"]){
+        ViewController *vc = [segue destinationViewController];
+        vc.receivedDate = self.selectedDayString;
+        NSLog(@"Date sent: %@", self.selectedDayString);
+    }
+}
+
 
 #pragma mark <UICollectionViewDelegate>
 
