@@ -11,6 +11,6 @@
 @interface CalendarHeader : UICollectionReusableView
 - (IBAction)prevButton:(id)sender;
 - (IBAction)nextButton:(id)sender;
-@property (weak, nonatomic) IBOutlet UILabel *monthName;
+@property (strong, nonatomic) IBOutlet UILabel *monthName;
 
 @end

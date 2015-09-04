@@ -16,18 +16,18 @@
 
 @property (copy, nonatomic) NSMutableArray *cupCount;
 
-@property Cups *myCup;
+@property (strong, nonatomic) Cups *myCup;
 
-@property NSDateFormatter *formatter;
+@property (strong, nonatomic) NSDateFormatter *formatter;
 
-@property NSInteger cellRow;
+@property (assign, nonatomic) NSInteger cellRow;
 
-@property MGSwipeTableCell *cell;
+@property (strong, nonatomic) MGSwipeTableCell *cell;
 
-@property (strong) UILabel *counter;
+@property (strong, nonatomic) UILabel *counter;
 
-@property UITableView *scopedTableView;
+@property (strong, nonatomic) UITableView *scopedTableView;
 
-@property (nonatomic) BOOL *isSwitchOneEnabled;
+@property (assign, nonatomic) BOOL *isSwitchOneEnabled;
 
 @end

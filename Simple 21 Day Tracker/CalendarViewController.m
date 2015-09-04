@@ -21,8 +21,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self logCalendar];
-    NSLog(@"viewDidLoad");
+    [self logCalendar]; // Load calendar
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(prevButton)
@@ -58,7 +57,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 */
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark Calendar Setup
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
@@ -122,16 +121,13 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.currentMonth = [self.monthFormatter stringFromDate:self.firstDateOfMonth];
     self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth];
-//    
-//    NSDate *someDate = [calendar dateByAddingUnit:NSCalendarUnitMonth value:2 toDate:self.firstDateOfMonth options:0];
-//    
-//    NSLog(@"%@", someDate);
 
     NSLog(@"Updated month: %@", self.currentMonth);
     
     [self.publicCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
+#pragma mark View Setup
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CalendarViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -140,6 +136,8 @@ static NSString * const reuseIdentifier = @"Cell";
     // If the first day of the month begins on ...
     
     //UIFontDescriptor *cellFont = [cell.dayLabel.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+    
+    
     
     // Sunday
     if ([self.firstDateName isEqualToString:@"Sunday"]){
@@ -220,7 +218,18 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfMonth];
+    NSInteger calendarOffset = weekday - calendar.firstWeekday;
+    
+    
+    if (indexPath.row < calendarOffset){
+        NSLog(@"Last month selected");
+    } else {
+        NSLog(@"The date is: %ld", (indexPath.row-calendarOffset) + 1);
 
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -228,15 +237,6 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
--(void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
-}
-
--(void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    
-}
 
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView *reusableview = nil;
