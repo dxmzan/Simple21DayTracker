@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
+#import "CalendarViewCell.h"
 
 
 @interface CalendarViewController : UICollectionViewController
@@ -27,4 +28,7 @@
 @property (strong, nonatomic) NSDateFormatter *monthFormatter;
 @property (strong, nonatomic) NSDateFormatter *yearFormatter;
 @property (strong, nonatomic) NSIndexPath *publicIndexPath;
+@property (strong, nonatomic) NSMutableArray *days;
+@property (nonatomic) CalendarViewCell *cell;
+@property (nonatomic) NSInteger queryCount;
 @end

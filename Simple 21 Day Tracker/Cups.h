@@ -12,6 +12,11 @@
 @property int purple, red, blue, green, water, orange, spoon, yellow;
 @property (strong, nonatomic) NSString *purpleGoal, *redGoal, *blueGoal, *greenGoal, *waterGoal, *orangeGoal, *spoonGoal, *yellowGoal;
 @property (strong, nonatomic) NSString *date;
+@property (nonatomic) NSString *day;
+@property (strong, nonatomic) NSString *month;
+@property (strong, nonatomic) NSString *year;
+@property (assign) BOOL isGoalMet;
+
 
 - (int) addGreen: (int) n;
 - (int) addRed: (int) n;

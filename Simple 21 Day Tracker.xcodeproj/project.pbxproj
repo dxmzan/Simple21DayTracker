@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47226A111B99652000FB0EC2 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47226A101B99652000FB0EC2 /* icomoon.ttf */; };
 		4747AB741B7FDEDC0036B2A9 /* Cups.m in Sources */ = {isa = PBXBuildFile; fileRef = 4747AB731B7FDEDC0036B2A9 /* Cups.m */; };
 		47524DE71B7FD39D00AEA3F4 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE61B7FD39D00AEA3F4 /* Realm.framework */; };
 		47524DE91B7FD3D500AEA3F4 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE81B7FD3D500AEA3F4 /* libc++.dylib */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		47226A101B99652000FB0EC2 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = icomoon.ttf; path = ../../../Downloads/icomoon/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		4747AB721B7FDEDC0036B2A9 /* Cups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cups.h; sourceTree = "<group>"; };
 		4747AB731B7FDEDC0036B2A9 /* Cups.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cups.m; sourceTree = "<group>"; };
 		47524DE61B7FD39D00AEA3F4 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../realm-objc-0.94.1/ios/static/Realm.framework"; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				47B447EA1B8C1D2100AC4C1C /* Main.storyboard */,
 				47CBB8551B7BFEA400BD9A2E /* Images.xcassets */,
 				47CBB8571B7BFEA400BD9A2E /* LaunchScreen.xib */,
+				47226A101B99652000FB0EC2 /* icomoon.ttf */,
 				47CBB8481B7BFEA400BD9A2E /* Supporting Files */,
 			);
 			path = "Simple 21 Day Tracker";
@@ -278,6 +281,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47226A111B99652000FB0EC2 /* icomoon.ttf in Resources */,
 				47B447E91B89979500AC4C1C /* .gitignore in Resources */,
 				47CBB8591B7BFEA400BD9A2E /* LaunchScreen.xib in Resources */,
 				47CBB8561B7BFEA400BD9A2E /* Images.xcassets in Resources */,

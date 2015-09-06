@@ -21,21 +21,24 @@
     [super viewDidLoad];
     self.cupType = @[@"Green", @"Purple", @"Red", @"Yellow", @"Blue", @"Orange", @"Water", @"Spoon"];
     self.cupCount = [NSMutableArray arrayWithObjects: @0, @0, @0, @0, @0, @0, @0,@0, nil];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
     
-    
-    
-    // Observer for settings switches
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(targetSwitchEnabled:)
-                                                 name:@"switchToggled"
-                                               object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
     
     UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
-   
+    
     self.formatter = [[NSDateFormatter alloc] init];
     self.formatter.dateFormat = @"MMMM d, yyyy";
     NSString *dateString = [self.formatter stringFromDate:[NSDate date]];
-
+    
     date.text = dateString;
     date.backgroundColor = [UIColor clearColor];
     date.textColor = [UIColor blackColor];
@@ -44,19 +47,17 @@
     
     [self.view addSubview:date];
     
-//    UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 375, 72)];
-//    datePicker.datePickerMode = UIDatePickerModeDate;
-//    [datePicker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
-//    [self.view addSubview:datePicker];
-    
-
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     self.myCup = [[Cups alloc] init];
-
+    
     if (self.receivedDate == nil){
         self.receivedDate = dateString;
     }
+    
+    NSLog(@"Received date: %@", self.receivedDate);
+    NSString *newReceivedDate = [self.receivedDate stringByReplacingOccurrencesOfString:@"," withString:@""];
+    NSArray *breakUpDate = [newReceivedDate componentsSeparatedByString:@" "];
     
     NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"date == %@", self.receivedDate];
     
@@ -65,7 +66,7 @@
     NSString *queryDate = [[query valueForKey:@"date"] componentsJoinedByString:@""];
     
     // Check if date is equal to today's date. If false, create new object.
-
+    
     if ([queryDate isEqualToString:self.receivedDate])
     {
         // Update same-day object
@@ -73,29 +74,28 @@
         date.text = self.receivedDate;
         NSLog(@"Same day: %@", query);
     } else {
-        // Create new object with new date and cupId
+        // Create new object with new date
         [realm transactionWithBlock:^{
-        [self.myCup setDate:self.receivedDate];
-        //[self.myCup setCupId:@"5"];
-        [realm addObject:self.myCup];
+            [self.myCup setDate:self.receivedDate];
+            [self.myCup setMonth:breakUpDate[0]];
+            [self.myCup setDay:breakUpDate[1]];
+            [self.myCup setYear:breakUpDate[2]];
+            [realm addObject:self.myCup];
             date.text = self.receivedDate;
         }];
     }
+    
+    // Observer for settings switches
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(targetSwitchEnabled:)
+                                                 name:@"switchToggled"
+                                               object:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"switchToggled" object:nil];
 }
 
-//- (void)viewDidAppear:(BOOL)animated{
-//    NSLog(@"Received date: %@", self.receivedDate);
-//
-//}
-
-- (void)viewWillAppear:(BOOL)animated{
-    NSLog(@"Received date: %@", self.receivedDate);
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.cupType count];
 }
@@ -113,12 +113,7 @@
     
     tableView.backgroundColor = [UIColor clearColor];
     _cellRow = indexPath.row;
-    
-    // Cell image
-    
-//    UIImage *plusIcon = [UIImage imageNamed:@"add-new.png"];
-//    cell.imageView.image = plusIcon;
-    
+        
     // Label text
         
     self.cell.textLabel.text = self.cupType[indexPath.row];
@@ -313,41 +308,6 @@
     return 59;
 }
 
--(void)pickerChanged:(id)sender
-{
-    NSString *dateStringFromSender = [self.formatter stringFromDate:[sender date]];
-    
-    RLMResults *query = [Cups objectsWhere:@"date == %@", dateStringFromSender];
-    
-    NSString *queryDate = [[query valueForKey:@"date"] componentsJoinedByString:@""];
-    
-    if ([queryDate length] > 0){
-        NSLog(@"%@", queryDate);
-        
-        self.myCup = [query objectAtIndex:0];
-        
-        if (_cellRow == 0)
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
-        if (_cellRow == 1)
-            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.purple];
-        if (_cellRow == 2)
-            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.red];
-        if (_cellRow == 3)
-            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.yellow];
-        if (_cellRow == 4)
-            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.blue];
-        if (_cellRow == 5)
-            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.orange];
-        if (_cellRow == 6)
-            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.water];
-        if (_cellRow == 7)
-            self.counter.text = [NSString stringWithFormat:@"%d", self.myCup.spoon];
-    } else {
-        NSLog(@"No date on record");
-    }
-    [self.scopedTableView reloadData];
-}
-
 -(void)targetSwitchEnabled: (NSNotification *) notification {
     
     NSDictionary *userInfo = notification.userInfo;
@@ -433,10 +393,5 @@
     }
     [self.scopedTableView reloadData];
 }
-
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"switchToggled" object:nil];
-}
-
 
 @end

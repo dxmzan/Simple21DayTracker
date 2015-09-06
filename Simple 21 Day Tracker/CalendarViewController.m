@@ -10,12 +10,18 @@
 #import "CalendarViewCell.h"
 #import "ViewController.h"
 #import "CalendarHeader.h"
+#import "Cups.h"
 
 @interface CalendarViewController ()
+
 
 @end
 
 @implementation CalendarViewController
+
+NSString *month = @"September";
+NSString *year = @"2015";
+int i = 0;
 
 static NSString * const reuseIdentifier = @"Cell";
 
@@ -43,9 +49,12 @@ static NSString * const reuseIdentifier = @"Cell";
                                              selector:@selector(nextButton)
                                                  name:@"nextButtonPressed"
                                                object:nil];
+    [self queryCalendar];
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
+    
+    
     NSLog(@"Observers removed");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"previousButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"nextButtonPressed" object:nil];
@@ -99,6 +108,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)logCalendar {
+    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
     self.dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday fromDate:[NSDate date]];
@@ -119,9 +129,9 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.currentYear = [self.yearFormatter stringFromDate:self.firstDateOfMonth]; // "2015"
     
-    NSLog(@"Starting day of the month: %@", self.firstDateName);
-    NSLog(@"Year: %@", self.currentYear);
-    NSLog(@"First date of Month: %@", self.firstDateOfMonth);
+    NSLog(@"Month: %@", self.currentMonth);
+    
+    [self queryCalendar];
 
 }
 
@@ -134,98 +144,108 @@ static NSString * const reuseIdentifier = @"Cell";
     self.currentMonth = [self.monthFormatter stringFromDate:self.firstDateOfMonth];
     self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth];
     self.currentYear = [self.yearFormatter stringFromDate:self.firstDateOfMonth];
-
-    NSLog(@"Updated month: %@", self.currentMonth);
-    NSLog(@"Updated year: %@", self.currentYear);
+    
+    [self queryCalendar];
     
     [self.publicCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
 #pragma mark View Setup
 
+- (void)queryCalendar {
+    NSLog(@"Month in Query: %@", self.currentMonth);
+    
+    NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"isGoalMet == YES AND month == %@ AND year == %@", self.currentMonth, self.currentYear];
+    
+    RLMResults *query = [Cups objectsWithPredicate:datePred];
+    
+    // Add days into array
+    self.days = [query valueForKey:@"day"];
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CalendarViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    
+    self.cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     self.publicCollectionView = collectionView;
     
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfMonth];
+    NSInteger calendarOffset = weekday - calendar.firstWeekday;
+    NSInteger selectedDay = (indexPath.row - calendarOffset) + 1;
+      
+    // Check if query returns isGoalMet and then color cells appropriately.
+    
+    if ([self.days containsObject:[NSString stringWithFormat:@"%ld", (long) selectedDay]]){
+        self.cell.backgroundColor = [UIColor greenColor];
+    } else {
+        self.cell.backgroundColor = [UIColor whiteColor];
+    }
+    
+    
     // If the first day of the month begins on ...
+
     
     // Sunday
     if ([self.firstDateName isEqualToString:@"Sunday"]){
-        cell.backgroundColor = [UIColor whiteColor];
-        //cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
-        [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row + 1]];
+        [self.cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row + 1]];
     }
     
     // Monday
     if ([self.firstDateName isEqualToString:@"Monday"]){
         if (indexPath.row < 1){
-            cell.backgroundColor = [UIColor lightGrayColor];
-            //cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:0];
-            [cell.dayLabel setText:@""];
+            [self.cell.dayLabel setText:@""];
         } else {
-            cell.backgroundColor = [UIColor whiteColor];
-            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row]];
+            [self.cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row]];
         }
     }
     
     // Tuesday
     if ([self.firstDateName isEqualToString:@"Tuesday"]){
         if (indexPath.row < 2){
-            cell.backgroundColor = [UIColor lightGrayColor];
-            //cell.dayLabel.font = [UIFont fontWithDescriptor:cellFont size:10];
-            [cell.dayLabel setText:@""];
+            [self.cell.dayLabel setText:@""];
         } else {
-            cell.backgroundColor = [UIColor whiteColor];
-            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row-1]];
+            [self.cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row-1]];
         }
     }
     
     // Wednesday
     if ([self.firstDateName isEqualToString:@"Wednesday"]){
         if (indexPath.row < 3){
-            cell.backgroundColor = [UIColor lightGrayColor];
-            [cell.dayLabel setText:@""];
+            [self.cell.dayLabel setText:@""];
         } else {
-            cell.backgroundColor = [UIColor whiteColor];
-            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 2]];
+            [self.cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 2]];
         }
     }
     
     // Thursday
     if ([self.firstDateName isEqualToString:@"Thursday"]){
         if (indexPath.row < 4){
-            cell.backgroundColor = [UIColor lightGrayColor];
-            [cell.dayLabel setText:@""];
+            [self.cell.dayLabel setText:@""];
         } else {
-            cell.backgroundColor = [UIColor whiteColor];
-            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 3]];
+            [self.cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 3]];
         }
     }
     
     // Friday
     if ([self.firstDateName isEqualToString:@"Friday"]){
         if (indexPath.row < 5){
-            cell.backgroundColor = [UIColor lightGrayColor];
-            [cell.dayLabel setText:@""];
+            [self.cell.dayLabel setText:@""];
         } else {
-            cell.backgroundColor = [UIColor whiteColor];
-            [cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 4]];
+            [self.cell.dayLabel setText:[NSString stringWithFormat:@"%ld", (long) indexPath.row - 4]];
         }
     }
 
     // Saturday
     if ([self.firstDateName isEqualToString:@"Saturday"]){
             if(indexPath.row < 6){
-                cell.backgroundColor = [UIColor lightGrayColor];
-                [cell.dayLabel setText:@""];
+                [self.cell.dayLabel setText:@""];
             } else {
-                cell.backgroundColor = [UIColor whiteColor];
-                [cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row-5]];
+                [self.cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row-5]];
             }
     }
-    
-    return cell;
+        return self.cell;
 }
 
 
@@ -280,6 +300,7 @@ static NSString * const reuseIdentifier = @"Cell";
     NSInteger selectedDay = (indexPath.row - calendarOffset) + 1;
     
     self.selectedDayString = [NSString stringWithFormat:@"%@ %ld, %@", self.currentMonth, (long) selectedDay, self.currentYear];
+    
     
     if (indexPath.row < calendarOffset){
         NSLog(@"Last month selected");

@@ -36,7 +36,11 @@
              @"waterGoal": @"0",
              @"orangeGoal": @"0",
              @"spoonGoal": @"0",
-             @"yellowGoal":  @"0"
+             @"yellowGoal":  @"0",
+             @"day": @"",
+             @"month": @"",
+             @"year": @"",
+             @"isGoalMet": @NO,
              };
 }
 
