@@ -152,9 +152,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 #pragma mark View Setup
 
-- (void)queryCalendar {
-    NSLog(@"Month in Query: %@", self.currentMonth);
-    
+- (void)queryCalendar {   
     NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"isGoalMet == YES AND month == %@ AND year == %@", self.currentMonth, self.currentYear];
     
     RLMResults *query = [Cups objectsWithPredicate:datePred];
@@ -178,7 +176,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // Check if query returns isGoalMet and then color cells appropriately.
     
     if ([self.days containsObject:[NSString stringWithFormat:@"%ld", (long) selectedDay]]){
-        self.cell.backgroundColor = [UIColor greenColor];
+        self.cell.backgroundColor =  [UIColor colorWithRed:0.73 green:0.96 blue:0.79 alpha:1.0];
     } else {
         self.cell.backgroundColor = [UIColor whiteColor];
     }
@@ -263,6 +261,11 @@ static NSString * const reuseIdentifier = @"Cell";
     return reusableview;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    return CGSizeMake(50, 75);
+}
 -(void)prevButton {
     self.setMonth--;
     [self.dateComps setMonth:self.setMonth];
@@ -303,7 +306,6 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     if (indexPath.row < calendarOffset){
-        NSLog(@"Last month selected");
         return NO;
     } else {
         return YES;

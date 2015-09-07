@@ -10,7 +10,7 @@
 
 @interface Cups : RLMObject
 @property int purple, red, blue, green, water, orange, spoon, yellow;
-@property (strong, nonatomic) NSString *purpleGoal, *redGoal, *blueGoal, *greenGoal, *waterGoal, *orangeGoal, *spoonGoal, *yellowGoal;
+@property int purpleGoal, redGoal, blueGoal, greenGoal, waterGoal, orangeGoal, spoonGoal, yellowGoal;
 @property (strong, nonatomic) NSString *date;
 @property (nonatomic) NSString *day;
 @property (strong, nonatomic) NSString *month;

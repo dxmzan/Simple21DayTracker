@@ -33,6 +33,8 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     
+    [self printGoals];
+    
     UILabel *date = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
     
     self.formatter = [[NSDateFormatter alloc] init];
@@ -93,7 +95,12 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"switchToggled" object:nil];
+    
+    if([self didGoalChange]){
+        NSLog(@"Goal changed");
+    } else {
+        [self isGoalMet];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -140,43 +147,43 @@
         case 0:
             self.cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup green]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup greenGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup greenGoal]];
 
             break;
         case 1:
             self.cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup purple]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup purpleGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup purpleGoal]];
             break;
         case 2:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup red]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup redGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup redGoal]];
             break;
         case 3:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup yellow]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup yellowGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup yellowGoal]];
             break;
         case 4:
             self.cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup blue]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup blueGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup blueGoal]];
             break;
         case 5:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup orange]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup orangeGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup orangeGoal]];
             break;
         case 6:
             self.cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup water]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup waterGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup waterGoal]];
             break;
         case 7:
             self.cell.backgroundColor = [UIColor colorWithRed:0.74 green:0.67 blue:0.64 alpha:1.0];; // Spoon
             self.counter.text = [NSString stringWithFormat:@"%d", [self.myCup spoon]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup spoonGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup spoonGoal]];
             break;
             
         default: self.cell.backgroundColor = [UIColor clearColor];
@@ -323,75 +330,124 @@
     switch(switchNum)
     {
         case 0:
-            [self.myCup setGreenGoal:@"3"];
-            [self.myCup setPurpleGoal:@"2"];
-            [self.myCup setRedGoal:@"4"];
-            [self.myCup setYellowGoal:@"2"];
-            [self.myCup setBlueGoal:@"1"];
-            [self.myCup setOrangeGoal:@"1"];
-            [self.myCup setSpoonGoal:@"2"];
-            [self.myCup setWaterGoal:@"12"];
+            [self.myCup setGreenGoal:3];
+            [self.myCup setPurpleGoal:2];
+            [self.myCup setRedGoal:4];
+            [self.myCup setYellowGoal:2];
+            [self.myCup setBlueGoal:1];
+            [self.myCup setOrangeGoal:1];
+            [self.myCup setSpoonGoal:2];
+            [self.myCup setWaterGoal:12];
             break;
         case 1:
-            [self.myCup setGreenGoal:@"4"];
-            [self.myCup setPurpleGoal:@"3"];
-            [self.myCup setRedGoal:@"4"];
-            [self.myCup setYellowGoal:@"3"];
-            [self.myCup setBlueGoal:@"1"];
-            [self.myCup setOrangeGoal:@"1"];
-            [self.myCup setSpoonGoal:@"4"];
-            [self.myCup setWaterGoal:@"12"];
+            [self.myCup setGreenGoal:4];
+            [self.myCup setPurpleGoal:3];
+            [self.myCup setRedGoal:4];
+            [self.myCup setYellowGoal:3];
+            [self.myCup setBlueGoal:1];
+            [self.myCup setOrangeGoal:1];
+            [self.myCup setSpoonGoal:4];
+            [self.myCup setWaterGoal:12];
             break;
         case 2:
-            [self.myCup setGreenGoal:@"5"];
-            [self.myCup setPurpleGoal:@"3"];
-            [self.myCup setRedGoal:@"5"];
-            [self.myCup setYellowGoal:@"4"];
-            [self.myCup setBlueGoal:@"1"];
-            [self.myCup setOrangeGoal:@"1"];
-            [self.myCup setSpoonGoal:@"5"];
-            [self.myCup setWaterGoal:@"12"];
+            [self.myCup setGreenGoal:5];
+            [self.myCup setPurpleGoal:3];
+            [self.myCup setRedGoal:5];
+            [self.myCup setYellowGoal:4];
+            [self.myCup setBlueGoal:1];
+            [self.myCup setOrangeGoal:1];
+            [self.myCup setSpoonGoal:5];
+            [self.myCup setWaterGoal:12];
             break;
         case 3:
-            [self.myCup setGreenGoal:@"6"];
-            [self.myCup setPurpleGoal:@"4"];
-            [self.myCup setRedGoal:@"6"];
-            [self.myCup setYellowGoal:@"4"];
-            [self.myCup setBlueGoal:@"1"];
-            [self.myCup setOrangeGoal:@"1"];
-            [self.myCup setSpoonGoal:@"6"];
-            [self.myCup setWaterGoal:@"12"];
+            [self.myCup setGreenGoal:6];
+            [self.myCup setPurpleGoal:4];
+            [self.myCup setRedGoal:6];
+            [self.myCup setYellowGoal:4];
+            [self.myCup setBlueGoal:1];
+            [self.myCup setOrangeGoal:1];
+            [self.myCup setSpoonGoal:6];
+            [self.myCup setWaterGoal:12];
             break;
     }
     [realm commitWriteTransaction];
     
+    [self printGoals];
+
+}
+
+-(void)printGoals{
+    
     switch (_cellRow){
         case 0:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup greenGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup greenGoal]];
             break;
         case 1:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup purpleGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup purpleGoal]];
             break;
         case 2:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup redGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup redGoal]];
             break;
         case 3:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup yellowGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup yellowGoal]];
             break;
         case 4:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup blueGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup blueGoal]];
             break;
         case 5:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup orangeGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup orangeGoal]];
             break;
         case 6:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup waterGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup waterGoal]];
             break;
         case 7:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %@", [self.myCup spoonGoal]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.myCup spoonGoal]];
             break;
     }
     [self.scopedTableView reloadData];
+    
+}
+
+-(void)isGoalMet{
+    
+    NSPredicate *predMetGoal = [NSPredicate predicateWithFormat:@"isGoalMet = NO AND %d >= greenGoal AND %d >= purpleGoal AND %d >= redGoal AND %d >= yellowGoal AND %d >= blueGoal AND %d >= orangeGoal AND %d >= waterGoal AND %d >= spoonGoal",self.myCup.green, self.myCup.purple, self.myCup.red, self.myCup.yellow, self.myCup.blue, self.myCup.orange, self.myCup.water, self.myCup.spoon];
+    
+    RLMResults *query = [Cups objectsWithPredicate:predMetGoal];
+    
+    RLMResults *queryForDate = [query objectsWhere:@"date = %@", self.receivedDate];
+    NSLog(@"Query: %@", queryForDate);
+    
+    [[RLMRealm defaultRealm]transactionWithBlock:^{
+        if (queryForDate.count >= 1){
+            [[queryForDate firstObject]setValue:@YES forKey:@"isGoalMet"];
+        }
+    }];
+    
+}
+
+-(BOOL)didGoalChange{
+
+
+    NSPredicate *predGoalNotMet = [NSPredicate predicateWithFormat:@"isGoalMet = YES AND %d < greenGoal OR %d < purpleGoal OR %d < redGoal OR %d < yellowGoal OR %d < blueGoal OR %d < orangeGoal OR %d < waterGoal OR %d < spoonGoal", self.myCup.green, self.myCup.purple, self.myCup.red, self.myCup.yellow, self.myCup.blue, self.myCup.orange, self.myCup.water, self.myCup.spoon];
+    
+    RLMResults *query = [Cups objectsWithPredicate:predGoalNotMet];
+    RLMResults *queryForDate = [query objectsWhere:@"date = %@", self.receivedDate];
+    
+    if (queryForDate.count >= 1){
+    [[RLMRealm defaultRealm]transactionWithBlock:^{
+        [[queryForDate firstObject]setValue:@NO forKey:@"isGoalMet"];
+    }];
+        NSLog(@"Did goal change? Yes");
+        return YES;
+    } else {
+        NSLog(@"Did goal change? No");
+        return NO;
+    }
+
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"switchToggled" object:nil];
 }
 
 @end
