@@ -195,7 +195,7 @@
     self.cell.rightButtons = @[[MGSwipeButton buttonWithTitle:@"Subtract" backgroundColor:[UIColor grayColor] callback:^BOOL(MGSwipeTableCell *sender){
         [realm beginWriteTransaction];
         // Minus 1 from counter
-        switch (_cellRow)
+        switch (indexPath.row)
         {
             case 0:
                 if ([self.Cups green] > 0){
@@ -246,7 +246,8 @@
                 }
                 break;
         }
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 
         [realm commitWriteTransaction];
          return NO;
