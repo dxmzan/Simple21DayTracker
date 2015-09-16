@@ -75,8 +75,6 @@
     RLMResults *query = [Cups objectsWithPredicate:predGoalNotMet];
     RLMResults *queryForDate;
     
-    NSLog(@"Recieve date: %@", self.receiveDate);
-
     if (self.receiveDate == nil){
         queryForDate = [query objectsWhere:@"date = %@", theDate];
     } else {
@@ -102,7 +100,6 @@
     NSString *theDate = [dc returnTodaysDate];
     
     NSLog(@"Goal is met");
-    NSLog(@"Recieve date: %@", self.receiveDate);
     
     NSPredicate *predMetGoal = [NSPredicate predicateWithFormat:@"isGoalMet = NO AND green >= greenGoal AND purple >= purpleGoal AND red >= redGoal AND yellow >= yellowGoal AND blue >= blueGoal AND orange >= orangeGoal AND water >= waterGoal AND spoon >= spoonGoal"];
     

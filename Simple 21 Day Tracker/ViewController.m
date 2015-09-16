@@ -57,7 +57,6 @@
         self.receivedDate = [self.Date returnTodaysDate];
     }
     
-    NSLog(@"VC date: %@", self.receivedDate);
     NSString *newReceivedDate = [self.receivedDate stringByReplacingOccurrencesOfString:@"," withString:@""];
     NSArray *breakUpDate = [newReceivedDate componentsSeparatedByString:@" "];
     
