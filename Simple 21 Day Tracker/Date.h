@@ -8,15 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Date : NSObject
+@class CalendarViewController;
 
-@property (strong, nonatomic) NSDateFormatter *formatter;
+@interface Date : NSObject
 
 @property (strong, nonatomic) NSString *dateString;
 
 @property (strong, nonatomic) NSString *receivedDate;
 
--(NSString *)formattedDate;
+@property (strong, nonatomic) NSString *currentDay, *currentMonth, *currentYear;
+
+@property (strong, nonatomic) NSDate *currentDate;
+
+@property (strong, nonatomic) NSDateComponents *componentsForDate;
+
+@property (nonatomic) NSInteger newMonth;
+
+
+-(NSString *)returnTodaysDate;
+-(NSUInteger)numberOfDaysInMonth;
+-(void)createCalendar;
+-(void)updateCalendar;
 
 
 @end

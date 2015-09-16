@@ -11,6 +11,7 @@
 #import "ViewController.h"
 #import "CalendarHeader.h"
 #import "Cups.h"
+#import "Date.h"
 
 @interface CalendarViewController ()
 
@@ -22,7 +23,10 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self logCalendar]; // Load calendar
+    
+    self.Date = [[Date alloc]init];
+    
+    [self.Date createCalendar];
 
 }
 
@@ -67,79 +71,36 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self.firstDateOfMonth];
-    NSUInteger numberOfDaysInMonth = range.length;
+    NSUInteger days = [self.Date numberOfDaysInMonth];
     
-    if ([self.firstDateName isEqualToString:@"Sunday"]){
-        return numberOfDaysInMonth;
-    } else if ([self.firstDateName isEqualToString:@"Monday"]){
-        return numberOfDaysInMonth + 1;
-    } else if ([self.firstDateName isEqualToString:@"Tuesday"]){
-        return numberOfDaysInMonth + 2;
-    } else if ([self.firstDateName isEqualToString:@"Wednesday"]){
-        return numberOfDaysInMonth + 3;
-    } else if ([self.firstDateName isEqualToString:@"Thursday"]){
-        return numberOfDaysInMonth + 4;
-    } else if ([self.firstDateName isEqualToString:@"Friday"]){
-        return numberOfDaysInMonth + 5;
-    } else if ([self.firstDateName isEqualToString:@"Saturday"]){
-        return numberOfDaysInMonth + 6;
+    if ([[self.Date currentDay] isEqualToString:@"Sunday"]){
+        return days;
+    } else if ([[self.Date currentDay] isEqualToString:@"Monday"]){
+        return days + 1;
+    } else if ([[self.Date currentDay] isEqualToString:@"Tuesday"]){
+        return days + 2;
+    } else if ([[self.Date currentDay] isEqualToString:@"Wednesday"]){
+        return days + 3;
+    } else if ([[self.Date currentDay] isEqualToString:@"Thursday"]){
+        return days + 4;
+    } else if ([[self.Date currentDay] isEqualToString:@"Friday"]){
+        return days + 5;
+    } else if ([[self.Date currentDay] isEqualToString:@"Saturday"]){
+        return days + 6;
     } else {
-        return numberOfDaysInMonth;
+        return days;
     }
     
-}
-
--(void)logCalendar {
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    self.dateComps = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |NSCalendarUnitWeekday fromDate:[NSDate date]];
-    
-    [self.dateComps setDay:1]; // Set first day to 1
-    
-    self.setMonth = [self.dateComps month];
-    
-    self.setYear = [self.dateComps year];
-    
-    [self formatDate]; // Formatting both date and month
-    
-    self.firstDateOfMonth = [calendar dateFromComponents:self.dateComps]; // This is an NSDate
-    
-    self.currentMonth = [self.monthFormatter stringFromDate:self.firstDateOfMonth]; // "September"
-    
-    self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth]; // "Tuesday"
-    
-    self.currentYear = [self.yearFormatter stringFromDate:self.firstDateOfMonth]; // "2015"
-        
-    [self queryCalendar];
-
-}
-
--(void)updateCalendar {
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    
-    self.firstDateOfMonth = [calendar dateFromComponents:self.dateComps];
-    
-    self.currentMonth = [self.monthFormatter stringFromDate:self.firstDateOfMonth];
-    self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth];
-    self.currentYear = [self.yearFormatter stringFromDate:self.firstDateOfMonth];
-    
-    [self queryCalendar];
-    
-    [self.publicCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 }
 
 #pragma mark View Setup
 
 - (void)queryCalendar {   
-    NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"isGoalMet == YES AND month == %@ AND year == %@", self.currentMonth, self.currentYear];
+    NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"isGoalMet == YES AND month == %@ AND year == %@", [self.Date currentMonth], [self.Date currentYear]];
     
     RLMResults *query = [Cups objectsWithPredicate:datePred];
         
-    // Add days into array
+    // Add days into array — this is used to color the days.
     self.days = [query valueForKey:@"day"];
 }
 
@@ -151,7 +112,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
-    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfMonth];
+    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:[self.Date currentDate]];
     NSInteger calendarOffset = weekday - calendar.firstWeekday;
     NSInteger selectedDay = (indexPath.row - calendarOffset) + 1;
       
@@ -163,18 +124,15 @@ static NSString * const reuseIdentifier = @"Cell";
         self.cell.backgroundColor = [UIColor whiteColor];
     }
     
-    
-    
     // If the first day of the month begins on ...
-
     
     // Sunday
-    if ([self.firstDateName isEqualToString:@"Sunday"]){
+    if ([[self.Date currentDay] isEqualToString:@"Sunday"]){
         [self.cell.dayLabel setText: [NSString stringWithFormat:@"%ld", (long) indexPath.row + 1]];
     }
     
     // Monday
-    if ([self.firstDateName isEqualToString:@"Monday"]){
+    if ([[self.Date currentDay] isEqualToString:@"Monday"]){
         if (indexPath.row < 1){
             [self.cell.dayLabel setText:@""];
         } else {
@@ -183,7 +141,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Tuesday
-    if ([self.firstDateName isEqualToString:@"Tuesday"]){
+    if ([[self.Date currentDay] isEqualToString:@"Tuesday"]){
         if (indexPath.row < 2){
             [self.cell.dayLabel setText:@""];
         } else {
@@ -192,7 +150,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Wednesday
-    if ([self.firstDateName isEqualToString:@"Wednesday"]){
+    if ([[self.Date currentDay] isEqualToString:@"Wednesday"]){
         if (indexPath.row < 3){
             [self.cell.dayLabel setText:@""];
         } else {
@@ -201,7 +159,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Thursday
-    if ([self.firstDateName isEqualToString:@"Thursday"]){
+    if ([[self.Date currentDay] isEqualToString:@"Thursday"]){
         if (indexPath.row < 4){
             [self.cell.dayLabel setText:@""];
         } else {
@@ -210,7 +168,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     // Friday
-    if ([self.firstDateName isEqualToString:@"Friday"]){
+    if ([[self.Date currentDay] isEqualToString:@"Friday"]){
         if (indexPath.row < 5){
             [self.cell.dayLabel setText:@""];
         } else {
@@ -219,7 +177,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 
     // Saturday
-    if ([self.firstDateName isEqualToString:@"Saturday"]){
+    if ([[self.Date currentDay] isEqualToString:@"Saturday"]){
             if(indexPath.row < 6){
                 [self.cell.dayLabel setText:@""];
             } else {
@@ -236,7 +194,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (kind == UICollectionElementKindSectionHeader){
         CalendarHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CalendarHeaderView" forIndexPath:indexPath];
         
-        headerView.monthName.text = self.currentMonth;
+        headerView.monthName.text = [self.Date currentMonth];
         
         reusableview = headerView;
     }
@@ -246,33 +204,35 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     return CGSizeMake(50, 75);
 }
+
 -(void)prevButton {
-    self.setMonth--;
-    [self.dateComps setMonth:self.setMonth];
-    [self updateCalendar];
+
+    self.Date.newMonth--;
+    
+    self.Date.componentsForDate.month = self.Date.newMonth;
+    
+    [self.Date updateCalendar];
+    
+    [self queryCalendar];
+    
+    [self.publicCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
     
 }
 
 -(void)nextButton {
-    self.setMonth++;
-    [self.dateComps setMonth:self.setMonth];
-    [self updateCalendar];
     
-}
+    self.Date.newMonth++;
+    
+    self.Date.componentsForDate.month = self.Date.newMonth;
+    
+    [self.Date updateCalendar];
+    
+    [self queryCalendar];
+    
+    [self.publicCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
 
--(void)formatDate {
-    self.dayFormatter = [[NSDateFormatter alloc] init];
-    [self.dayFormatter setDateFormat:@"EEEE"];
-    
-    self.monthFormatter = [[NSDateFormatter alloc] init];
-    [self.monthFormatter setDateFormat:@"MMMM"];
-    
-    self.yearFormatter = [[NSDateFormatter alloc] init];
-    [self.yearFormatter setDateFormat:@"YYYY"];
-    
 }
 
 
@@ -281,11 +241,11 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
-    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:self.firstDateOfMonth];
+    NSInteger weekday = [calendar component:NSCalendarUnitWeekday fromDate:[self.Date currentDate]];
     NSInteger calendarOffset = weekday - calendar.firstWeekday;
     NSInteger selectedDay = (indexPath.row - calendarOffset) + 1;
     
-    self.selectedDayString = [NSString stringWithFormat:@"%@ %ld, %@", self.currentMonth, (long) selectedDay, self.currentYear];
+    self.selectedDayString = [NSString stringWithFormat:@"%@ %ld, %@", [self.Date currentMonth], (long) selectedDay, [self.Date currentYear]];
     
     
     if (indexPath.row < calendarOffset){

@@ -69,7 +69,7 @@
     
     Date *dc = [[Date alloc]init];
     
-    NSString *theDate = [dc formattedDate];
+    NSString *theDate = [dc returnTodaysDate];
     
     NSPredicate *predGoalNotMet = [NSPredicate predicateWithFormat:@"isGoalMet = YES AND green < greenGoal OR purple < purpleGoal OR red < redGoal OR yellow < yellowGoal OR blue < blueGoal OR orange < orangeGoal OR water < waterGoal OR spoon < spoonGoal"];
     RLMResults *query = [Cups objectsWithPredicate:predGoalNotMet];
@@ -82,10 +82,7 @@
     } else {
         queryForDate = [query objectsWhere:@"date = %@", self.receiveDate];
     }
-    
-    NSLog(@"Query: %@", queryForDate);
-
-    
+        
     if (queryForDate.count >= 1){
         [[RLMRealm defaultRealm]transactionWithBlock:^{
             [[queryForDate firstObject]setValue:@NO forKey:@"isGoalMet"];
@@ -102,7 +99,7 @@
     
     Date *dc = [[Date alloc]init];
     
-    NSString *theDate = [dc formattedDate];
+    NSString *theDate = [dc returnTodaysDate];
     
     NSLog(@"Goal is met");
     NSLog(@"Recieve date: %@", self.receiveDate);
@@ -119,8 +116,6 @@
     } else {
         queryForDate = [query objectsWhere:@"date = %@", self.receiveDate];
     }
-    NSLog(@"Query: %@", queryForDate);
-
     
     [[RLMRealm defaultRealm]transactionWithBlock:^{
         if (queryForDate.count >= 1){

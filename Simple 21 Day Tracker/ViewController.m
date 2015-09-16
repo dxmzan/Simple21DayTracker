@@ -39,11 +39,10 @@
 - (void)viewWillAppear:(BOOL)animated{
     
     [self printGoals];
-    NSLog(@"What is this: %@", self.receivedDate);
-    [self.Cups setReceiveDate:self.receivedDate];
+    
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
 
-    dateLabel.text = [self.Date formattedDate];
+    dateLabel.text = [self.Date returnTodaysDate];
     dateLabel.backgroundColor = [UIColor clearColor];
     dateLabel.textColor = [UIColor blackColor];
     dateLabel.textAlignment = NSTextAlignmentCenter;
@@ -51,10 +50,11 @@
     
     [self.view addSubview:dateLabel];
     
+    // Query
     RLMRealm *realm = [RLMRealm defaultRealm];
     
     if (self.receivedDate == nil){
-        self.receivedDate = [self.Date formattedDate];
+        self.receivedDate = [self.Date returnTodaysDate];
     }
     
     NSLog(@"VC date: %@", self.receivedDate);
@@ -95,7 +95,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-    
+    [self.Cups setReceiveDate:self.receivedDate];
     // Check if goal is still met
     [self isGoalMet];
 }
