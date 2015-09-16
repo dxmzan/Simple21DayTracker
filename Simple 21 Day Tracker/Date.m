@@ -11,8 +11,7 @@
 
 @implementation Date {
     NSCalendar *calendar;
-    NSInteger newDay, newYear;
-        
+    
     // Date formatters
     NSDateFormatter *dateFormatter, *formatDay, *formatMonth, *formatYear;
     

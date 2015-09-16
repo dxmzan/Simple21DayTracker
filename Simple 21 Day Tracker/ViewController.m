@@ -12,7 +12,6 @@
 #import "MGSwipeButton.h"
 #import "Log.h"
 #import "Date.h"
-#import "CalendarViewController.h"
 
 @interface ViewController ()
 
@@ -25,7 +24,6 @@
     self.Cups = [[Cups alloc] init];
     self.Log = [[Log alloc] init];
     self.Date = [[Date alloc] init];
-    self.CalendarViewController =[[CalendarViewController alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
