@@ -7,20 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		47226A111B99652000FB0EC2 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47226A101B99652000FB0EC2 /* icomoon.ttf */; };
 		4747AB741B7FDEDC0036B2A9 /* Cups.m in Sources */ = {isa = PBXBuildFile; fileRef = 4747AB731B7FDEDC0036B2A9 /* Cups.m */; };
 		47524DE71B7FD39D00AEA3F4 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE61B7FD39D00AEA3F4 /* Realm.framework */; };
 		47524DE91B7FD3D500AEA3F4 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE81B7FD3D500AEA3F4 /* libc++.dylib */; };
 		4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */; };
 		4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */; };
+		476CE4971BA3A2AC00A28896 /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 476CE4961BA3A2AC00A28896 /* Date.m */; };
 		47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B447E61B89757100AC4C1C /* SettingsViewController.m */; };
 		47B447E91B89979500AC4C1C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 47B447E81B89979500AC4C1C /* .gitignore */; };
 		47B447EC1B8C1D2100AC4C1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47B447EA1B8C1D2100AC4C1C /* Main.storyboard */; };
+		47C715751B8EBA0000B5BD92 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C715741B8EBA0000B5BD92 /* CalendarViewController.m */; };
+		47C715781B8EBA4300B5BD92 /* CalendarViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */; };
 		47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84A1B7BFEA400BD9A2E /* main.m */; };
 		47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */; };
 		47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8501B7BFEA400BD9A2E /* ViewController.m */; };
 		47CBB8561B7BFEA400BD9A2E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47CBB8551B7BFEA400BD9A2E /* Images.xcassets */; };
 		47CBB8591B7BFEA400BD9A2E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CBB8571B7BFEA400BD9A2E /* LaunchScreen.xib */; };
 		47CBB8651B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8641B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m */; };
+		47CF61FC1B9501920036BD25 /* CalendarHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CF61FB1B9501920036BD25 /* CalendarHeader.m */; };
+		47F8C1341BA0F304006809A2 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F8C1331BA0F304006809A2 /* Log.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		47226A101B99652000FB0EC2 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = icomoon.ttf; path = ../../../Downloads/icomoon/fonts/icomoon.ttf; sourceTree = "<group>"; };
 		4747AB721B7FDEDC0036B2A9 /* Cups.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cups.h; sourceTree = "<group>"; };
 		4747AB731B7FDEDC0036B2A9 /* Cups.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cups.m; sourceTree = "<group>"; };
 		47524DE61B7FD39D00AEA3F4 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = "../realm-objc-0.94.1/ios/static/Realm.framework"; sourceTree = "<group>"; };
@@ -42,10 +49,16 @@
 		4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeButton.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeButton.m"; sourceTree = "<group>"; };
 		4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSwipeTableCell.h; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.h"; sourceTree = "<group>"; };
 		4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeTableCell.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.m"; sourceTree = "<group>"; };
+		476CE4951BA3A2AC00A28896 /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
+		476CE4961BA3A2AC00A28896 /* Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Date.m; sourceTree = "<group>"; };
 		47B447E51B89757100AC4C1C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		47B447E61B89757100AC4C1C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		47B447E81B89979500AC4C1C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = "Simple 21 Day Tracker/.gitignore"; sourceTree = "<group>"; };
 		47B447EB1B8C1D2100AC4C1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		47C715731B8EBA0000B5BD92 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
+		47C715741B8EBA0000B5BD92 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
+		47C715761B8EBA4300B5BD92 /* CalendarViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewCell.h; sourceTree = "<group>"; };
+		47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewCell.m; sourceTree = "<group>"; };
 		47CBB8451B7BFEA400BD9A2E /* Simple 21 Day Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple 21 Day Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CBB8491B7BFEA400BD9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47CBB84A1B7BFEA400BD9A2E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -58,6 +71,10 @@
 		47CBB85E1B7BFEA400BD9A2E /* Simple 21 Day TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Simple 21 Day TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47CBB8631B7BFEA400BD9A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47CBB8641B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Simple_21_Day_TrackerTests.m; sourceTree = "<group>"; };
+		47CF61FA1B9501920036BD25 /* CalendarHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarHeader.h; sourceTree = "<group>"; };
+		47CF61FB1B9501920036BD25 /* CalendarHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarHeader.m; sourceTree = "<group>"; };
+		47F8C1321BA0F304006809A2 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = ../Log.h; sourceTree = "<group>"; };
+		47F8C1331BA0F304006809A2 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = ../Log.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +109,12 @@
 		4786EA251B841D1D0079C991 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				47C715761B8EBA4300B5BD92 /* CalendarViewCell.h */,
+				47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */,
+				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
+				4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */,
+				4755F7AB1B8829EC001624E4 /* MGSwipeButton.h */,
+				4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -99,8 +122,12 @@
 		4786EA261B841D270079C991 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				47C715731B8EBA0000B5BD92 /* CalendarViewController.h */,
+				47C715741B8EBA0000B5BD92 /* CalendarViewController.m */,
 				47CBB84F1B7BFEA400BD9A2E /* ViewController.h */,
 				47CBB8501B7BFEA400BD9A2E /* ViewController.m */,
+				47CF61FA1B9501920036BD25 /* CalendarHeader.h */,
+				47CF61FB1B9501920036BD25 /* CalendarHeader.m */,
 				47B447E51B89757100AC4C1C /* SettingsViewController.h */,
 				47B447E61B89757100AC4C1C /* SettingsViewController.m */,
 			);
@@ -110,6 +137,10 @@
 		4786EA271B841D2D0079C991 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				476CE4951BA3A2AC00A28896 /* Date.h */,
+				476CE4961BA3A2AC00A28896 /* Date.m */,
+				47F8C1321BA0F304006809A2 /* Log.h */,
+				47F8C1331BA0F304006809A2 /* Log.m */,
 				4747AB721B7FDEDC0036B2A9 /* Cups.h */,
 				4747AB731B7FDEDC0036B2A9 /* Cups.m */,
 			);
@@ -144,13 +175,10 @@
 				4786EA251B841D1D0079C991 /* Views */,
 				47CBB84C1B7BFEA400BD9A2E /* AppDelegate.h */,
 				47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */,
-				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
-				4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */,
-				4755F7AB1B8829EC001624E4 /* MGSwipeButton.h */,
-				4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */,
 				47B447EA1B8C1D2100AC4C1C /* Main.storyboard */,
 				47CBB8551B7BFEA400BD9A2E /* Images.xcassets */,
 				47CBB8571B7BFEA400BD9A2E /* LaunchScreen.xib */,
+				47226A101B99652000FB0EC2 /* icomoon.ttf */,
 				47CBB8481B7BFEA400BD9A2E /* Supporting Files */,
 			);
 			path = "Simple 21 Day Tracker";
@@ -263,6 +291,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47226A111B99652000FB0EC2 /* icomoon.ttf in Resources */,
 				47B447E91B89979500AC4C1C /* .gitignore in Resources */,
 				47CBB8591B7BFEA400BD9A2E /* LaunchScreen.xib in Resources */,
 				47CBB8561B7BFEA400BD9A2E /* Images.xcassets in Resources */,
@@ -284,12 +313,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47F8C1341BA0F304006809A2 /* Log.m in Sources */,
 				4747AB741B7FDEDC0036B2A9 /* Cups.m in Sources */,
 				4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */,
+				47CF61FC1B9501920036BD25 /* CalendarHeader.m in Sources */,
 				47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */,
 				4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */,
+				47C715751B8EBA0000B5BD92 /* CalendarViewController.m in Sources */,
+				476CE4971BA3A2AC00A28896 /* Date.m in Sources */,
 				47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */,
 				47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */,
+				47C715781B8EBA4300B5BD92 /* CalendarViewCell.m in Sources */,
 				47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

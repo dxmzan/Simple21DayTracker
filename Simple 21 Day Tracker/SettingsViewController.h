@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Cups.h"
+@class Cups;
 
 @interface SettingsViewController : UIViewController
 

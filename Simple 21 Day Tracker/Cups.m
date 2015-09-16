@@ -7,6 +7,9 @@
 //
 
 #import "Cups.h"
+#import "CalendarViewController.h"
+#import "Date.h"
+#import "ViewController.h"
 
 @implementation Cups
 
@@ -29,78 +32,95 @@
              @"orange": @0,
              @"spoon": @0,
              @"yellow": @0,
-             @"purpleGoal": @"0",
-             @"redGoal": @"0",
-             @"blueGoal": @"0",
-             @"greenGoal": @"0",
-             @"waterGoal": @"0",
-             @"orangeGoal": @"0",
-             @"spoonGoal": @"0",
-             @"yellowGoal":  @"0"
+             @"purpleGoal": @2,
+             @"redGoal": @4,
+             @"blueGoal": @1,
+             @"greenGoal": @3,
+             @"waterGoal": @12,
+             @"orangeGoal": @1,
+             @"spoonGoal": @2,
+             @"yellowGoal":  @2,
+             @"date": @"",
+             @"day": @"",
+             @"month": @"",
+             @"year": @"",
+             @"isGoalMet": @NO,
              };
 }
 
 // Specify properties to ignore (Realm won't persist these)
 
-//+ (NSArray *)ignoredProperties
-//{
-//    return @[];
-//}
-
-- (int)addGreen: (int) n
++ (NSArray *)ignoredProperties
 {
-    green = n + 1;
-    
-    return green;
+    return @[@"receiveDate"];
 }
 
-- (int)addBlue:(int) n
-{
-    blue = n + 1;
-    
-    return blue;
+- (int)addCup:(int) cup {
+    cup++;
+    return cup;
 }
 
-- (int)addOrange:(int) n
-{
-    orange = n + 1;
-    
-    return orange;
+- (int)subtractCup:(int)cup {
+    cup--;
+    return cup;
 }
 
-- (int)addPurple:(int) n
-{
-    purple = n + 1;
+-(BOOL)goalIsNotMet {
     
-    return purple;
+    Date *dc = [[Date alloc]init];
+    
+    NSString *theDate = [dc returnTodaysDate];
+    
+    NSPredicate *predGoalNotMet = [NSPredicate predicateWithFormat:@"isGoalMet = YES AND green < greenGoal OR purple < purpleGoal OR red < redGoal OR yellow < yellowGoal OR blue < blueGoal OR orange < orangeGoal OR water < waterGoal OR spoon < spoonGoal"];
+    RLMResults *query = [Cups objectsWithPredicate:predGoalNotMet];
+    RLMResults *queryForDate;
+    
+    if (self.receiveDate == nil){
+        queryForDate = [query objectsWhere:@"date = %@", theDate];
+    } else {
+        queryForDate = [query objectsWhere:@"date = %@", self.receiveDate];
+    }
+        
+    if (queryForDate.count >= 1){
+        [[RLMRealm defaultRealm]transactionWithBlock:^{
+            [[queryForDate firstObject]setValue:@NO forKey:@"isGoalMet"];
+        }];
+        NSLog(@"Goal is not met");
+        return YES;
+    }
+    
+    return NO;
+    
 }
 
-- (int)addRed: (int) n
-{
-    red = n + 1;
+-(void)goalIsMet{
     
-    return red;
+    Date *dc = [[Date alloc]init];
+    
+    NSString *theDate = [dc returnTodaysDate];
+    
+    NSLog(@"Goal is met");
+    
+    NSPredicate *predMetGoal = [NSPredicate predicateWithFormat:@"isGoalMet = NO AND green >= greenGoal AND purple >= purpleGoal AND red >= redGoal AND yellow >= yellowGoal AND blue >= blueGoal AND orange >= orangeGoal AND water >= waterGoal AND spoon >= spoonGoal"];
+    
+    RLMResults *query = [Cups objectsWithPredicate:predMetGoal];
+
+    RLMResults *queryForDate;
+    
+    
+    if (self.receiveDate == nil){
+        queryForDate = [query objectsWhere:@"date = %@", theDate];
+    } else {
+        queryForDate = [query objectsWhere:@"date = %@", self.receiveDate];
+    }
+    
+    [[RLMRealm defaultRealm]transactionWithBlock:^{
+        if (queryForDate.count >= 1){
+            [[queryForDate firstObject]setValue:@YES forKey:@"isGoalMet"];
+    }
+    }];
+    
 }
 
-- (int)addYellow: (int) n
-{
-    yellow = n + 1;
-    
-    return yellow;
-}
-
-- (int)addWater: (int) n
-{
-    water = n + 1;
-    
-    return water;
-}
-
-- (int)addSpoon: (int) n
-{
-    spoon = n + 1;
-    
-    return spoon;
-}
 
 @end
