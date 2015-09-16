@@ -13,6 +13,7 @@
 		47524DE91B7FD3D500AEA3F4 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 47524DE81B7FD3D500AEA3F4 /* libc++.dylib */; };
 		4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */; };
 		4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */; };
+		476CE4971BA3A2AC00A28896 /* Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 476CE4961BA3A2AC00A28896 /* Date.m */; };
 		47B447E71B89757100AC4C1C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47B447E61B89757100AC4C1C /* SettingsViewController.m */; };
 		47B447E91B89979500AC4C1C /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 47B447E81B89979500AC4C1C /* .gitignore */; };
 		47B447EC1B8C1D2100AC4C1C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47B447EA1B8C1D2100AC4C1C /* Main.storyboard */; };
@@ -25,6 +26,7 @@
 		47CBB8591B7BFEA400BD9A2E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CBB8571B7BFEA400BD9A2E /* LaunchScreen.xib */; };
 		47CBB8651B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CBB8641B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m */; };
 		47CF61FC1B9501920036BD25 /* CalendarHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CF61FB1B9501920036BD25 /* CalendarHeader.m */; };
+		47F8C1341BA0F304006809A2 /* Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F8C1331BA0F304006809A2 /* Log.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeButton.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeButton.m"; sourceTree = "<group>"; };
 		4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGSwipeTableCell.h; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.h"; sourceTree = "<group>"; };
 		4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MGSwipeTableCell.m; path = "../../../Downloads/MGSwipeTableCell-master/MGSwipeTableCell/MGSwipeTableCell.m"; sourceTree = "<group>"; };
+		476CE4951BA3A2AC00A28896 /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
+		476CE4961BA3A2AC00A28896 /* Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Date.m; sourceTree = "<group>"; };
 		47B447E51B89757100AC4C1C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		47B447E61B89757100AC4C1C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		47B447E81B89979500AC4C1C /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = "Simple 21 Day Tracker/.gitignore"; sourceTree = "<group>"; };
@@ -69,6 +73,8 @@
 		47CBB8641B7BFEA400BD9A2E /* Simple_21_Day_TrackerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Simple_21_Day_TrackerTests.m; sourceTree = "<group>"; };
 		47CF61FA1B9501920036BD25 /* CalendarHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarHeader.h; sourceTree = "<group>"; };
 		47CF61FB1B9501920036BD25 /* CalendarHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarHeader.m; sourceTree = "<group>"; };
+		47F8C1321BA0F304006809A2 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Log.h; path = ../Log.h; sourceTree = "<group>"; };
+		47F8C1331BA0F304006809A2 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Log.m; path = ../Log.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,12 @@
 		4786EA251B841D1D0079C991 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				47C715761B8EBA4300B5BD92 /* CalendarViewCell.h */,
+				47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */,
+				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
+				4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */,
+				4755F7AB1B8829EC001624E4 /* MGSwipeButton.h */,
+				4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -125,6 +137,10 @@
 		4786EA271B841D2D0079C991 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				476CE4951BA3A2AC00A28896 /* Date.h */,
+				476CE4961BA3A2AC00A28896 /* Date.m */,
+				47F8C1321BA0F304006809A2 /* Log.h */,
+				47F8C1331BA0F304006809A2 /* Log.m */,
 				4747AB721B7FDEDC0036B2A9 /* Cups.h */,
 				4747AB731B7FDEDC0036B2A9 /* Cups.m */,
 			);
@@ -159,12 +175,6 @@
 				4786EA251B841D1D0079C991 /* Views */,
 				47CBB84C1B7BFEA400BD9A2E /* AppDelegate.h */,
 				47CBB84D1B7BFEA400BD9A2E /* AppDelegate.m */,
-				47C715761B8EBA4300B5BD92 /* CalendarViewCell.h */,
-				47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */,
-				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
-				4755F7AD1B8829EC001624E4 /* MGSwipeTableCell.h */,
-				4755F7AB1B8829EC001624E4 /* MGSwipeButton.h */,
-				4755F7AC1B8829EC001624E4 /* MGSwipeButton.m */,
 				47B447EA1B8C1D2100AC4C1C /* Main.storyboard */,
 				47CBB8551B7BFEA400BD9A2E /* Images.xcassets */,
 				47CBB8571B7BFEA400BD9A2E /* LaunchScreen.xib */,
@@ -303,12 +313,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47F8C1341BA0F304006809A2 /* Log.m in Sources */,
 				4747AB741B7FDEDC0036B2A9 /* Cups.m in Sources */,
 				4755F7B01B8829EC001624E4 /* MGSwipeTableCell.m in Sources */,
 				47CF61FC1B9501920036BD25 /* CalendarHeader.m in Sources */,
 				47CBB8511B7BFEA400BD9A2E /* ViewController.m in Sources */,
 				4755F7AF1B8829EC001624E4 /* MGSwipeButton.m in Sources */,
 				47C715751B8EBA0000B5BD92 /* CalendarViewController.m in Sources */,
+				476CE4971BA3A2AC00A28896 /* Date.m in Sources */,
 				47CBB84E1B7BFEA400BD9A2E /* AppDelegate.m in Sources */,
 				47CBB84B1B7BFEA400BD9A2E /* main.m in Sources */,
 				47C715781B8EBA4300B5BD92 /* CalendarViewCell.m in Sources */,

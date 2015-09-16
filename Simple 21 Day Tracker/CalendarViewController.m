@@ -14,14 +14,9 @@
 
 @interface CalendarViewController ()
 
-
 @end
 
 @implementation CalendarViewController
-
-NSString *month = @"September";
-NSString *year = @"2015";
-int i = 0;
 
 static NSString * const reuseIdentifier = @"Cell";
 
@@ -29,14 +24,6 @@ static NSString * const reuseIdentifier = @"Cell";
     [super viewDidLoad];
     [self logCalendar]; // Load calendar
 
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
-    //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -53,9 +40,6 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
-    
-    
-    NSLog(@"Observers removed");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"previousButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"nextButtonPressed" object:nil];
 }
@@ -128,9 +112,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.firstDateName = [self.dayFormatter stringFromDate:self.firstDateOfMonth]; // "Tuesday"
     
     self.currentYear = [self.yearFormatter stringFromDate:self.firstDateOfMonth]; // "2015"
-    
-    NSLog(@"Month: %@", self.currentMonth);
-    
+        
     [self queryCalendar];
 
 }
@@ -156,7 +138,7 @@ static NSString * const reuseIdentifier = @"Cell";
     NSPredicate *datePred =  [NSPredicate predicateWithFormat:@"isGoalMet == YES AND month == %@ AND year == %@", self.currentMonth, self.currentYear];
     
     RLMResults *query = [Cups objectsWithPredicate:datePred];
-    
+        
     // Add days into array
     self.days = [query valueForKey:@"day"];
 }
@@ -180,6 +162,7 @@ static NSString * const reuseIdentifier = @"Cell";
     } else {
         self.cell.backgroundColor = [UIColor whiteColor];
     }
+    
     
     
     // If the first day of the month begins on ...
@@ -318,7 +301,6 @@ static NSString * const reuseIdentifier = @"Cell";
     if ([[segue identifier] isEqualToString:@"dateSegue"]){
         ViewController *vc = [segue destinationViewController];
         vc.receivedDate = self.selectedDayString;
-        NSLog(@"Date sent: %@", self.selectedDayString);
     }
 }
 

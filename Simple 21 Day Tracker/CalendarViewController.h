@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ViewController.h"
-#import "CalendarViewCell.h"
+@class ViewController;
+@class CalendarViewCell;
 
 
 @interface CalendarViewController : UICollectionViewController

@@ -7,18 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Cups.h"
-#import "MGSwipeTableCell.h"
+
+@class Cups;
+@class Log;
+@class Date;
+@class MGSwipeTableCell;
+@class CalendarViewController;
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (copy, nonatomic) NSArray *cupType;
+@property (strong, nonatomic) Cups *Cups;
 
-@property (copy, nonatomic) NSMutableArray *cupCount;
+@property (strong, nonatomic) Log *Log;
 
-@property (strong, nonatomic) Cups *myCup;
+@property (strong, nonatomic) Date *Date;
 
-@property (strong, nonatomic) NSDateFormatter *formatter;
+@property (strong, nonatomic) CalendarViewController *CalendarViewController;
 
 @property (assign, nonatomic) NSInteger cellRow;
 
@@ -31,5 +35,6 @@
 @property (assign, nonatomic) BOOL *isSwitchOneEnabled;
 
 @property (strong, nonatomic) NSString *receivedDate;
+
 
 @end
