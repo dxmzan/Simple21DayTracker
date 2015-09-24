@@ -25,12 +25,14 @@ static NSString * const reuseIdentifier = @"Cell";
     [super viewDidLoad];
     
     self.Date = [[Date alloc]init];
+    self.Cups = [[Cups alloc]init];
     
     [self.Date createCalendar];
 
 }
 
 - (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(prevButton)
                                                  name:@"previousButtonPressed"
@@ -40,10 +42,13 @@ static NSString * const reuseIdentifier = @"Cell";
                                              selector:@selector(nextButton)
                                                  name:@"nextButtonPressed"
                                                object:nil];
+    [self isGoalMet];
     [self queryCalendar];
+        
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"previousButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"nextButtonPressed" object:nil];
 }
@@ -252,6 +257,22 @@ static NSString * const reuseIdentifier = @"Cell";
     if ([[segue identifier] isEqualToString:@"dateSegue"]){
         ViewController *vc = [segue destinationViewController];
         vc.receivedDate = self.selectedDayString;
+    }
+    
+
+//    NSMutableArray *navigationArray = [[NSMutableArray alloc] initWithArray: self.navigationController.viewControllers];
+//
+//    for (int i = 0; i < navigationArray.count - 1; i++){
+//        [navigationArray removeObjectAtIndex: 0];  // You can pass your index here
+//    }
+//    
+//    self.navigationController.viewControllers = navigationArray;
+
+}
+
+-(void)isGoalMet {
+    if (![self.Cups goalIsNotMet]){
+        [self.Cups goalIsMet];
     }
 }
 

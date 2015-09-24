@@ -10,7 +10,7 @@
 
 @interface Log : NSObject
 
-@property NSArray *cupNames;
+@property (strong, nonatomic) NSArray *cupNames;
 
 - (NSString *) chooseCupName:(NSInteger) row;
 - (NSUInteger) countOfCups;

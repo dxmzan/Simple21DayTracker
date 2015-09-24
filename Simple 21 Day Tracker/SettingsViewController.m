@@ -12,23 +12,22 @@
 
 @interface SettingsViewController ()
 
+@property (copy, nonatomic) NSArray *cycleSwitches;
+@property (strong, nonatomic) NSString *switchNumString;
+
 @end
 
 @implementation SettingsViewController
 
+@synthesize switchNumString;
+@synthesize sentDate;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.Cups = [[Cups alloc]init];
     
     self.cycleSwitches = @[@"switchOne", @"switchTwo", @"switchThree", @"switchFour"];
     
-    NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
-    
-    self.switchOne.on = ([[userSettings stringForKey:@"switchOne"] isEqualToString:@"On"]) ? (YES) : (NO);
-    self.switchTwo.on = ([[userSettings stringForKey:@"switchTwo"] isEqualToString:@"On"]) ? (YES) : (NO);
-    self.switchThree.on = ([[userSettings stringForKey:@"switchThree"] isEqualToString:@"On"]) ? (YES) : (NO);
-    self.switchFour.on = ([[userSettings stringForKey:@"switchFour"] isEqualToString:@"On"]) ? (YES) : (NO);
-
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,22 +35,56 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+ 
+    
+        
+    NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
+
+    self.calorieLabel.text = [userSettings stringForKey:@"calorieTarget"];
+    self.switchOne.on = ([[userSettings stringForKey:@"switchOne"] isEqualToString:@"On"]) ? (YES) : (NO);
+    self.switchTwo.on = ([[userSettings stringForKey:@"switchTwo"] isEqualToString:@"On"]) ? (YES) : (NO);
+    self.switchThree.on = ([[userSettings stringForKey:@"switchThree"] isEqualToString:@"On"]) ? (YES) : (NO);
+    self.switchFour.on = ([[userSettings stringForKey:@"switchFour"] isEqualToString:@"On"]) ? (YES) : (NO);
+    
+//    NSMutableArray *navigationArray = [[NSMutableArray alloc] initWithArray: self.navigationController.viewControllers];
+////    NSLog(@"Before Array: %@", navigationArray);
+//    
+//    //[navigationArray removeAllObjects];    // This is just for remove all view controller from navigation stack.
+//   
+//    if (navigationArray.count > 2){
+//        for (int i = 0; i < navigationArray.count - 1; i++){
+//            [navigationArray removeObjectAtIndex: 0];  // You can pass your index here
+//        }
+//    }
+//
+//    self.navigationController.viewControllers = navigationArray;
+////    NSLog(@"After Array: %@", navigationArray);
+
+    NSLog(@"VWA: %@", sentDate);
+}
+
 
 - (IBAction)weightButton:(UIButton *)sender {
-    int weight = [self.weightField.text intValue];
     
-    int caloricTarget = ((weight * 11) + 400) - 750;
+    NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
     
-    int switchToggled;
+    NSInteger weight = [self.weightField.text integerValue];
+    
+    NSInteger caloricTarget = ((weight * 11) + 400) - 750;
+    
+    NSInteger switchToggled;
     
     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setFormatterBehavior: NSNumberFormatterBehavior10_4];
     [numberFormatter setNumberStyle: NSNumberFormatterDecimalStyle];
     NSString *numberString = [numberFormatter stringFromNumber: [NSNumber numberWithInteger: caloricTarget]];
     
+    [userSettings setObject:numberString forKey:@"calorieTarget"];
     
-    self.calorieLabel.text = numberString;
-        
+    self.calorieLabel.text = [userSettings stringForKey:@"calorieTarget"];
+    
     if (caloricTarget < 1500){
         [self.switchOne setOn:YES animated:YES];
         [self.switchTwo setOn:NO animated:YES];
@@ -77,8 +110,6 @@
         [self.switchFour setOn:YES animated:YES];
         switchToggled = 3;
     }
-    
-    NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
     
     // Clear settings in case multiple switches are active
     for (int i = 0; i < 4; i++){
@@ -114,11 +145,7 @@
     
     [userSettings synchronize];
     
-    NSString *switchUsed = [NSString stringWithFormat:@"%d", switchToggled];
-
-    NSDictionary *whichSwitch = [NSDictionary dictionaryWithObject:switchUsed forKey:@"Switch"];
-    
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"switchToggled" object:nil userInfo:whichSwitch];
+    //NSString *switchUsed = [NSString stringWithFormat:@"%ld", (long)switchToggled];
 }
 
 - (IBAction)switchPressed:(UISwitch *)sender {
@@ -177,14 +204,55 @@
     [userSettings synchronize];
     
     
-    // Sending notifcation to log view to set goals
-    NSString *switchUsed = [NSString stringWithFormat:@"%ld", (long)switchObj.tag];
+    // Sending notifcation to viewcontroller to set goals
+    self.switchNumString = [NSString stringWithFormat:@"%ld", (long)switchObj.tag];
     
-    NSDictionary *whichSwitch = [NSDictionary dictionaryWithObject:switchUsed forKey:@"Switch"];
+    NSLog(@"SentDate: %@", sentDate);
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"switchToggled" object:nil userInfo:whichSwitch];
+    [self.Cups setGoals:(int)switchObj.tag setDate:sentDate];
+
+}
+
+
+-(void)setDefaultGoals{
+    
+    NSUserDefaults *defaults = [[NSUserDefaults alloc]init];
+    
+    
+    [defaults setInteger:[self.Cups greenGoal] forKey:@"greenGoal"];
+    [defaults setInteger:[self.Cups purpleGoal] forKey:@"purpleGoal"];
+    [defaults setInteger:[self.Cups redGoal] forKey:@"redGoal"];
+    [defaults setInteger:[self.Cups yellowGoal] forKey:@"yellowGoal"];
+    [defaults setInteger:[self.Cups blueGoal] forKey:@"blueGoal"];
+    [defaults setInteger:[self.Cups orangeGoal] forKey:@"orangeGoal"];
+    [defaults setInteger:[self.Cups waterGoal] forKey:@"waterGoal"];
+    [defaults setInteger:[self.Cups spoonGoal] forKey:@"spoonGoal"];
+    
+    [defaults synchronize];
     
 }
+
+-(void)updateGoals{
+    
+    NSUserDefaults *defaults = [[NSUserDefaults alloc]init];
+    
+    RLMResults *cups = [Cups allObjects];
+        
+    [[RLMRealm defaultRealm]transactionWithBlock:^{
+        
+        [[cups lastObject] setGreenGoal:[defaults integerForKey:@"greenGoal"]];
+        [[cups lastObject] setPurpleGoal:[defaults integerForKey:@"purpleGoal"]];
+        [[cups lastObject] setRedGoal:[defaults integerForKey:@"redGoal"]];
+        [[cups lastObject] setYellowGoal:[defaults integerForKey:@"yellowGoal"]];
+        [[cups lastObject] setBlueGoal:[defaults integerForKey:@"blueGoal"]];
+        [[cups lastObject] setOrangeGoal:[defaults integerForKey:@"orangeGoal"]];
+        [[cups lastObject] setWaterGoal:[defaults integerForKey:@"waterGoal"]];
+        [[cups lastObject] setSpoonGoal:[defaults integerForKey:@"spoonGoal"]];
+    }];
+    
+}
+
+
 
 
 @end

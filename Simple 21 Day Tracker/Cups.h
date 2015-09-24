@@ -7,20 +7,22 @@
 //
 
 #import <Realm/Realm.h>
+#import "ViewController.h"
 @class Date;
 
 @interface Cups : RLMObject
-@property int purple, red, blue, green, water, orange, spoon, yellow;
-@property int purpleGoal, redGoal, blueGoal, greenGoal, waterGoal, orangeGoal, spoonGoal, yellowGoal;
+@property (assign, nonatomic) NSInteger purple, red, blue, green, water, orange, spoon, yellow;
+@property (assign, nonatomic) NSInteger purpleGoal, redGoal, blueGoal, greenGoal, waterGoal, orangeGoal, spoonGoal, yellowGoal;
 @property (strong, nonatomic) NSString *date, *day, *month, *year;
 @property (assign, nonatomic) BOOL isGoalMet;
 
-@property (strong, nonatomic) NSString *receiveDate;
+@property (copy, nonatomic) NSString *receiveDate;
 
-- (int)addCup: (int) cup;
-- (int)subtractCup: (int) cup;
+- (NSInteger)addCup: (NSInteger) cup;
+- (NSInteger)subtractCup: (NSInteger) cup;
 - (void)goalIsMet;
 - (BOOL)goalIsNotMet;
+- (void)setGoals:(int) switchNumber setDate:(NSString *)newDate;
 
 @end
 

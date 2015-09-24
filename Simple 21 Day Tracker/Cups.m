@@ -14,6 +14,8 @@
 @implementation Cups
 
 @synthesize purple, red, blue, green, water, orange, spoon, yellow, date;
+@synthesize purpleGoal, blueGoal, redGoal, greenGoal, orangeGoal, waterGoal, spoonGoal, yellowGoal;
+@synthesize receiveDate;
 
 
 //+ (NSString *) primaryKey {
@@ -22,7 +24,7 @@
 // Specify default values for properties
 
 + (NSDictionary *)defaultPropertyValues
-{
+{    
     return @{
              @"purple": @0,
              @"red": @0,
@@ -32,14 +34,6 @@
              @"orange": @0,
              @"spoon": @0,
              @"yellow": @0,
-             @"purpleGoal": @2,
-             @"redGoal": @4,
-             @"blueGoal": @1,
-             @"greenGoal": @3,
-             @"waterGoal": @12,
-             @"orangeGoal": @1,
-             @"spoonGoal": @2,
-             @"yellowGoal":  @2,
              @"date": @"",
              @"day": @"",
              @"month": @"",
@@ -55,12 +49,13 @@
     return @[@"receiveDate"];
 }
 
-- (int)addCup:(int) cup {
+- (NSInteger)addCup:(NSInteger) cup {
     cup++;
     return cup;
+
 }
 
-- (int)subtractCup:(int)cup {
+- (NSInteger)subtractCup:(NSInteger)cup {
     cup--;
     return cup;
 }
@@ -120,6 +115,75 @@
     }
     }];
     
+}
+
+
+-(void)setGoals:(int)switchNum setDate:(NSString *)newDate{
+    
+    int target = switchNum;
+    self.receiveDate = newDate;
+    
+    NSLog(@"Date: %@", self.receiveDate);
+    
+    Date *dc = [[Date alloc]init];
+    
+    NSString *theDate = [dc returnTodaysDate];
+    
+    RLMRealm *realm = [RLMRealm defaultRealm];
+    
+    if (self.receiveDate == nil){
+        self.receiveDate = theDate;
+    }
+    
+    RLMResults *query = [Cups objectsWhere:@"date = %@", self.receiveDate];
+    
+    NSLog(@"anObject: %@", query);
+    [realm transactionWithBlock:^{
+    switch(target)
+    {
+        case 0:
+            [[query objectAtIndex:0] setGreenGoal:3];
+            [[query objectAtIndex:0] setPurpleGoal:2];
+            [[query objectAtIndex:0] setRedGoal:4];
+            [[query objectAtIndex:0] setYellowGoal:2];
+            [[query objectAtIndex:0] setBlueGoal:1];
+            [[query objectAtIndex:0] setOrangeGoal:1];
+            [[query objectAtIndex:0] setSpoonGoal:2];
+            [[query objectAtIndex:0] setWaterGoal:12];
+
+            break;
+        case 1:
+            [[query objectAtIndex:0] setGreenGoal:4];
+            [[query objectAtIndex:0] setPurpleGoal:3];
+            [[query objectAtIndex:0] setRedGoal:4];
+            [[query objectAtIndex:0] setYellowGoal:3];
+            [[query objectAtIndex:0] setBlueGoal:1];
+            [[query objectAtIndex:0] setOrangeGoal:1];
+            [[query objectAtIndex:0] setSpoonGoal:4];
+            [[query objectAtIndex:0] setWaterGoal:12];
+            break;
+        case 2:
+            [[query objectAtIndex:0] setGreenGoal:5];
+            [[query objectAtIndex:0] setPurpleGoal:3];
+            [[query objectAtIndex:0] setRedGoal:5];
+            [[query objectAtIndex:0] setYellowGoal:4];
+            [[query objectAtIndex:0] setBlueGoal:1];
+            [[query objectAtIndex:0] setOrangeGoal:1];
+            [[query objectAtIndex:0] setSpoonGoal:5];
+            [[query objectAtIndex:0] setWaterGoal:12];
+            break;
+        case 3:
+            [[query objectAtIndex:0] setGreenGoal:6];
+            [[query objectAtIndex:0] setPurpleGoal:4];
+            [[query objectAtIndex:0] setRedGoal:6];
+            [[query objectAtIndex:0] setYellowGoal:4];
+            [[query objectAtIndex:0] setBlueGoal:1];
+            [[query objectAtIndex:0] setOrangeGoal:1];
+            [[query objectAtIndex:0] setSpoonGoal:6];
+            [[query objectAtIndex:0] setWaterGoal:12];
+            break;
+    }
+    }];
 }
 
 
