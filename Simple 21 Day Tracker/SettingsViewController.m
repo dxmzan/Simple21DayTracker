@@ -20,7 +20,6 @@
 @implementation SettingsViewController
 
 @synthesize switchNumString;
-@synthesize sentDate;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,8 +37,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
  
-    
-        
     NSUserDefaults *userSettings = [NSUserDefaults standardUserDefaults];
 
     self.calorieLabel.text = [userSettings stringForKey:@"calorieTarget"];
@@ -62,7 +59,6 @@
 //    self.navigationController.viewControllers = navigationArray;
 ////    NSLog(@"After Array: %@", navigationArray);
 
-    NSLog(@"VWA: %@", sentDate);
 }
 
 
@@ -145,7 +141,7 @@
     
     [userSettings synchronize];
     
-    //NSString *switchUsed = [NSString stringWithFormat:@"%ld", (long)switchToggled];
+    [self.Cups setGoals:(int)switchToggled setDate:self.sentDate];
 }
 
 - (IBAction)switchPressed:(UISwitch *)sender {
@@ -203,14 +199,7 @@
     
     [userSettings synchronize];
     
-    
-    // Sending notifcation to viewcontroller to set goals
-    self.switchNumString = [NSString stringWithFormat:@"%ld", (long)switchObj.tag];
-    
-    NSLog(@"SentDate: %@", sentDate);
-    
-    [self.Cups setGoals:(int)switchObj.tag setDate:sentDate];
-
+    [self.Cups setGoals:(int)switchObj.tag setDate:self.sentDate];
 }
 
 
@@ -229,26 +218,6 @@
     [defaults setInteger:[self.Cups spoonGoal] forKey:@"spoonGoal"];
     
     [defaults synchronize];
-    
-}
-
--(void)updateGoals{
-    
-    NSUserDefaults *defaults = [[NSUserDefaults alloc]init];
-    
-    RLMResults *cups = [Cups allObjects];
-        
-    [[RLMRealm defaultRealm]transactionWithBlock:^{
-        
-        [[cups lastObject] setGreenGoal:[defaults integerForKey:@"greenGoal"]];
-        [[cups lastObject] setPurpleGoal:[defaults integerForKey:@"purpleGoal"]];
-        [[cups lastObject] setRedGoal:[defaults integerForKey:@"redGoal"]];
-        [[cups lastObject] setYellowGoal:[defaults integerForKey:@"yellowGoal"]];
-        [[cups lastObject] setBlueGoal:[defaults integerForKey:@"blueGoal"]];
-        [[cups lastObject] setOrangeGoal:[defaults integerForKey:@"orangeGoal"]];
-        [[cups lastObject] setWaterGoal:[defaults integerForKey:@"waterGoal"]];
-        [[cups lastObject] setSpoonGoal:[defaults integerForKey:@"spoonGoal"]];
-    }];
     
 }
 

@@ -60,27 +60,37 @@
     return cup;
 }
 
--(BOOL)goalIsNotMet {
+-(BOOL)goalIsNotMet:(NSString *)newDate {
+    
+    self.receiveDate = newDate;
     
     Date *dc = [[Date alloc]init];
     
     NSString *theDate = [dc returnTodaysDate];
     
     NSPredicate *predGoalNotMet = [NSPredicate predicateWithFormat:@"isGoalMet = YES AND green < greenGoal OR purple < purpleGoal OR red < redGoal OR yellow < yellowGoal OR blue < blueGoal OR orange < orangeGoal OR water < waterGoal OR spoon < spoonGoal"];
+    
+    // Check if there's an error and the goals are set to zero
+    NSPredicate *predGoalIsZero = [NSPredicate predicateWithFormat:@"greenGoal = 0 OR purpleGoal = 0 OR redGoal = 0 OR yellowGoal = 0 OR blueGoal = 0 OR orangeGoal = 0 OR waterGoal = 0 OR spoonGoal = 0"];
+    
+    RLMResults *checkForError = [Cups objectsWithPredicate:predGoalIsZero];
+    
     RLMResults *query = [Cups objectsWithPredicate:predGoalNotMet];
-    RLMResults *queryForDate;
+    RLMResults *queryForDate, *queryForError;
     
     if (self.receiveDate == nil){
         queryForDate = [query objectsWhere:@"date = %@", theDate];
+        queryForError = [checkForError objectsWhere:@"date = %@", theDate];
+        
     } else {
         queryForDate = [query objectsWhere:@"date = %@", self.receiveDate];
+        queryForError = [checkForError objectsWhere:@"date = %@", self.receiveDate];
     }
-        
-    if (queryForDate.count >= 1){
+    
+    if (queryForDate.count > 0 || checkForError.count > 0){
         [[RLMRealm defaultRealm]transactionWithBlock:^{
             [[queryForDate firstObject]setValue:@NO forKey:@"isGoalMet"];
         }];
-        NSLog(@"Goal is not met");
         return YES;
     }
     
@@ -88,13 +98,13 @@
     
 }
 
--(void)goalIsMet{
+-(void)goalIsMet:(NSString *)newDate{
+    
+    self.receiveDate = newDate;
     
     Date *dc = [[Date alloc]init];
     
     NSString *theDate = [dc returnTodaysDate];
-    
-    NSLog(@"Goal is met");
     
     NSPredicate *predMetGoal = [NSPredicate predicateWithFormat:@"isGoalMet = NO AND green >= greenGoal AND purple >= purpleGoal AND red >= redGoal AND yellow >= yellowGoal AND blue >= blueGoal AND orange >= orangeGoal AND water >= waterGoal AND spoon >= spoonGoal"];
     
@@ -112,7 +122,7 @@
     [[RLMRealm defaultRealm]transactionWithBlock:^{
         if (queryForDate.count >= 1){
             [[queryForDate firstObject]setValue:@YES forKey:@"isGoalMet"];
-    }
+        }
     }];
     
 }
@@ -122,8 +132,6 @@
     
     int target = switchNum;
     self.receiveDate = newDate;
-    
-    NSLog(@"Date: %@", self.receiveDate);
     
     Date *dc = [[Date alloc]init];
     
@@ -136,55 +144,81 @@
     }
     
     RLMResults *query = [Cups objectsWhere:@"date = %@", self.receiveDate];
+    NSUserDefaults *defaults = [[NSUserDefaults alloc]init];
     
-    NSLog(@"anObject: %@", query);
-    [realm transactionWithBlock:^{
-    switch(target)
-    {
-        case 0:
-            [[query objectAtIndex:0] setGreenGoal:3];
-            [[query objectAtIndex:0] setPurpleGoal:2];
-            [[query objectAtIndex:0] setRedGoal:4];
-            [[query objectAtIndex:0] setYellowGoal:2];
-            [[query objectAtIndex:0] setBlueGoal:1];
-            [[query objectAtIndex:0] setOrangeGoal:1];
-            [[query objectAtIndex:0] setSpoonGoal:2];
-            [[query objectAtIndex:0] setWaterGoal:12];
+    
+    if (target <= 3){
+        [realm transactionWithBlock:^{
+            switch(target)
+            {
+                case 0:
+                    [[query objectAtIndex:0] setGreenGoal:3];
+                    [[query objectAtIndex:0] setPurpleGoal:2];
+                    [[query objectAtIndex:0] setRedGoal:4];
+                    [[query objectAtIndex:0] setYellowGoal:2];
+                    [[query objectAtIndex:0] setBlueGoal:1];
+                    [[query objectAtIndex:0] setOrangeGoal:1];
+                    [[query objectAtIndex:0] setSpoonGoal:2];
+                    [[query objectAtIndex:0] setWaterGoal:12];
+                    break;
+                case 1:
+                    [[query objectAtIndex:0] setGreenGoal:4];
+                    [[query objectAtIndex:0] setPurpleGoal:3];
+                    [[query objectAtIndex:0] setRedGoal:4];
+                    [[query objectAtIndex:0] setYellowGoal:3];
+                    [[query objectAtIndex:0] setBlueGoal:1];
+                    [[query objectAtIndex:0] setOrangeGoal:1];
+                    [[query objectAtIndex:0] setSpoonGoal:4];
+                    [[query objectAtIndex:0] setWaterGoal:12];
+                    break;
+                case 2:
+                    [[query objectAtIndex:0] setGreenGoal:5];
+                    [[query objectAtIndex:0] setPurpleGoal:3];
+                    [[query objectAtIndex:0] setRedGoal:5];
+                    [[query objectAtIndex:0] setYellowGoal:4];
+                    [[query objectAtIndex:0] setBlueGoal:1];
+                    [[query objectAtIndex:0] setOrangeGoal:1];
+                    [[query objectAtIndex:0] setSpoonGoal:5];
+                    [[query objectAtIndex:0] setWaterGoal:12];
+                    break;
+                case 3:
+                    [[query objectAtIndex:0] setGreenGoal:6];
+                    [[query objectAtIndex:0] setPurpleGoal:4];
+                    [[query objectAtIndex:0] setRedGoal:6];
+                    [[query objectAtIndex:0] setYellowGoal:4];
+                    [[query objectAtIndex:0] setBlueGoal:1];
+                    [[query objectAtIndex:0] setOrangeGoal:1];
+                    [[query objectAtIndex:0] setSpoonGoal:6];
+                    [[query objectAtIndex:0] setWaterGoal:12];
+                    break;
+            }
+        }];
+        // Register default goals for new dates
+        [defaults setInteger:[[query objectAtIndex:0] greenGoal] forKey:@"greenGoal"];
+        [defaults setInteger:[[query objectAtIndex:0] purpleGoal] forKey:@"purpleGoal"];
+        [defaults setInteger:[[query objectAtIndex:0] redGoal] forKey:@"redGoal"];
+        [defaults setInteger:[[query objectAtIndex:0] yellowGoal ]forKey:@"yellowGoal"];
+        [defaults setInteger:[[query objectAtIndex:0] blueGoal] forKey:@"blueGoal"];
+        [defaults setInteger:[[query objectAtIndex:0] orangeGoal] forKey:@"orangeGoal"];
+        [defaults setInteger:[[query objectAtIndex:0] waterGoal] forKey:@"waterGoal"];
+        [defaults setInteger:[[query objectAtIndex:0] spoonGoal] forKey:@"spoonGoal"];
 
-            break;
-        case 1:
-            [[query objectAtIndex:0] setGreenGoal:4];
-            [[query objectAtIndex:0] setPurpleGoal:3];
-            [[query objectAtIndex:0] setRedGoal:4];
-            [[query objectAtIndex:0] setYellowGoal:3];
-            [[query objectAtIndex:0] setBlueGoal:1];
-            [[query objectAtIndex:0] setOrangeGoal:1];
-            [[query objectAtIndex:0] setSpoonGoal:4];
-            [[query objectAtIndex:0] setWaterGoal:12];
-            break;
-        case 2:
-            [[query objectAtIndex:0] setGreenGoal:5];
-            [[query objectAtIndex:0] setPurpleGoal:3];
-            [[query objectAtIndex:0] setRedGoal:5];
-            [[query objectAtIndex:0] setYellowGoal:4];
-            [[query objectAtIndex:0] setBlueGoal:1];
-            [[query objectAtIndex:0] setOrangeGoal:1];
-            [[query objectAtIndex:0] setSpoonGoal:5];
-            [[query objectAtIndex:0] setWaterGoal:12];
-            break;
-        case 3:
-            [[query objectAtIndex:0] setGreenGoal:6];
-            [[query objectAtIndex:0] setPurpleGoal:4];
-            [[query objectAtIndex:0] setRedGoal:6];
-            [[query objectAtIndex:0] setYellowGoal:4];
-            [[query objectAtIndex:0] setBlueGoal:1];
-            [[query objectAtIndex:0] setOrangeGoal:1];
-            [[query objectAtIndex:0] setSpoonGoal:6];
-            [[query objectAtIndex:0] setWaterGoal:12];
-            break;
+        [defaults synchronize];
+        
+    } else {
+        
+        [realm transactionWithBlock:^{
+            
+            [[query objectAtIndex:0] setGreenGoal:[defaults integerForKey:@"greenGoal"]];
+            [[query objectAtIndex:0] setPurpleGoal:[defaults integerForKey:@"purpleGoal"]];
+            [[query objectAtIndex:0] setRedGoal:[defaults integerForKey:@"redGoal"]];
+            [[query objectAtIndex:0] setYellowGoal:[defaults integerForKey:@"yellowGoal"]];
+            [[query objectAtIndex:0] setBlueGoal:[defaults integerForKey:@"blueGoal"]];
+            [[query objectAtIndex:0] setOrangeGoal:[defaults integerForKey:@"orangeGoal"]];
+            [[query objectAtIndex:0] setWaterGoal:[defaults integerForKey:@"waterGoal"]];
+            [[query objectAtIndex:0] setSpoonGoal:[defaults integerForKey:@"spoonGoal"]];
+        }];
     }
-    }];
 }
-
 
 @end

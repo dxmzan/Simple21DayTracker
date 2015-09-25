@@ -21,6 +21,8 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 
+@synthesize selectedDayString;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -42,7 +44,6 @@ static NSString * const reuseIdentifier = @"Cell";
                                              selector:@selector(nextButton)
                                                  name:@"nextButtonPressed"
                                                object:nil];
-    [self isGoalMet];
     [self queryCalendar];
         
 }
@@ -253,28 +254,20 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
     if ([[segue identifier] isEqualToString:@"dateSegue"]){
         ViewController *vc = [segue destinationViewController];
         vc.receivedDate = self.selectedDayString;
     }
     
+    // Clear old viewcontroller and calendarviewcontroller off the stack
+    NSMutableArray *navigationArray = [[NSMutableArray alloc] initWithArray: self.navigationController.viewControllers];
 
-//    NSMutableArray *navigationArray = [[NSMutableArray alloc] initWithArray: self.navigationController.viewControllers];
-//
-//    for (int i = 0; i < navigationArray.count - 1; i++){
-//        [navigationArray removeObjectAtIndex: 0];  // You can pass your index here
-//    }
-//    
-//    self.navigationController.viewControllers = navigationArray;
-
-}
-
--(void)isGoalMet {
-    if (![self.Cups goalIsNotMet]){
-        [self.Cups goalIsMet];
+    for (int i = 0; i < navigationArray.count - 1; i++){
+        [navigationArray removeObjectAtIndex: 0];
     }
-}
+    
+    self.navigationController.viewControllers = navigationArray;
 
+}
 
 @end

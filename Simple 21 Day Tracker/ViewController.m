@@ -14,6 +14,8 @@
 #import "Date.h"
 #import "SettingsViewController.h"
 
+#define DEFAULT_GOALS 5
+
 @interface ViewController ()
 
 @end
@@ -32,13 +34,15 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    self.SettingsViewController.sentDate = self.receivedDate;
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self isGoalMet];
 }
 
 
 - (void)viewWillAppear:(BOOL)animated{
+    NSLog(@"anObject: %@", [self.navigationController viewControllers]);
     [self.scopedTableView reloadData];
     
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
@@ -74,7 +78,6 @@
         // Update same-day object
         self.Cups = [query objectAtIndex:0];
         dateLabel.text = self.receivedDate;
-       // NSLog(@"Same day: %@", query);
     } else {
         // Create new object with new date
         [realm transactionWithBlock:^{
@@ -85,9 +88,8 @@
             [realm addObject:self.Cups];
             dateLabel.text = self.receivedDate;
         }];
+        [self.Cups setGoals:DEFAULT_GOALS setDate:self.receivedDate];
     }
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"queryDate" object:self.receivedDate];
-
 }
 
 
@@ -304,12 +306,19 @@
     return 68;
 }
 
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"toSettings"]){
         SettingsViewController *svc = [segue destinationViewController];
         svc.sentDate = self.receivedDate;
     }
     
+}
+
+-(void)isGoalMet {
+    if (![self.Cups goalIsNotMet:self.receivedDate]){
+        [self.Cups goalIsMet:self.receivedDate];
+    }
 }
 
 

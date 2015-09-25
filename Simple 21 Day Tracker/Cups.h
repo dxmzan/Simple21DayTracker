@@ -20,8 +20,8 @@
 
 - (NSInteger)addCup: (NSInteger) cup;
 - (NSInteger)subtractCup: (NSInteger) cup;
-- (void)goalIsMet;
-- (BOOL)goalIsNotMet;
+- (BOOL)goalIsNotMet:(NSString *)newDate;
+- (void)goalIsMet:(NSString *)newDate;
 - (void)setGoals:(int) switchNumber setDate:(NSString *)newDate;
 
 @end
