@@ -7,7 +7,7 @@ The goal of this project is to create a simple progress tracker for the 21 Day F
 	- The logging is backed by a Realm.io database, which allows users to reference past days.
 - Calendar
 	- The calendar will provide a simple and usable interface for users to track their monthly progress through the 21 Day Fix program.
-	- (WIP) The days will indicate whether the user met the program goals for that day and whether or not they logged their progress for that day.
+	- The days will indicate whether the user met the program goals for that day.
 - Settings
 	- The settings section of the program will automatically calculate the intended calorie target for the user and suggest recommend goals that relate to the 21 Day Fix program.
 
@@ -20,5 +20,7 @@ Once you have set goals, you may begin logging your daily progress by clicking o
 
 9.25.15 - Fully functional calendar and log.
 
+9.25.15 - Polish the graphics on the calendar view.
+
 ## Technologies
-Simple 21 Day Tracker is built in Objective-C with XCode 6.4. The program is backed by a Realm.io database.
+Simple 21 Day Tracker is built in Objective-C with XCode 7. The program is backed by a Realm.io database.
