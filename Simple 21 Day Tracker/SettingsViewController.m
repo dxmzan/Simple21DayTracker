@@ -44,20 +44,6 @@
     self.switchTwo.on = ([[userSettings stringForKey:@"switchTwo"] isEqualToString:@"On"]) ? (YES) : (NO);
     self.switchThree.on = ([[userSettings stringForKey:@"switchThree"] isEqualToString:@"On"]) ? (YES) : (NO);
     self.switchFour.on = ([[userSettings stringForKey:@"switchFour"] isEqualToString:@"On"]) ? (YES) : (NO);
-    
-//    NSMutableArray *navigationArray = [[NSMutableArray alloc] initWithArray: self.navigationController.viewControllers];
-////    NSLog(@"Before Array: %@", navigationArray);
-//    
-//    //[navigationArray removeAllObjects];    // This is just for remove all view controller from navigation stack.
-//   
-//    if (navigationArray.count > 2){
-//        for (int i = 0; i < navigationArray.count - 1; i++){
-//            [navigationArray removeObjectAtIndex: 0];  // You can pass your index here
-//        }
-//    }
-//
-//    self.navigationController.viewControllers = navigationArray;
-////    NSLog(@"After Array: %@", navigationArray);
 
 }
 
@@ -201,27 +187,5 @@
     
     [self.Cups setGoals:(int)switchObj.tag setDate:self.sentDate];
 }
-
-
--(void)setDefaultGoals{
-    
-    NSUserDefaults *defaults = [[NSUserDefaults alloc]init];
-    
-    
-    [defaults setInteger:[self.Cups greenGoal] forKey:@"greenGoal"];
-    [defaults setInteger:[self.Cups purpleGoal] forKey:@"purpleGoal"];
-    [defaults setInteger:[self.Cups redGoal] forKey:@"redGoal"];
-    [defaults setInteger:[self.Cups yellowGoal] forKey:@"yellowGoal"];
-    [defaults setInteger:[self.Cups blueGoal] forKey:@"blueGoal"];
-    [defaults setInteger:[self.Cups orangeGoal] forKey:@"orangeGoal"];
-    [defaults setInteger:[self.Cups waterGoal] forKey:@"waterGoal"];
-    [defaults setInteger:[self.Cups spoonGoal] forKey:@"spoonGoal"];
-    
-    [defaults synchronize];
-    
-}
-
-
-
 
 @end

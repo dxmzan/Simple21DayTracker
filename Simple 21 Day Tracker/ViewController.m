@@ -42,7 +42,6 @@
 
 
 - (void)viewWillAppear:(BOOL)animated{
-    NSLog(@"anObject: %@", [self.navigationController viewControllers]);
     [self.scopedTableView reloadData];
     
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
