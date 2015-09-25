@@ -18,7 +18,7 @@ Once you have set goals, you may begin logging your daily progress by clicking o
 ## Work in progress
 ~~8.31.15 - As of this date, the calendar portion is not implemented.~~
 
-9.25.15 - Fully functional calendar and log.
+~~9.25.15 - Fully functional calendar and log.~~
 
 9.25.15 - Polish the graphics on the calendar view.
 
