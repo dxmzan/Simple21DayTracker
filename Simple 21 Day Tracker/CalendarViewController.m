@@ -21,16 +21,20 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 
+@synthesize selectedDayString;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.Date = [[Date alloc]init];
+    self.Cups = [[Cups alloc]init];
     
     [self.Date createCalendar];
 
 }
 
 - (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(prevButton)
                                                  name:@"previousButtonPressed"
@@ -41,9 +45,11 @@ static NSString * const reuseIdentifier = @"Cell";
                                                  name:@"nextButtonPressed"
                                                object:nil];
     [self queryCalendar];
+        
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"previousButtonPressed" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"nextButtonPressed" object:nil];
 }
@@ -248,12 +254,20 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
     if ([[segue identifier] isEqualToString:@"dateSegue"]){
         ViewController *vc = [segue destinationViewController];
         vc.receivedDate = self.selectedDayString;
     }
-}
+    
+    // Clear old viewcontroller and calendarviewcontroller off the stack
+    NSMutableArray *navigationArray = [[NSMutableArray alloc] initWithArray: self.navigationController.viewControllers];
 
+    for (int i = 0; i < navigationArray.count - 1; i++){
+        [navigationArray removeObjectAtIndex: 0];
+    }
+    
+    self.navigationController.viewControllers = navigationArray;
+
+}
 
 @end

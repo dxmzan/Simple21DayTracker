@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SettingsViewController.h"
 
 @class Cups;
 @class Log;
 @class Date;
 @class MGSwipeTableCell;
-@class CalendarViewController;
+@class SettingsViewController;
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
@@ -22,7 +23,7 @@
 
 @property (strong, nonatomic) Date *Date;
 
-@property (strong, nonatomic) CalendarViewController *CalendarViewController;
+@property (strong, nonatomic) SettingsViewController *SettingsViewController;
 
 @property (assign, nonatomic) NSInteger cellRow;
 
@@ -32,9 +33,6 @@
 
 @property (strong, nonatomic) UITableView *scopedTableView;
 
-@property (assign, nonatomic) BOOL *isSwitchOneEnabled;
-
 @property (strong, nonatomic) NSString *receivedDate;
-
 
 @end

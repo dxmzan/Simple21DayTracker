@@ -109,6 +109,8 @@
 		4786EA251B841D1D0079C991 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				47CF61FA1B9501920036BD25 /* CalendarHeader.h */,
+				47CF61FB1B9501920036BD25 /* CalendarHeader.m */,
 				47C715761B8EBA4300B5BD92 /* CalendarViewCell.h */,
 				47C715771B8EBA4300B5BD92 /* CalendarViewCell.m */,
 				4755F7AE1B8829EC001624E4 /* MGSwipeTableCell.m */,
@@ -126,8 +128,6 @@
 				47C715741B8EBA0000B5BD92 /* CalendarViewController.m */,
 				47CBB84F1B7BFEA400BD9A2E /* ViewController.h */,
 				47CBB8501B7BFEA400BD9A2E /* ViewController.m */,
-				47CF61FA1B9501920036BD25 /* CalendarHeader.h */,
-				47CF61FB1B9501920036BD25 /* CalendarHeader.m */,
 				47B447E51B89757100AC4C1C /* SettingsViewController.h */,
 				47B447E61B89757100AC4C1C /* SettingsViewController.m */,
 			);
@@ -254,7 +254,7 @@
 		47CBB83D1B7BFEA400BD9A2E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Shaun Bevan";
 				TargetAttributes = {
 					47CBB8441B7BFEA400BD9A2E = {
@@ -386,7 +386,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -430,6 +432,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -460,6 +463,7 @@
 				);
 				INFOPLIST_FILE = "Simple 21 Day Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "shaunbevan.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -477,6 +481,7 @@
 				);
 				INFOPLIST_FILE = "Simple 21 Day Tracker/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "shaunbevan.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -496,6 +501,7 @@
 				);
 				INFOPLIST_FILE = "Simple 21 Day TrackerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "shaunbevan.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Simple 21 Day Tracker.app/Simple 21 Day Tracker";
 			};
@@ -511,6 +517,7 @@
 				);
 				INFOPLIST_FILE = "Simple 21 Day TrackerTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "shaunbevan.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Simple 21 Day Tracker.app/Simple 21 Day Tracker";
 			};

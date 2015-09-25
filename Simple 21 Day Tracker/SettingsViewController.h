@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 @class Cups;
 
+
 @interface SettingsViewController : UIViewController
 
-- (IBAction)weightButton:(UIButton *)sender;
+@property (strong, nonatomic) Cups *Cups;
 
 @property (weak, nonatomic) IBOutlet UITextField *weightField;
 
@@ -20,8 +21,11 @@
 @property (weak, nonatomic) IBOutlet UISwitch *switchTwo;
 @property (weak, nonatomic) IBOutlet UISwitch *switchThree;
 @property (weak, nonatomic) IBOutlet UISwitch *switchFour;
-@property (copy, nonatomic) NSArray *cycleSwitches;
+
+@property (strong, nonatomic) NSString *sentDate;
 
 - (IBAction)switchPressed:(UISwitch *)sender;
+
+- (IBAction)weightButton:(UIButton *)sender;
 
 @end
