@@ -16,7 +16,9 @@ To use Simple 21 Day Fix Tracker, first set your target calorie by entering your
 Once you have set goals, you may begin logging your daily progress by clicking on the appropriate cup colors. The log is backed by a Realm.io database, which means you will be able to access past logs.
 
 ## Work in progress
-8.31.15 - As of this date, the calendar portion is not implemented.
+~~8.31.15 - As of this date, the calendar portion is not implemented.~~
+
+9.25.15 - Fully functional calendar and log.
 
 ## Technologies
 Simple 21 Day Tracker is built in Objective-C with XCode 6.4. The program is backed by a Realm.io database.
