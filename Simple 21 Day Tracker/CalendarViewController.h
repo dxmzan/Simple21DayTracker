@@ -10,13 +10,15 @@
 @class ViewController;
 @class CalendarViewCell;
 @class Date;
+@class Cups;
 
 
 @interface CalendarViewController : UICollectionViewController
 
 @property (strong, nonatomic) Date *Date;
+@property (strong, nonatomic) Cups *Cups;
 @property (strong, nonatomic) ViewController *logView;
-@property (strong, nonatomic) NSString *selectedDayString;
+@property (copy, nonatomic) NSString *selectedDayString;
 @property (strong, nonatomic) UICollectionView *publicCollectionView;
 @property (strong, nonatomic) NSMutableArray *days;
 @property (nonatomic) CalendarViewCell *cell;

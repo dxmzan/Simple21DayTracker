@@ -12,6 +12,9 @@
 #import "MGSwipeButton.h"
 #import "Log.h"
 #import "Date.h"
+#import "SettingsViewController.h"
+
+#define DEFAULT_GOALS 5
 
 @interface ViewController ()
 
@@ -24,19 +27,23 @@
     self.Cups = [[Cups alloc] init];
     self.Log = [[Log alloc] init];
     self.Date = [[Date alloc] init];
+    self.SettingsViewController = [[SettingsViewController alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self isGoalMet];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated{
-    
-    [self printGoals];
+    NSLog(@"anObject: %@", [self.navigationController viewControllers]);
+    [self.scopedTableView reloadData];
     
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
 
@@ -71,7 +78,6 @@
         // Update same-day object
         self.Cups = [query objectAtIndex:0];
         dateLabel.text = self.receivedDate;
-        //NSLog(@"Same day: %@", query);
     } else {
         // Create new object with new date
         [realm transactionWithBlock:^{
@@ -82,20 +88,10 @@
             [realm addObject:self.Cups];
             dateLabel.text = self.receivedDate;
         }];
+        [self.Cups setGoals:DEFAULT_GOALS setDate:self.receivedDate];
     }
-    
-    // Observer for settings switches
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(targetSwitchEnabled:)
-                                                 name:@"switchToggled"
-                                               object:nil];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
-    [self.Cups setReceiveDate:self.receivedDate];
-    // Check if goal is still met
-    [self isGoalMet];
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.Log countOfCups];
@@ -135,49 +131,49 @@
     [self.counter setFont: [UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
     
     self.counter.textAlignment = NSTextAlignmentCenter;
-
+    
     switch(indexPath.row)
     {
         case 0:
             self.cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups green]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups greenGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups green]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups greenGoal]];
 
             break;
         case 1:
             self.cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups purple]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups purpleGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups purple]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups purpleGoal]];
             break;
         case 2:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.251 blue:0.506 alpha:1]; // Red
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups red]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups redGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups red]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups redGoal]];
             break;
         case 3:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.757 blue:0.027 alpha:1]; // Yellow
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups yellow]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups yellowGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups yellow]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups yellowGoal]];
             break;
         case 4:
             self.cell.backgroundColor = [UIColor colorWithRed:0.129 green:0.588 blue:0.953 alpha:1]; // Blue
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups blue]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups blueGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups blue]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups blueGoal]];
             break;
         case 5:
             self.cell.backgroundColor = [UIColor colorWithRed:1 green:0.596 blue:0 alpha:1]; // Orange
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups orange]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups orangeGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups orange]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups orangeGoal]];
             break;
         case 6:
             self.cell.backgroundColor = [UIColor colorWithRed:0.502 green:0.871 blue:0.918 alpha:1]; // Water
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups water]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups waterGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups water]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups waterGoal]];
             break;
         case 7:
             self.cell.backgroundColor = [UIColor colorWithRed:0.74 green:0.67 blue:0.64 alpha:1.0];; // Spoon
-            self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups spoon]];
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups spoonGoal]];
+            self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups spoon]];
+            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups spoonGoal]];
             break;
             
         default: self.cell.backgroundColor = [UIColor clearColor];
@@ -200,49 +196,49 @@
             case 0:
                 if ([self.Cups green] > 0){
                     [self.Cups setGreen: [self.Cups subtractCup:[self.Cups green]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups green]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups green]];
                 }
                 break;
             case 1:
                 if ([self.Cups purple] > 0){
                     [self.Cups setPurple:[self.Cups subtractCup:[self.Cups purple]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups purple]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups purple]];
                 }
                 break;
             case 2:
                 if ([self.Cups red] > 0){
                     [self.Cups setRed:[self.Cups subtractCup:[self.Cups red]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups red]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups red]];
                 }
                 break;
             case 3:
                 if ([self.Cups yellow] > 0){
                     [self.Cups setYellow:[self.Cups subtractCup:[self.Cups yellow]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups yellow]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups yellow]];
                 }
                 break;
             case 4:
                 if ([self.Cups blue] > 0){
                     [self.Cups setBlue:[self.Cups subtractCup:[self.Cups blue]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups blue]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups blue]];
                 }
                 break;
             case 5:
                 if ([self.Cups orange] > 0){
                     [self.Cups setOrange:[self.Cups subtractCup:[self.Cups orange]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups orange]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups orange]];
                 }
                 break;
             case 6:
                 if ([self.Cups water] > 0){
                     [self.Cups setWater:[self.Cups subtractCup:[self.Cups water]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups water]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups water]];
                 }
                 break;
             case 7:
                 if ([self.Cups spoon] > 0){
                     [self.Cups setSpoon:[self.Cups subtractCup:[self.Cups spoon]]];
-                    self.counter.text = [NSString stringWithFormat:@"%d", [self.Cups spoon]];
+                    self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups spoon]];
                 }
                 break;
         }
@@ -310,107 +306,20 @@
     return 68;
 }
 
--(void)targetSwitchEnabled: (NSNotification *) notification {
-    
-    NSDictionary *userInfo = notification.userInfo;
-    NSString *idSwitch = (NSString *) userInfo[@"Switch"];
-    
-    int switchNum = [idSwitch intValue];
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    
-    [realm beginWriteTransaction];
-    
-    switch(switchNum)
-    {
-        case 0:
-            [self.Cups setGreenGoal:3];
-            [self.Cups setPurpleGoal:2];
-            [self.Cups setRedGoal:4];
-            [self.Cups setYellowGoal:2];
-            [self.Cups setBlueGoal:1];
-            [self.Cups setOrangeGoal:1];
-            [self.Cups setSpoonGoal:2];
-            [self.Cups setWaterGoal:12];
-            break;
-        case 1:
-            [self.Cups setGreenGoal:4];
-            [self.Cups setPurpleGoal:3];
-            [self.Cups setRedGoal:4];
-            [self.Cups setYellowGoal:3];
-            [self.Cups setBlueGoal:1];
-            [self.Cups setOrangeGoal:1];
-            [self.Cups setSpoonGoal:4];
-            [self.Cups setWaterGoal:12];
-            break;
-        case 2:
-            [self.Cups setGreenGoal:5];
-            [self.Cups setPurpleGoal:3];
-            [self.Cups setRedGoal:5];
-            [self.Cups setYellowGoal:4];
-            [self.Cups setBlueGoal:1];
-            [self.Cups setOrangeGoal:1];
-            [self.Cups setSpoonGoal:5];
-            [self.Cups setWaterGoal:12];
-            break;
-        case 3:
-            [self.Cups setGreenGoal:6];
-            [self.Cups setPurpleGoal:4];
-            [self.Cups setRedGoal:6];
-            [self.Cups setYellowGoal:4];
-            [self.Cups setBlueGoal:1];
-            [self.Cups setOrangeGoal:1];
-            [self.Cups setSpoonGoal:6];
-            [self.Cups setWaterGoal:12];
-            break;
-    }
-    [realm commitWriteTransaction];
-    
-    [self printGoals];
 
-}
-
--(void)printGoals{
-    
-    switch (_cellRow){
-        case 0:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups greenGoal]];
-            break;
-        case 1:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups purpleGoal]];
-            break;
-        case 2:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups redGoal]];
-            break;
-        case 3:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups yellowGoal]];
-            break;
-        case 4:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups blueGoal]];
-            break;
-        case 5:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups orangeGoal]];
-            break;
-        case 6:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups waterGoal]];
-            break;
-        case 7:
-            self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %d", [self.Cups spoonGoal]];
-            break;
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([[segue identifier] isEqualToString:@"toSettings"]){
+        SettingsViewController *svc = [segue destinationViewController];
+        svc.sentDate = self.receivedDate;
     }
-    [self.scopedTableView reloadData];
     
 }
-
 
 -(void)isGoalMet {
-    if (![self.Cups goalIsNotMet]){
-        [self.Cups goalIsMet];
+    if (![self.Cups goalIsNotMet:self.receivedDate]){
+        [self.Cups goalIsMet:self.receivedDate];
     }
 }
 
--(void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"switchToggled" object:nil];
-}
 
 @end

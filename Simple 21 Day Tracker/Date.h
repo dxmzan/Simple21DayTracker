@@ -22,7 +22,7 @@
 
 @property (strong, nonatomic) NSDateComponents *componentsForDate;
 
-@property (nonatomic) NSInteger newMonth;
+@property (assign, nonatomic) NSInteger newMonth;
 
 
 -(NSString *)returnTodaysDate;
