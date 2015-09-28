@@ -191,7 +191,8 @@ static NSString * const reuseIdentifier = @"Cell";
     if (kind == UICollectionElementKindSectionHeader){
         CalendarHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"CalendarHeaderView" forIndexPath:indexPath];
         
-        headerView.monthName.text = [self.Date currentMonth];
+        NSString *monthYearLabel = [NSString stringWithFormat:@"%@ %@", [self.Date currentMonth], [self.Date currentYear]];
+        headerView.monthName.text = monthYearLabel;
         
         reusableview = headerView;
     }

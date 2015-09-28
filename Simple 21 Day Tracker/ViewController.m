@@ -28,6 +28,7 @@
     self.Log = [[Log alloc] init];
     self.Date = [[Date alloc] init];
     self.SettingsViewController = [[SettingsViewController alloc]init];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -137,7 +138,6 @@
             self.cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
             self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups green]];
             self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups greenGoal]];
-
             break;
         case 1:
             self.cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
