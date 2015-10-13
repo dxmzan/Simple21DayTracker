@@ -1,4 +1,4 @@
-# Simple 21 Day Tracker
+# My Simple 21 Day Log
 The goal of this project is to create a simple progress tracker for the 21 Day Fix food-portion program. The aim is to build this for the iOS 8.4 platform in Objective-C. You need XCode 7 to build this project.
 
 ## Features
