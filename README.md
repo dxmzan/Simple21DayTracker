@@ -22,7 +22,7 @@ Once you have set goals, you may begin logging your daily progress by clicking o
 
 9.25.15 - Polish the graphics on the calendar and settings views.
 
-9.25.15 - Adapt for other device sizes
+~~9.25.15 - Adapt for other device sizes~~
 
 ## Technologies
 Simple 21 Day Tracker is built in Objective-C with XCode 7. The program is backed by a Realm.io database.
