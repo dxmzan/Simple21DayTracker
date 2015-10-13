@@ -12,5 +12,15 @@
 - (IBAction)prevButton:(id)sender;
 - (IBAction)nextButton:(id)sender;
 @property (strong, nonatomic) IBOutlet UILabel *monthName;
+@property (strong, nonatomic) UILabel *theDays;
+
+@property (strong, nonatomic) UILabel *monday;
+@property (strong, nonatomic) UILabel *tuesday;
+@property (strong, nonatomic) UILabel *wednesday;
+@property (strong, nonatomic) UILabel *thursday;
+@property (strong, nonatomic) UILabel *friday;
+@property (strong, nonatomic) UILabel *saturday;
+@property (strong, nonatomic) UILabel *sunday;
+
 
 @end

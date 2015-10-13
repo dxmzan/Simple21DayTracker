@@ -13,15 +13,19 @@
 #import "Cups.h"
 #import "Date.h"
 
+#define IS_IPHONE_4 (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)480) < DBL_EPSILON)
+#define IS_IPHONE_5 (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)568) < DBL_EPSILON)
+#define IS_IPHONE_6 (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)667) < DBL_EPSILON)
+#define IS_IPHONE_6_PLUS (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)736) < DBL_EPSILON)
+
 @interface CalendarViewController ()
 
+@property (strong, nonatomic) UILabel *theDays;
 @end
 
 @implementation CalendarViewController
 
 static NSString * const reuseIdentifier = @"Cell";
-
-@synthesize selectedDayString;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,7 +49,8 @@ static NSString * const reuseIdentifier = @"Cell";
                                                  name:@"nextButtonPressed"
                                                object:nil];
     [self queryCalendar];
-        
+    
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -194,6 +199,57 @@ static NSString * const reuseIdentifier = @"Cell";
         NSString *monthYearLabel = [NSString stringWithFormat:@"%@ %@", [self.Date currentMonth], [self.Date currentYear]];
         headerView.monthName.text = monthYearLabel;
         
+        if (IS_IPHONE_6){
+            headerView.sunday = [[UILabel alloc]initWithFrame:CGRectMake(30, 46, 42, 17)];
+            headerView.monday = [[UILabel alloc]initWithFrame:CGRectMake(81, 46, 42, 17)];
+            headerView.tuesday = [[UILabel alloc]initWithFrame:CGRectMake(131, 46, 42, 17)];
+            headerView.wednesday = [[UILabel alloc]initWithFrame:CGRectMake(181, 46, 42, 17)];
+            headerView.thursday = [[UILabel alloc]initWithFrame:CGRectMake(232, 46, 42, 17)];
+            headerView.friday = [[UILabel alloc]initWithFrame:CGRectMake(282, 46, 42, 17)];
+            headerView.saturday = [[UILabel alloc]initWithFrame:CGRectMake(332, 46, 42, 17)];
+        } else if (IS_IPHONE_6_PLUS){
+            headerView.sunday = [[UILabel alloc]initWithFrame:CGRectMake(32, 46, 42, 17)];
+            headerView.monday = [[UILabel alloc]initWithFrame:CGRectMake(86, 46, 42, 17)];
+            headerView.tuesday = [[UILabel alloc]initWithFrame:CGRectMake(145, 46, 42, 17)];
+            headerView.wednesday = [[UILabel alloc]initWithFrame:CGRectMake(199, 46, 42, 17)];
+            headerView.thursday = [[UILabel alloc]initWithFrame:CGRectMake(258, 46, 42, 17)];
+            headerView.friday = [[UILabel alloc]initWithFrame:CGRectMake(315, 46, 42, 17)];
+            headerView.saturday = [[UILabel alloc]initWithFrame:CGRectMake(371, 46, 42, 17)];
+        } else if (IS_IPHONE_5){
+            headerView.sunday = [[UILabel alloc]initWithFrame:CGRectMake(26, 46, 42, 17)];
+            headerView.monday = [[UILabel alloc]initWithFrame:CGRectMake(66, 46, 42, 17)];
+            headerView.tuesday = [[UILabel alloc]initWithFrame:CGRectMake(112, 46, 42, 17)];
+            headerView.wednesday = [[UILabel alloc]initWithFrame:CGRectMake(152, 46, 42, 17)];
+            headerView.thursday = [[UILabel alloc]initWithFrame:CGRectMake(198, 46, 42, 17)];
+            headerView.friday = [[UILabel alloc]initWithFrame:CGRectMake(242, 46, 42, 17)];
+            headerView.saturday = [[UILabel alloc]initWithFrame:CGRectMake(283, 46, 42, 17)];
+        } else if (IS_IPHONE_4){
+            headerView.sunday = [[UILabel alloc]initWithFrame:CGRectMake(26, 46, 42, 17)];
+            headerView.monday = [[UILabel alloc]initWithFrame:CGRectMake(66, 46, 42, 17)];
+            headerView.tuesday = [[UILabel alloc]initWithFrame:CGRectMake(112, 46, 42, 17)];
+            headerView.wednesday = [[UILabel alloc]initWithFrame:CGRectMake(152, 46, 42, 17)];
+            headerView.thursday = [[UILabel alloc]initWithFrame:CGRectMake(198, 46, 42, 17)];
+            headerView.friday = [[UILabel alloc]initWithFrame:CGRectMake(242, 46, 42, 17)];
+            headerView.saturday = [[UILabel alloc]initWithFrame:CGRectMake(283, 46, 42, 17)];
+        }
+        
+        
+        headerView.sunday.text = @"S";
+        headerView.monday.text = @"M";
+        headerView.tuesday.text = @"T";
+        headerView.wednesday.text = @"W";
+        headerView.thursday.text = @"T";
+        headerView.friday.text = @"F";
+        headerView.saturday.text = @"S";
+        
+        [headerView addSubview:headerView.sunday];
+        [headerView addSubview:headerView.monday];
+        [headerView addSubview:headerView.tuesday];
+        [headerView addSubview:headerView.wednesday];
+        [headerView addSubview:headerView.thursday];
+        [headerView addSubview:headerView.friday];
+        [headerView addSubview:headerView.saturday];
+
         reusableview = headerView;
     }
     
@@ -202,7 +258,13 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(50, 75);
+    if (IS_IPHONE_6_PLUS){
+        return CGSizeMake(55, 75);
+    } else if (IS_IPHONE_6){
+        return CGSizeMake(50, 75);
+    } else {
+        return CGSizeMake(42, 75);
+    }
 }
 
 -(void)prevButton {
