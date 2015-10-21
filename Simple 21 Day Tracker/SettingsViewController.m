@@ -19,8 +19,6 @@
 
 @implementation SettingsViewController
 
-@synthesize switchNumString;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.Cups = [[Cups alloc]init];

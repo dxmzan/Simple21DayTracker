@@ -15,6 +15,10 @@
 #import "SettingsViewController.h"
 
 #define DEFAULT_GOALS 5
+#define IS_IPHONE_4 (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)480) < DBL_EPSILON)
+#define IS_IPHONE_5 (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)568) < DBL_EPSILON)
+#define IS_IPHONE_6 (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)667) < DBL_EPSILON)
+#define IS_IPHONE_6_PLUS (fabs((double)[[UIScreen mainScreen]bounds].size.height - (double)736) < DBL_EPSILON)
 
 @interface ViewController ()
 
@@ -28,6 +32,7 @@
     self.Log = [[Log alloc] init];
     self.Date = [[Date alloc] init];
     self.SettingsViewController = [[SettingsViewController alloc]init];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,8 +48,10 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [self.scopedTableView reloadData];
+    CGRect screen = [[UIScreen mainScreen]bounds];
+    CGFloat screenWidth = screen.size.width;
     
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, 375, 72)];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, screenWidth, 72)];
 
     dateLabel.text = [self.Date returnTodaysDate];
     dateLabel.backgroundColor = [UIColor clearColor];
@@ -137,7 +144,6 @@
             self.cell.backgroundColor = [UIColor colorWithRed:0 green:0.902 blue:0.463 alpha:1]; // Green
             self.counter.text = [NSString stringWithFormat:@"%ld", (long)[self.Cups green]];
             self.cell.detailTextLabel.text = [NSString stringWithFormat:@"Goal: %ld", (long)[self.Cups greenGoal]];
-
             break;
         case 1:
             self.cell.backgroundColor = [UIColor colorWithRed:0.878 green:0.251 blue:0.984 alpha:1]; // Purple
@@ -302,7 +308,15 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 68;
+    if (IS_IPHONE_6_PLUS){
+        return 76;
+    } else if (IS_IPHONE_5){
+        return 55;
+    } else if (IS_IPHONE_4) {
+        return 44;
+    } else {
+        return 68;
+    }
 }
 
 

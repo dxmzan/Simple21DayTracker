@@ -13,10 +13,6 @@
 
 @implementation Cups
 
-@synthesize purple, red, blue, green, water, orange, spoon, yellow, date;
-@synthesize purpleGoal, blueGoal, redGoal, greenGoal, orangeGoal, waterGoal, spoonGoal, yellowGoal;
-@synthesize receiveDate;
-
 
 //+ (NSString *) primaryKey {
 //        return @"cupId";
